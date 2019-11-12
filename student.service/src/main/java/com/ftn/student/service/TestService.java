@@ -26,6 +26,7 @@ public class TestService {
 		kieSession.fireAllRules(); // fire all rules defined into drool file (drl)
 		kieSession.dispose();
 		
+		
 		for(Country c: repo.findAll()) {
 			System.out.println(c.getCountry() + " " + c.getLastUpdate());
 		}
