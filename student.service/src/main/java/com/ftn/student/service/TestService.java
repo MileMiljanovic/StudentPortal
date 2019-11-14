@@ -22,8 +22,8 @@ public class TestService {
 	@Bean
 	public void testing() {
 		KieSession kieSession = kieContainer.newKieSession();
-		kieSession.insert(new TestModel("pera", 35)); // which object to validate
-		kieSession.fireAllRules(); // fire all rules defined into drool file (drl)
+		kieSession.insert(new TestModel("pera", 35));
+		kieSession.fireAllRules(); 
 		kieSession.dispose();
 		
 		
