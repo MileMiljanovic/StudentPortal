@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,29 +16,29 @@ public class Zamena {
 	@Column(name = "idzamena")
 	private String idzamena;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="idformulara", nullable=false)
 	private Formular formular;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumns({
 		  @JoinColumn(name = "domaci", insertable = false, updatable = false),
 		  @JoinColumn(name = "domaciprogram", insertable = false, updatable = false)
 		})
 	private PredmetDomaci predmetDomaci;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="domaciprogram", nullable=false)
 	private StudijskiProgramDomaci studijskiProgramDomaci;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumns({
 		  @JoinColumn(name = "strani", insertable = false, updatable = false),
 		  @JoinColumn(name = "straniprogram", insertable = false, updatable = false)
 		})
 	private PredmetStrani predmetStrani;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="straniprogram", nullable=false)
 	private StudijskiProgramStrani studijskiProgramStrani;
 	

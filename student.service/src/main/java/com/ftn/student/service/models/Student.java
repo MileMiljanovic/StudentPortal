@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -32,7 +32,7 @@ public class Student {
 	@Column(name = "email")
 	private String email;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="studije", nullable=false)
 	private StudijskiProgramDomaci studije;
 	
