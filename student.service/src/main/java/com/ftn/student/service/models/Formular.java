@@ -1,5 +1,7 @@
 package com.ftn.student.service.models;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,15 +26,19 @@ public class Formular {
 	
 	@Column(name = "odobrenjekoord")
 	private char odobrenjeKoord;
+	
+	@Column(name = "datum")
+	private Timestamp datum;
 
 	public Formular() {}
 
-	public Formular(String idformular, Student student, char odobrenjeSef, char odobrenjeKoord) {
+	public Formular(String idformular, Student student, char odobrenjeSef, char odobrenjeKoord, Timestamp datum) {
 		super();
 		this.idformular = idformular;
 		this.student = student;
 		this.odobrenjeSef = odobrenjeSef;
 		this.odobrenjeKoord = odobrenjeKoord;
+		this.datum = datum;
 	}
 
 	public String getIdformular() {
@@ -65,6 +71,14 @@ public class Formular {
 
 	public void setOdobrenjeKoord(char odobrenjeKoord) {
 		this.odobrenjeKoord = odobrenjeKoord;
+	}
+
+	public Timestamp getDatum() {
+		return datum;
+	}
+
+	public void setDatum(Timestamp datum) {
+		this.datum = datum;
 	}
 
 }
