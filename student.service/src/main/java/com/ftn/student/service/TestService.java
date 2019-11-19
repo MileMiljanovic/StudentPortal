@@ -6,9 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import com.ftn.student.service.models.Country;
-import com.ftn.student.service.models.TestModel;
-import com.ftn.student.service.repository.TestRepository;
+import com.ftn.student.service.models.Departman;
+import com.ftn.student.service.models.Korisnik;
+import com.ftn.student.service.models.PredmetDomaci;
+import com.ftn.student.service.models.PredmetStrani;
+import com.ftn.student.service.models.Student;
+import com.ftn.student.service.models.StudijskiProgramDomaci;
+import com.ftn.student.service.models.StudijskiProgramStrani;
+import com.ftn.student.service.repository.DepartmaniRepository;
+import com.ftn.student.service.repository.KorisniciRepository;
+import com.ftn.student.service.repository.PredmetiDomaciRepository;
+import com.ftn.student.service.repository.PredmetiStraniRepository;
+import com.ftn.student.service.repository.SProgramDomaciRepository;
+import com.ftn.student.service.repository.SProgramStraniRepository;
+import com.ftn.student.service.repository.StudentRepository;
 
 @Service
 public class TestService {
@@ -17,19 +28,62 @@ public class TestService {
 	private KieContainer kieContainer;
 	
 	@Autowired
-	private TestRepository repo;
+	private KorisniciRepository repoKorisnici;
+	
+	@Autowired
+	private DepartmaniRepository repoDepartmani;
+	
+	@Autowired
+	private SProgramDomaciRepository repoDomaci;
+	
+	@Autowired
+	private SProgramStraniRepository repoStrani;
+	
+	@Autowired
+	private StudentRepository repoStudent;
+	
+	@Autowired
+	private PredmetiDomaciRepository repoPD;
+	
+	@Autowired
+	private PredmetiStraniRepository repoPS;
 	
 	@Bean
 	public void testing() {
+		
 		KieSession kieSession = kieContainer.newKieSession();
-		kieSession.insert(new TestModel("pera", 35));
+		
+		for (Korisnik k: repoKorisnici.findAll()) {
+			kieSession.insert(k);
+			System.out.println(k.getUsername() + " " + k.getIme() + " " + k.getPrezime() + " " + k.getUloga() + " " + k.getDatumrodjenja());
+		}
+		
+		for (Departman d: repoDepartmani.findAll()) {
+			System.out.println(d.getDepartmanId() + " " + d.getKoordinator().getUsername());
+		}
+		
+		for (StudijskiProgramDomaci sd: repoDomaci.findAll()) {
+			System.out.println(sd.getNaziv() + " " + sd.getDepartman().getDepartmanId() + " " + sd.getSef().getUsername());
+		}
+		
+		for (StudijskiProgramStrani ss: repoStrani.findAll()) {
+			System.out.println(ss.getNaziv());
+		}
+		
+		for (Student st: repoStudent.findAll()) {
+			System.out.println(st.getBrindeksa() + " " + st.getStudije().getNaziv());
+		}
+		
+		for (PredmetDomaci pd: repoPD.findAll()) {
+			System.out.println(pd.getNaziv() + " " + pd.getProgram().getNaziv());
+		}
+		
+		for (PredmetStrani ps: repoPS.findAll()) {
+			System.out.println(ps.getNaziv() + " " + ps.getProgram().getNaziv());
+		}
+		
 		kieSession.fireAllRules(); 
 		kieSession.dispose();
-		
-		
-		for(Country c: repo.findAll()) {
-			System.out.println(c.getCountry() + " " + c.getLastUpdate());
-		}
 		
 	}
 	

@@ -1,11 +1,11 @@
 package com.ftn.student.service.rules
 
-import com.ftn.student.service.models.TestModel;
+import com.ftn.student.service.models.Korisnik;
 
 rule "Test"
 	when
-		TestModel(age > 30)
+		k: Korisnik(ime == "Ivan")
 	then
-		System.out.println("Dude is old");
+		System.out.println("IVAN BOLAN");
 	
 end
