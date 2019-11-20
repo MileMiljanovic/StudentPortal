@@ -2,6 +2,7 @@ package com.ftn.student.service.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -15,8 +16,8 @@ public class Departman {
 	@Column(name = "departmanid")
 	private String departmanId;
 	
-	@OneToOne
-	@JoinColumn(name="koordinator", nullable=false)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="koordinator")
 	private Korisnik koordinator;
 	
 	public Departman() {}

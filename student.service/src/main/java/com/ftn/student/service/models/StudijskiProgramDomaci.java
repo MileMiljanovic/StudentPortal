@@ -2,6 +2,7 @@ package com.ftn.student.service.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,11 +17,11 @@ public class StudijskiProgramDomaci {
 	@Column(name = "naziv")
 	private String naziv;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="departman", nullable=false)
 	private Departman departman;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="sef", nullable=false)
 	private Korisnik sef;
 

@@ -2,6 +2,7 @@ package com.ftn.student.service.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
@@ -16,29 +17,29 @@ public class Zamena {
 	@Column(name = "idzamena")
 	private String idzamena;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="idformulara", nullable=false)
 	private Formular formular;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({
 		  @JoinColumn(name = "domaci", insertable = false, updatable = false),
 		  @JoinColumn(name = "domaciprogram", insertable = false, updatable = false)
 		})
 	private PredmetDomaci predmetDomaci;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="domaciprogram", nullable=false)
 	private StudijskiProgramDomaci studijskiProgramDomaci;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({
 		  @JoinColumn(name = "strani", insertable = false, updatable = false),
 		  @JoinColumn(name = "straniprogram", insertable = false, updatable = false)
 		})
 	private PredmetStrani predmetStrani;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="straniprogram", nullable=false)
 	private StudijskiProgramStrani studijskiProgramStrani;
 	

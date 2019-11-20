@@ -2,6 +2,7 @@ package com.ftn.student.service.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -18,7 +19,7 @@ public class PredmetStrani {
 	private String naziv;
 	
 	@Id
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="studijski_program_strani", nullable=false)
 	private StudijskiProgramStrani program;
 	

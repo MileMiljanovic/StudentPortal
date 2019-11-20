@@ -1,12 +1,15 @@
 package com.ftn.student.service.models;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,8 +20,8 @@ public class Formular {
 	@Column(name = "idformular")
 	private String idformular;
 	
-	@ManyToOne
-	@JoinColumn(name="student", nullable=false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="student")
 	private Student student;
 	
 	@Column(name = "odobrenjesef")
@@ -29,16 +32,20 @@ public class Formular {
 	
 	@Column(name = "datum")
 	private Timestamp datum;
+	
+	@OneToMany(mappedBy="formular", fetch = FetchType.EAGER)
+    private List<Zamena> zamene;
 
 	public Formular() {}
 
-	public Formular(String idformular, Student student, char odobrenjeSef, char odobrenjeKoord, Timestamp datum) {
+	public Formular(String idformular, Student student, char odobrenjeSef, char odobrenjeKoord, Timestamp datum, List<Zamena> zamene) {
 		super();
 		this.idformular = idformular;
 		this.student = student;
 		this.odobrenjeSef = odobrenjeSef;
 		this.odobrenjeKoord = odobrenjeKoord;
 		this.datum = datum;
+		this.zamene = zamene;
 	}
 
 	public String getIdformular() {
@@ -79,6 +86,14 @@ public class Formular {
 
 	public void setDatum(Timestamp datum) {
 		this.datum = datum;
+	}
+	
+	public List<Zamena> getZamene() {
+		return zamene;
+	}
+
+	public void setZamene(List<Zamena> zamene) {
+		this.zamene = zamene;
 	}
 
 }

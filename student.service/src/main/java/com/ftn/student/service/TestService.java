@@ -7,13 +7,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import com.ftn.student.service.models.Departman;
+import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.Korisnik;
 import com.ftn.student.service.models.PredmetDomaci;
 import com.ftn.student.service.models.PredmetStrani;
 import com.ftn.student.service.models.Student;
 import com.ftn.student.service.models.StudijskiProgramDomaci;
 import com.ftn.student.service.models.StudijskiProgramStrani;
+import com.ftn.student.service.models.Zamena;
 import com.ftn.student.service.repository.DepartmaniRepository;
+import com.ftn.student.service.repository.FormularRepository;
 import com.ftn.student.service.repository.KorisniciRepository;
 import com.ftn.student.service.repository.PredmetiDomaciRepository;
 import com.ftn.student.service.repository.PredmetiStraniRepository;
@@ -48,6 +51,9 @@ public class TestService {
 	@Autowired
 	private PredmetiStraniRepository repoPS;
 	
+	@Autowired
+	private FormularRepository repoF;
+	
 	@Bean
 	public void testing() {
 		
@@ -80,6 +86,12 @@ public class TestService {
 		
 		for (PredmetStrani ps: repoPS.findAll()) {
 			System.out.println(ps.getNaziv() + " " + ps.getProgram().getNaziv());
+		}
+		
+		for (Formular f: repoF.findAll()) {
+			for (Zamena z: f.getZamene()) {
+				System.out.println(z.getIdzamena() + " " + z.getPredmetDomaci() + " " + z.getPredmetStrani());
+			}
 		}
 		
 		kieSession.fireAllRules(); 
