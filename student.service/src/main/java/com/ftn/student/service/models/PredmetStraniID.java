@@ -10,12 +10,12 @@ public class PredmetStraniID implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String naziv;
-	private StudijskiProgramStrani program;
+	private String program;
 	
 	
 	public PredmetStraniID() {}
 
-	public PredmetStraniID(String naziv, StudijskiProgramStrani program) {
+	public PredmetStraniID(String naziv, String program) {
 		super();
 		this.naziv = naziv;
 		this.program = program;
@@ -51,7 +51,6 @@ public class PredmetStraniID implements Serializable {
 			return false;
 		return true;
 	}
-	
 	
 
 

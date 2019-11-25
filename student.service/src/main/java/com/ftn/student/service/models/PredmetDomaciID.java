@@ -10,14 +10,30 @@ public class PredmetDomaciID implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String naziv;
-	private StudijskiProgramDomaci program;
+	private String program;
 	
 	
 	public PredmetDomaciID() {}
 
-	public PredmetDomaciID(String naziv, StudijskiProgramDomaci program) {
+	public PredmetDomaciID(String naziv, String program) {
 		super();
 		this.naziv = naziv;
+		this.program = program;
+	}
+
+	public String getNaziv() {
+		return naziv;
+	}
+
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
+	}
+
+	public String getProgram() {
+		return program;
+	}
+
+	public void setProgram(String program) {
 		this.program = program;
 	}
 
@@ -51,8 +67,6 @@ public class PredmetDomaciID implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 
 
 }

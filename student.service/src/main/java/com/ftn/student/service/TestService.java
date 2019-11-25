@@ -1,5 +1,10 @@
 package com.ftn.student.service;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Optional;
+
+import org.hibernate.Hibernate;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +15,7 @@ import com.ftn.student.service.models.Departman;
 import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.Korisnik;
 import com.ftn.student.service.models.PredmetDomaci;
+import com.ftn.student.service.models.PredmetDomaciID;
 import com.ftn.student.service.models.PredmetStrani;
 import com.ftn.student.service.models.Student;
 import com.ftn.student.service.models.StudijskiProgramDomaci;
@@ -59,7 +65,7 @@ public class TestService {
 		
 		KieSession kieSession = kieContainer.newKieSession();
 		
-		for (Korisnik k: repoKorisnici.findAll()) {
+		/*for (Korisnik k: repoKorisnici.findAll()) {
 			kieSession.insert(k);
 			System.out.println(k.getUsername() + " " + k.getIme() + " " + k.getPrezime() + " " + k.getUloga() + " " + k.getDatumrodjenja());
 		}
@@ -79,7 +85,7 @@ public class TestService {
 		for (Student st: repoStudent.findAll()) {
 			System.out.println(st.getBrindeksa() + " " + st.getStudije().getNaziv());
 		}
-		
+		*/
 		for (PredmetDomaci pd: repoPD.findAll()) {
 			System.out.println(pd.getNaziv() + " " + pd.getProgram().getNaziv());
 		}
@@ -88,14 +94,19 @@ public class TestService {
 			System.out.println(ps.getNaziv() + " " + ps.getProgram().getNaziv());
 		}
 		
-		for (Formular f: repoF.findAll()) {
-			for (Zamena z: f.getZamene()) {
-				System.out.println(z.getIdzamena() + " " + z.getPredmetDomaci() + " " + z.getPredmetStrani());
-			}
-		}
+		/*Formular f = repoF.findById("F2211").get();
+
+		f.setOdobrenjeKoord('Y');
+		f.setOdobrenjeSef('Y');
+		repoF.save(f);
+		
+		/*Student s = repoStudent.findById("EE78/2014").get();
+		Timestamp t = new Timestamp(0);
+		Formular f1 = new Formular("F57712", s, 'N', 'N', t, null);
+		repoF.save(f1);
 		
 		kieSession.fireAllRules(); 
-		kieSession.dispose();
+		kieSession.dispose();*/
 		
 	}
 	
