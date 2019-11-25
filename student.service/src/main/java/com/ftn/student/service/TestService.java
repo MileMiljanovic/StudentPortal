@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import com.ftn.student.service.emailservice.EmailService;
 import com.ftn.student.service.models.Departman;
 import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.Korisnik;
@@ -60,6 +61,9 @@ public class TestService {
 	@Autowired
 	private FormularRepository repoF;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	@Bean
 	public void testing() {
 		
@@ -93,6 +97,8 @@ public class TestService {
 		for (PredmetStrani ps: repoPS.findAll()) {
 			System.out.println(ps.getNaziv() + " " + ps.getProgram().getNaziv());
 		}
+		
+		emailService.sendEmail();
 		
 		/*Formular f = repoF.findById("F2211").get();
 
