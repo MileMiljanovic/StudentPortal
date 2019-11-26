@@ -98,7 +98,7 @@ public class TestService {
 			System.out.println(ps.getNaziv() + " " + ps.getProgram().getNaziv());
 		}
 		
-		emailService.sendEmail();
+		//emailService.sendEmail();
 		
 		/*Formular f = repoF.findById("F2211").get();
 
