@@ -33,7 +33,7 @@ public class Student {
 	@Column(name = "email")
 	private String email;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="studije", nullable=false)
 	private StudijskiProgramDomaci studije;
 	

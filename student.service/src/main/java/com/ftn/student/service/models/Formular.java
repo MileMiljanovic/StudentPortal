@@ -20,7 +20,7 @@ public class Formular {
 	@Column(name = "idformular")
 	private String idformular;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="student")
 	private Student student;
 	

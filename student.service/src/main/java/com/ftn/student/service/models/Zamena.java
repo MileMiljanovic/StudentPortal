@@ -17,7 +17,7 @@ public class Zamena {
 	@Column(name = "idzamena")
 	private String idzamena;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="idformulara", nullable=false)
 	private Formular formular;
 	
@@ -28,7 +28,7 @@ public class Zamena {
 		})
 	private PredmetDomaci predmetDomaci;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="domaciprogram", nullable=false)
 	private StudijskiProgramDomaci studijskiProgramDomaci;
 	
@@ -39,7 +39,7 @@ public class Zamena {
 		})
 	private PredmetStrani predmetStrani;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="straniprogram", nullable=false)
 	private StudijskiProgramStrani studijskiProgramStrani;
 	
