@@ -2,6 +2,8 @@ package com.ftn.student.service;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.Hibernate;
@@ -16,7 +18,7 @@ import com.ftn.student.service.models.Departman;
 import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.Korisnik;
 import com.ftn.student.service.models.PredmetDomaci;
-import com.ftn.student.service.models.PredmetDomaciID;
+import com.ftn.student.service.models.PredmetID;
 import com.ftn.student.service.models.PredmetStrani;
 import com.ftn.student.service.models.Student;
 import com.ftn.student.service.models.StudijskiProgramDomaci;
@@ -90,6 +92,8 @@ public class TestService {
 			System.out.println(st.getBrindeksa() + " " + st.getStudije().getNaziv());
 		}
 		*/
+		StudijskiProgramDomaci geo = repoDomaci.findById("Geodezija i geomatika").get();
+		
 		for (PredmetDomaci pd: repoPD.findAll()) {
 			System.out.println(pd.getNaziv() + " " + pd.getProgram().getNaziv());
 		}
@@ -113,6 +117,12 @@ public class TestService {
 		
 		kieSession.fireAllRules(); 
 		kieSession.dispose();*/
+		
+		/*List<PredmetDomaci> pred = repoPD.findByProgram(geo);
+		
+		for (PredmetDomaci p: pred) {
+			System.out.println(p.getNaziv());
+		}*/
 		
 	}
 	

@@ -2,6 +2,7 @@ package com.ftn.student.service.emailservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftn.student.service.models.Formular;
+import com.ftn.student.service.models.Zamena;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public class EmailService {
         log.info("Email service initialized!");
     }
 
-    public void sendEmail() {
+    public void sendEmailNastavnik(Zamena z) {
         try {
 
             /*String json = httpEntity.getBody();

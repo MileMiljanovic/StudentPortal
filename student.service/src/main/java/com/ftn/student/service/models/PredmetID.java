@@ -2,7 +2,7 @@ package com.ftn.student.service.models;
 
 import java.io.Serializable;
 
-public class PredmetDomaciID implements Serializable {
+public class PredmetID implements Serializable {
 	
 	/**
 	 * 
@@ -13,9 +13,9 @@ public class PredmetDomaciID implements Serializable {
 	private String program;
 	
 	
-	public PredmetDomaciID() {}
+	public PredmetID() {}
 
-	public PredmetDomaciID(String naziv, String program) {
+	public PredmetID(String naziv, String program) {
 		super();
 		this.naziv = naziv;
 		this.program = program;
@@ -54,7 +54,7 @@ public class PredmetDomaciID implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PredmetDomaciID other = (PredmetDomaciID) obj;
+		PredmetID other = (PredmetID) obj;
 		if (naziv == null) {
 			if (other.naziv != null)
 				return false;

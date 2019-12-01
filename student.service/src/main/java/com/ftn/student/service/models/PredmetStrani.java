@@ -9,9 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name = "predmeti_strani")
 @Table(name = "predmeti_strani")
-@IdClass(PredmetStraniID.class)
+@IdClass(PredmetID.class)
 public class PredmetStrani {
 	
 	@Id

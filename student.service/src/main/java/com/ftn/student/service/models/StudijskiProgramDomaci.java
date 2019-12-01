@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name = "studijski_programi_domaci")
 @Table(name = "studijski_programi_domaci")
 public class StudijskiProgramDomaci {
 	

@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name = "studijski_programi_strani")
 @Table(name = "studijski_programi_strani")
 public class StudijskiProgramStrani {
 	

@@ -9,7 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name = "korisnici")
 @Table(name = "korisnici")
 public class Korisnik {
 
