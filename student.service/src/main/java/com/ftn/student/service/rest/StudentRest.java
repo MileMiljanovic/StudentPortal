@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.PredmetDomaci;
 import com.ftn.student.service.models.PredmetStrani;
+import com.ftn.student.service.models.Sequence;
 import com.ftn.student.service.models.Student;
 import com.ftn.student.service.models.StudijskiProgramStrani;
 import com.ftn.student.service.models.Zamena;
@@ -26,6 +27,7 @@ import com.ftn.student.service.repository.FormularRepository;
 import com.ftn.student.service.repository.PredmetiDomaciRepository;
 import com.ftn.student.service.repository.PredmetiStraniRepository;
 import com.ftn.student.service.repository.SProgramStraniRepository;
+import com.ftn.student.service.repository.SequenceRepository;
 import com.ftn.student.service.repository.StudentRepository;
 import com.ftn.student.service.repository.ZamenaRepository;
 import com.ftn.student.service.rest.requests.CancelFormRequest;
@@ -56,6 +58,9 @@ public class StudentRest {
 	@Autowired
 	private ZamenaRepository repoZamena;
 	
+	@Autowired
+	private SequenceRepository repoSequence;
+	
 	@RequestMapping(value = "/studentLogin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<StudentLoginResponse> studentLogin(@Valid @RequestBody StudentLoginRequest request) {
 
@@ -78,7 +83,9 @@ public class StudentRest {
 		
 		List<PredmetDomaci> domaci = repoPredmetDomaci.findByProgram(request.getStudent().getStudije());
 		List<PredmetStrani> strani = repoPredmetStrani.findByProgramStrani(request.getProgramStrani());
-		Formular f = new Formular(request.getStudent(), request.getProgramStrani(), null, null, new Timestamp(System.currentTimeMillis()), null);
+		Sequence s = new Sequence(null);
+		repoSequence.save(s);
+		Formular f = new Formular("F" + s.getCounter().toString(), request.getStudent(), request.getProgramStrani(), null, null, new Timestamp(System.currentTimeMillis()), null);
 		repoFormular.save(f);
 		ConfirmProgramResponse response = new ConfirmProgramResponse(request.getStudent(), request.getProgramStrani(), domaci, strani, f.getIdformular());
 		return new ResponseEntity<ConfirmProgramResponse>(response, HttpStatus.OK);

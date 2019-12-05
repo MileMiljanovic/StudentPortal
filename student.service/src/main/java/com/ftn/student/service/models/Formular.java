@@ -21,8 +21,6 @@ import org.hibernate.annotations.GenericGenerator;
 public class Formular {
 
 	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@Column(name = "idformular")
 	private String idformular;
 	
@@ -48,8 +46,9 @@ public class Formular {
 
 	public Formular() {}
 
-	public Formular(Student student, StudijskiProgramStrani programStrani, String odobrenjeSef,
+	public Formular(String idformular, Student student, StudijskiProgramStrani programStrani, String odobrenjeSef,
 			String odobrenjeKoord, Timestamp datum, List<Zamena> zamene) {
+		this.idformular = idformular;
 		this.student = student;
 		this.programStrani = programStrani;
 		this.odobrenjeSef = odobrenjeSef;
