@@ -44,13 +44,13 @@ public class Zamena {
 	private StudijskiProgramStrani studijskiProgramStrani;
 	
 	@Column(name = "odobreno")
-	private char odobreno;
+	private String odobreno;
 
 	public Zamena() {}
 
 	public Zamena(String idzamena, Formular formular, PredmetDomaci predmetDomaci,
 			StudijskiProgramDomaci studijskiProgramDomaci, PredmetStrani predmetStrani,
-			StudijskiProgramStrani studijskiProgramStrani, char odobreno) {
+			StudijskiProgramStrani studijskiProgramStrani, String odobreno) {
 		super();
 		this.idzamena = idzamena;
 		this.formular = formular;
@@ -109,11 +109,11 @@ public class Zamena {
 		this.studijskiProgramStrani = studijskiProgramStrani;
 	}
 
-	public char getOdobreno() {
+	public String getOdobreno() {
 		return odobreno;
 	}
 
-	public void setOdobreno(char odobreno) {
+	public void setOdobreno(String odobreno) {
 		this.odobreno = odobreno;
 	}
 	

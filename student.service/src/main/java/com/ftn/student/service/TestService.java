@@ -32,6 +32,7 @@ import com.ftn.student.service.repository.PredmetiStraniRepository;
 import com.ftn.student.service.repository.SProgramDomaciRepository;
 import com.ftn.student.service.repository.SProgramStraniRepository;
 import com.ftn.student.service.repository.StudentRepository;
+import com.ftn.student.service.repository.ZamenaRepository;
 
 @Service
 public class TestService {
@@ -62,6 +63,9 @@ public class TestService {
 	
 	@Autowired
 	private FormularRepository repoF;
+	
+	@Autowired
+	private ZamenaRepository repoZ;
 	
 	@Autowired
 	private EmailService emailService;
@@ -100,6 +104,14 @@ public class TestService {
 		
 		for (PredmetStrani ps: repoPS.findAll()) {
 			System.out.println(ps.getNaziv() + " " + ps.getProgram().getNaziv());
+		}
+		
+		for (Formular f: repoF.findAll()) {
+			System.out.println(f.getIdformular());
+		}
+		
+		for (Zamena z: repoZ.findAll()) {
+			System.out.println(z.getIdzamena());
 		}
 		
 		//emailService.sendEmail();

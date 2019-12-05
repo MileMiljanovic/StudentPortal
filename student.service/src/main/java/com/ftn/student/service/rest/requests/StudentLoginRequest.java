@@ -1,14 +1,10 @@
 package com.ftn.student.service.rest.requests;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-@Entity
 public class StudentLoginRequest {
 	
-	@Id
-	@NotEmpty(message = "Unesite broj indeksa")
+	@NotNull(message="Unesite broj indeksa")
 	private String brIndeksa;
 
 	public String getBrIndeksa() {
@@ -19,6 +15,4 @@ public class StudentLoginRequest {
 		this.brIndeksa = brIndeksa;
 	}
 	
-	
-
 }

@@ -6,17 +6,23 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
+
 @Entity(name = "formulari")
 @Table(name = "formulari")
 public class Formular {
-	
+
 	@Id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@Column(name = "idformular")
 	private String idformular;
 	
@@ -24,11 +30,15 @@ public class Formular {
 	@JoinColumn(name="student")
 	private Student student;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="program_strani")
+	private StudijskiProgramStrani programStrani;
+	
 	@Column(name = "odobrenjesef")
-	private char odobrenjeSef;
+	private String odobrenjeSef;
 	
 	@Column(name = "odobrenjekoord")
-	private char odobrenjeKoord;
+	private String odobrenjeKoord;
 	
 	@Column(name = "datum")
 	private Timestamp datum;
@@ -38,10 +48,10 @@ public class Formular {
 
 	public Formular() {}
 
-	public Formular(String idformular, Student student, char odobrenjeSef, char odobrenjeKoord, Timestamp datum, List<Zamena> zamene) {
-		super();
-		this.idformular = idformular;
+	public Formular(Student student, StudijskiProgramStrani programStrani, String odobrenjeSef,
+			String odobrenjeKoord, Timestamp datum, List<Zamena> zamene) {
 		this.student = student;
+		this.programStrani = programStrani;
 		this.odobrenjeSef = odobrenjeSef;
 		this.odobrenjeKoord = odobrenjeKoord;
 		this.datum = datum;
@@ -64,19 +74,27 @@ public class Formular {
 		this.student = student;
 	}
 
-	public char getOdobrenjeSef() {
+	public StudijskiProgramStrani getProgramStrani() {
+		return programStrani;
+	}
+
+	public void setProgramStrani(StudijskiProgramStrani programStrani) {
+		this.programStrani = programStrani;
+	}
+
+	public String getOdobrenjeSef() {
 		return odobrenjeSef;
 	}
 
-	public void setOdobrenjeSef(char odobrenjeSef) {
+	public void setOdobrenjeSef(String odobrenjeSef) {
 		this.odobrenjeSef = odobrenjeSef;
 	}
 
-	public char getOdobrenjeKoord() {
+	public String getOdobrenjeKoord() {
 		return odobrenjeKoord;
 	}
 
-	public void setOdobrenjeKoord(char odobrenjeKoord) {
+	public void setOdobrenjeKoord(String odobrenjeKoord) {
 		this.odobrenjeKoord = odobrenjeKoord;
 	}
 
@@ -87,7 +105,7 @@ public class Formular {
 	public void setDatum(Timestamp datum) {
 		this.datum = datum;
 	}
-	
+
 	public List<Zamena> getZamene() {
 		return zamene;
 	}

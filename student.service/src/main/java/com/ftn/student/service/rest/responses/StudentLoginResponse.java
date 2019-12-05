@@ -2,23 +2,23 @@ package com.ftn.student.service.rest.responses;
 
 import java.util.List;
 
-import com.ftn.student.service.models.PredmetDomaci;
 import com.ftn.student.service.models.Student;
+import com.ftn.student.service.models.StudijskiProgramStrani;
 
 public class StudentLoginResponse {
 	
 	private Student student;
-	private List<PredmetDomaci> predmeti;
+	private List<StudijskiProgramStrani> programiStrani;
 	
 	public StudentLoginResponse() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public StudentLoginResponse(Student student, List<PredmetDomaci> predmeti) {
+	public StudentLoginResponse(Student student, List<StudijskiProgramStrani> programiStrani) {
 		super();
 		this.student = student;
-		this.predmeti = predmeti;
+		this.programiStrani = programiStrani;
 	}
 
 	public Student getStudent() {
@@ -29,12 +29,14 @@ public class StudentLoginResponse {
 		this.student = student;
 	}
 
-	public List<PredmetDomaci> getPredmeti() {
-		return predmeti;
+	public List<StudijskiProgramStrani> getProgramiStrani() {
+		return programiStrani;
 	}
 
-	public void setPredmeti(List<PredmetDomaci> predmeti) {
-		this.predmeti = predmeti;
+	public void setProgramiStrani(List<StudijskiProgramStrani> programiStrani) {
+		this.programiStrani = programiStrani;
 	}
+
+	
 	
 }
