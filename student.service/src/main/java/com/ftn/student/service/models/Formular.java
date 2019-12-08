@@ -6,14 +6,11 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
 
 
 @Entity(name = "formulari")
@@ -24,11 +21,11 @@ public class Formular {
 	@Column(name = "idformular")
 	private String idformular;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="student")
 	private Student student;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="program_strani")
 	private StudijskiProgramStrani programStrani;
 	
@@ -41,7 +38,7 @@ public class Formular {
 	@Column(name = "datum")
 	private Timestamp datum;
 	
-	@OneToMany(mappedBy="formular", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="formular", fetch = FetchType.LAZY)
     private List<Zamena> zamene;
 
 	public Formular() {}

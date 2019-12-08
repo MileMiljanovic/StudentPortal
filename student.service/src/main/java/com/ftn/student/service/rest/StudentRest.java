@@ -3,9 +3,9 @@ package com.ftn.student.service.rest;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.PredmetDomaci;
 import com.ftn.student.service.models.PredmetStrani;
@@ -23,6 +22,7 @@ import com.ftn.student.service.models.Sequence;
 import com.ftn.student.service.models.Student;
 import com.ftn.student.service.models.StudijskiProgramStrani;
 import com.ftn.student.service.models.Zamena;
+import com.ftn.student.service.models.ZamenaToken;
 import com.ftn.student.service.repository.FormularRepository;
 import com.ftn.student.service.repository.PredmetiDomaciRepository;
 import com.ftn.student.service.repository.PredmetiStraniRepository;
@@ -30,6 +30,7 @@ import com.ftn.student.service.repository.SProgramStraniRepository;
 import com.ftn.student.service.repository.SequenceRepository;
 import com.ftn.student.service.repository.StudentRepository;
 import com.ftn.student.service.repository.ZamenaRepository;
+import com.ftn.student.service.repository.ZamenaTokenRepository;
 import com.ftn.student.service.rest.requests.CancelFormRequest;
 import com.ftn.student.service.rest.requests.ConfirmProgramRequest;
 import com.ftn.student.service.rest.requests.StudentLoginRequest;
@@ -61,6 +62,10 @@ public class StudentRest {
 	@Autowired
 	private SequenceRepository repoSequence;
 	
+	@Autowired
+	private ZamenaTokenRepository repoZT;
+	
+	
 	@RequestMapping(value = "/studentLogin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<StudentLoginResponse> studentLogin(@Valid @RequestBody StudentLoginRequest request) {
 
@@ -69,12 +74,14 @@ public class StudentRest {
 			return new ResponseEntity<StudentLoginResponse>(HttpStatus.NOT_FOUND);
 		}
 		Student s = st.get();
+		List<StudijskiProgramStrani> programi = repoStrani.findAll();
 		List<Formular> f = repoFormular.findByStudent(s);
 		if (!f.isEmpty()) {
-			return new ResponseEntity<StudentLoginResponse>(HttpStatus.ALREADY_REPORTED);
+			StudentLoginResponse resp = new StudentLoginResponse(s, programi, f.get(0));
+			return new ResponseEntity<StudentLoginResponse>(resp, HttpStatus.ALREADY_REPORTED);
 		}
-		List<StudijskiProgramStrani> programi = repoStrani.findAll();
-		StudentLoginResponse response = new StudentLoginResponse(s, programi);
+		
+		StudentLoginResponse response = new StudentLoginResponse(s, programi, null);
 		return new ResponseEntity<StudentLoginResponse>(response, HttpStatus.OK);
 	}
 	
@@ -99,8 +106,10 @@ public class StudentRest {
 		}
 		
 		for (Zamena z: request.getZamene()) {
-			//z.getPredmetDomaci().getNastavnik().getEmail(); //send email
 			repoZamena.save(z);
+			UUID uuid = UUID.randomUUID();
+			ZamenaToken zt = new ZamenaToken(z.getIdzamena(), uuid.toString());
+			repoZT.save(zt);
 		}	
 
 		return new ResponseEntity<String>("Formular uspesno prosledjen!", HttpStatus.OK);
@@ -118,6 +127,14 @@ public class StudentRest {
 		Formular f = repoFormular.findById(request.getFormularId()).get();
 		repoFormular.delete(f);
 		return new ResponseEntity<String>("Formular uspesno obrisan!", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/zamene", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<Zamena>> zamene() {
+
+		List<Zamena> zam = repoZamena.findAll();
+		
+		return new ResponseEntity<List<Zamena>>(zam, HttpStatus.OK);
 	}
 
 

@@ -1,12 +1,5 @@
 package com.ftn.student.service;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.hibernate.Hibernate;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +11,12 @@ import com.ftn.student.service.models.Departman;
 import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.Korisnik;
 import com.ftn.student.service.models.PredmetDomaci;
-import com.ftn.student.service.models.PredmetID;
 import com.ftn.student.service.models.PredmetStrani;
 import com.ftn.student.service.models.Student;
 import com.ftn.student.service.models.StudijskiProgramDomaci;
 import com.ftn.student.service.models.StudijskiProgramStrani;
 import com.ftn.student.service.models.Zamena;
+import com.ftn.student.service.models.ZamenaToken;
 import com.ftn.student.service.repository.DepartmaniRepository;
 import com.ftn.student.service.repository.FormularRepository;
 import com.ftn.student.service.repository.KorisniciRepository;
@@ -33,6 +26,7 @@ import com.ftn.student.service.repository.SProgramDomaciRepository;
 import com.ftn.student.service.repository.SProgramStraniRepository;
 import com.ftn.student.service.repository.StudentRepository;
 import com.ftn.student.service.repository.ZamenaRepository;
+import com.ftn.student.service.repository.ZamenaTokenRepository;
 
 @Service
 public class TestService {
@@ -68,6 +62,9 @@ public class TestService {
 	private ZamenaRepository repoZ;
 	
 	@Autowired
+	private ZamenaTokenRepository repoZT;
+	
+	@Autowired
 	private EmailService emailService;
 	
 	@Bean
@@ -75,7 +72,7 @@ public class TestService {
 		
 		KieSession kieSession = kieContainer.newKieSession();
 		
-		/*for (Korisnik k: repoKorisnici.findAll()) {
+		for (Korisnik k: repoKorisnici.findAll()) {
 			kieSession.insert(k);
 			System.out.println(k.getUsername() + " " + k.getIme() + " " + k.getPrezime() + " " + k.getUloga() + " " + k.getDatumrodjenja());
 		}
@@ -95,8 +92,8 @@ public class TestService {
 		for (Student st: repoStudent.findAll()) {
 			System.out.println(st.getBrindeksa() + " " + st.getStudije().getNaziv());
 		}
-		*/
-		StudijskiProgramDomaci geo = repoDomaci.findById("Geodezija i geomatika").get();
+		
+		//StudijskiProgramDomaci geo = repoDomaci.findById("Geodezija i geomatika").get();
 		
 		for (PredmetDomaci pd: repoPD.findAll()) {
 			System.out.println(pd.getNaziv() + " " + pd.getProgram().getNaziv());
@@ -112,9 +109,14 @@ public class TestService {
 		
 		for (Zamena z: repoZ.findAll()) {
 			System.out.println(z.getIdzamena());
+			//emailService.sendEmailTeacher(z);
 		}
 		
-		//emailService.sendEmail();
+		for (ZamenaToken zt: repoZT.findAll()) {
+			System.out.println(zt.getIdZamene() + " " + zt.getToken());
+		}
+		
+		//emailService.sendEmailStudent();
 		
 		/*Formular f = repoF.findById("F2211").get();
 

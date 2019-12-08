@@ -19,14 +19,14 @@ public class PredmetDomaci {
 	private String naziv;
 	
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="studijski_program", nullable=false)
 	private StudijskiProgramDomaci program;
 	
 	@Column(name = "espb")
 	private int espb;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="nastavnik", nullable=false)
 	private Nastavnik nastavnik;
 	

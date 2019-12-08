@@ -19,7 +19,7 @@ public class PredmetStrani {
 	private String naziv;
 	
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="studijski_program_strani", nullable=false)
 	private StudijskiProgramStrani program;
 	

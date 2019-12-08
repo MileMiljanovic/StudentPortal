@@ -4,10 +4,10 @@ import javax.validation.constraints.NotNull;
 
 public class UserLoginRequest {
 	
-	@NotNull(message="Nedostaje formular id")
+	@NotNull(message="Nedostaje korisnicko ime")
 	private String username;
 	
-	@NotNull(message="Nedostaje odgovor")
+	@NotNull(message="Nedostaje lozinka")
 	private String password;
 
 }

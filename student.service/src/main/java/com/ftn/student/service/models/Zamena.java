@@ -2,11 +2,7 @@ package com.ftn.student.service.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity(name = "zamene")
@@ -16,41 +12,29 @@ public class Zamena {
 	@Id
 	@Column(name = "idzamena")
 	private String idzamena;
+
+	@Column(name="idformulara")
+	private String formular;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="idformulara", nullable=false)
-	private Formular formular;
+	@Column(name="domaci")
+	private String predmetDomaci;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumns({
-		  @JoinColumn(name = "domaci", insertable = false, updatable = false),
-		  @JoinColumn(name = "domaciprogram", insertable = false, updatable = false)
-		})
-	private PredmetDomaci predmetDomaci;
+	@Column(name="domaciprogram")
+	private String studijskiProgramDomaci;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="domaciprogram", nullable=false)
-	private StudijskiProgramDomaci studijskiProgramDomaci;
+	@Column(name="strani")
+	private String predmetStrani;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumns({
-		  @JoinColumn(name = "strani", insertable = false, updatable = false),
-		  @JoinColumn(name = "straniprogram", insertable = false, updatable = false)
-		})
-	private PredmetStrani predmetStrani;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="straniprogram", nullable=false)
-	private StudijskiProgramStrani studijskiProgramStrani;
+	@Column(name="straniprogram")
+	private String studijskiProgramStrani;
 	
 	@Column(name = "odobreno")
 	private String odobreno;
 
 	public Zamena() {}
 
-	public Zamena(String idzamena, Formular formular, PredmetDomaci predmetDomaci,
-			StudijskiProgramDomaci studijskiProgramDomaci, PredmetStrani predmetStrani,
-			StudijskiProgramStrani studijskiProgramStrani, String odobreno) {
+	public Zamena(String idzamena, String formular, String predmetDomaci, String studijskiProgramDomaci,
+			String predmetStrani, String studijskiProgramStrani, String odobreno) {
 		super();
 		this.idzamena = idzamena;
 		this.formular = formular;
@@ -69,43 +53,43 @@ public class Zamena {
 		this.idzamena = idzamena;
 	}
 
-	public Formular getFormular() {
+	public String getFormular() {
 		return formular;
 	}
 
-	public void setFormular(Formular formular) {
+	public void setFormular(String formular) {
 		this.formular = formular;
 	}
 
-	public PredmetDomaci getPredmetDomaci() {
+	public String getPredmetDomaci() {
 		return predmetDomaci;
 	}
 
-	public void setPredmetDomaci(PredmetDomaci predmetDomaci) {
+	public void setPredmetDomaci(String predmetDomaci) {
 		this.predmetDomaci = predmetDomaci;
 	}
 
-	public StudijskiProgramDomaci getStudijskiProgramDomaci() {
+	public String getStudijskiProgramDomaci() {
 		return studijskiProgramDomaci;
 	}
 
-	public void setStudijskiProgramDomaci(StudijskiProgramDomaci studijskiProgramDomaci) {
+	public void setStudijskiProgramDomaci(String studijskiProgramDomaci) {
 		this.studijskiProgramDomaci = studijskiProgramDomaci;
 	}
 
-	public PredmetStrani getPredmetStrani() {
+	public String getPredmetStrani() {
 		return predmetStrani;
 	}
 
-	public void setPredmetStrani(PredmetStrani predmetStrani) {
+	public void setPredmetStrani(String predmetStrani) {
 		this.predmetStrani = predmetStrani;
 	}
 
-	public StudijskiProgramStrani getStudijskiProgramStrani() {
+	public String getStudijskiProgramStrani() {
 		return studijskiProgramStrani;
 	}
 
-	public void setStudijskiProgramStrani(StudijskiProgramStrani studijskiProgramStrani) {
+	public void setStudijskiProgramStrani(String studijskiProgramStrani) {
 		this.studijskiProgramStrani = studijskiProgramStrani;
 	}
 
@@ -116,9 +100,6 @@ public class Zamena {
 	public void setOdobreno(String odobreno) {
 		this.odobreno = odobreno;
 	}
-	
-	
-	
 	
 
 }
