@@ -17,11 +17,11 @@ public class StudijskiProgramDomaci {
 	@Column(name = "naziv")
 	private String naziv;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="departman", nullable=false)
 	private Departman departman;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="sef", nullable=false)
 	private Korisnik sef;
 

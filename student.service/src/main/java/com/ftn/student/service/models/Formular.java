@@ -21,11 +21,11 @@ public class Formular {
 	@Column(name = "idformular")
 	private String idformular;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="student")
 	private Student student;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="program_strani")
 	private StudijskiProgramStrani programStrani;
 	
@@ -38,7 +38,7 @@ public class Formular {
 	@Column(name = "datum")
 	private Timestamp datum;
 	
-	@OneToMany(mappedBy="formular", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="formular", fetch = FetchType.EAGER)
     private List<Zamena> zamene;
 
 	public Formular() {}

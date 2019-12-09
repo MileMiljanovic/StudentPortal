@@ -1,5 +1,7 @@
 package com.ftn.student.service.rest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -18,16 +20,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ftn.student.service.emailservice.EmailService;
 import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.Korisnik;
+import com.ftn.student.service.models.Uloga;
 import com.ftn.student.service.models.Zamena;
 import com.ftn.student.service.models.ZamenaToken;
 import com.ftn.student.service.repository.FormularRepository;
+import com.ftn.student.service.repository.KorisniciRepository;
 import com.ftn.student.service.repository.ZamenaRepository;
 import com.ftn.student.service.repository.ZamenaTokenRepository;
 import com.ftn.student.service.rest.requests.ConfirmationRequest;
 import com.ftn.student.service.rest.requests.UserLoginRequest;
+import com.ftn.student.service.rest.responses.UserLoginResponse;
 
 @RestController
 public class UserRest {
+	
+	@Autowired
+	private KorisniciRepository repoKorisnici;
 	
 	@Autowired
 	private FormularRepository repoFormular;
@@ -42,12 +50,61 @@ public class UserRest {
 	private EmailService emailSvc;
 	
 	@RequestMapping(value = "/userLogin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<Korisnik> userLogin(@Valid @RequestBody UserLoginRequest request) {
+	public @ResponseBody ResponseEntity<UserLoginResponse> userLogin(@Valid @RequestBody UserLoginRequest request) {
 
-		//toDo, login form
+		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());
+		if (!kor.isPresent()) {
+			return new ResponseEntity<UserLoginResponse>(HttpStatus.UNAUTHORIZED);
+		}
 		
-		//return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
-		return new ResponseEntity<Korisnik>(HttpStatus.OK);
+		Korisnik k = kor.get();
+		if (!k.getPassword().equals(request.getPassword())) {
+			return new ResponseEntity<UserLoginResponse>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		UserLoginResponse response = new UserLoginResponse();
+		List<Formular> formulari = repoFormular.findAll();
+		
+		if (k.getUloga().equals(Uloga.ADMIN)) {
+			response.setKorisnik(k);
+			response.setFormulari(formulari);
+			return new ResponseEntity<UserLoginResponse>(response, HttpStatus.OK);
+		}
+		
+		else if (k.getUloga().equals(Uloga.KOORDINATOR)) {
+			List<Formular> koordFormulari = new ArrayList<Formular>();
+			for (Formular f: formulari) {
+				if (f.getOdobrenjeKoord() == null) {
+					koordFormulari.add(f);
+				}
+			}
+			response.setKorisnik(k);
+			response.setFormulari(koordFormulari);
+			return new ResponseEntity<UserLoginResponse>(response,  HttpStatus.OK);
+		}
+		
+		else {
+			List<Formular> sefFormulari = new ArrayList<Formular>();
+			for (Formular f: formulari) {
+				if (f.getOdobrenjeSef() == null && f.getOdobrenjeKoord() != null && f.getOdobrenjeKoord().equals("Y")) {
+					List<Zamena> zamene = repoZamena.findByFormular(f.getIdformular());
+					boolean sve = true;
+					for(Zamena z: zamene) {
+						if (z.getOdobreno() == null || z.getOdobreno().equals("N")) {
+							sve = false;
+							break;
+						}
+					}
+					if (sve) {
+						sefFormulari.add(f);
+					}
+				}
+			}
+			response.setKorisnik(k);
+			response.setFormulari(sefFormulari);
+			return new ResponseEntity<UserLoginResponse>(response,  HttpStatus.OK);
+		}
+
 	}
 	
 	@RequestMapping(value = "/coordinatorConfirm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

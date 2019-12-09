@@ -16,7 +16,7 @@ public class Departman {
 	@Column(name = "departmanid")
 	private String departmanId;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="koordinator")
 	private Korisnik koordinator;
 	
