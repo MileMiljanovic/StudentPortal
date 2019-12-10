@@ -1,43 +1,55 @@
 package com.ftn.student.service.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity(name = "predmeti_domaci")
 @Table(name = "predmeti_domaci")
-@IdClass(PredmetID.class)
 public class PredmetDomaci {
-
+	
 	@Id
+	@Column(name = "predmetid")
+	private String predmetId;
+
 	@Column(name = "naziv")
 	private String naziv;
 	
-	@Id
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="studijski_program", nullable=false)
 	private StudijskiProgramDomaci program;
 	
 	@Column(name = "espb")
 	private int espb;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="nastavnik", nullable=false)
 	private Nastavnik nastavnik;
 	
 	public PredmetDomaci() {}
 
-	public PredmetDomaci(String naziv, StudijskiProgramDomaci program, int espb, Nastavnik nastavnik) {
+	public PredmetDomaci(String predmetId, String naziv, StudijskiProgramDomaci program, int espb,
+			Nastavnik nastavnik) {
 		super();
+		this.predmetId = predmetId;
 		this.naziv = naziv;
 		this.program = program;
 		this.espb = espb;
 		this.nastavnik = nastavnik;
+	}
+
+	public String getPredmetId() {
+		return predmetId;
+	}
+
+	public void setPredmetId(String predmetId) {
+		this.predmetId = predmetId;
 	}
 
 	public String getNaziv() {
@@ -71,5 +83,5 @@ public class PredmetDomaci {
 	public void setNastavnik(Nastavnik nastavnik) {
 		this.nastavnik = nastavnik;
 	}
-
+	
 }

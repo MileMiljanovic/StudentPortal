@@ -64,20 +64,28 @@ public class PDFGenerator {
         	Paragraph paragraph = new Paragraph(text); 
         	paragraph.setSpacingBefore(50);
 
-            PdfPTable table = new PdfPTable(3);
+            PdfPTable table = new PdfPTable(5);
             table.setWidthPercentage(75);
-            table.setWidths(new int[]{2, 3, 3});
+            table.setWidths(new int[]{2, 3, 1, 3, 1});
 
             PdfPCell hcell;
             hcell = new PdfPCell(new Phrase("Id Zamene", headFont));
             hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(hcell);
 
-            hcell = new PdfPCell(new Phrase("Domaći predmet", headFont));
+            hcell = new PdfPCell(new Phrase("Domaci predmet", headFont));
+            hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(hcell);
+            
+            hcell = new PdfPCell(new Phrase("ESPB", headFont));
             hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(hcell);
 
             hcell = new PdfPCell(new Phrase("Strani predmet", headFont));
+            hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(hcell);
+            
+            hcell = new PdfPCell(new Phrase("ESPB", headFont));
             hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(hcell);
 
@@ -90,15 +98,25 @@ public class PDFGenerator {
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(z.getPredmetDomaci()));
+                cell = new PdfPCell(new Phrase(z.getPredmetDomaci().getNaziv()));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT);
                 table.addCell(cell);
+                
+                cell = new PdfPCell(new Phrase(Integer.toString(z.getPredmetDomaci().getEspb())));
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(z.getPredmetStrani()));
+                cell = new PdfPCell(new Phrase(z.getPredmetStrani().getNaziv()));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                table.addCell(cell);
+                
+                cell = new PdfPCell(new Phrase(Integer.toString(z.getPredmetStrani().getEspb())));
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell.setPaddingRight(5);
                 table.addCell(cell);
             }

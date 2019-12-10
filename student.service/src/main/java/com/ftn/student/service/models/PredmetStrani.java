@@ -1,25 +1,26 @@
 package com.ftn.student.service.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity(name = "predmeti_strani")
 @Table(name = "predmeti_strani")
-@IdClass(PredmetID.class)
 public class PredmetStrani {
 	
 	@Id
+	@Column(name = "predmetid")
+	private String predmetId;
+
 	@Column(name = "naziv")
 	private String naziv;
 	
-	@Id
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="studijski_program_strani", nullable=false)
 	private StudijskiProgramStrani program;
 	
@@ -28,11 +29,24 @@ public class PredmetStrani {
 	
 	public PredmetStrani() {}
 
-	public PredmetStrani(String naziv, StudijskiProgramStrani program, int espb) {
+	
+	
+	public PredmetStrani(String predmetId, String naziv, StudijskiProgramStrani program, int espb) {
 		super();
+		this.predmetId = predmetId;
 		this.naziv = naziv;
 		this.program = program;
 		this.espb = espb;
+	}
+
+
+
+	public String getPredmetId() {
+		return predmetId;
+	}
+
+	public void setPredmetId(String predmetId) {
+		this.predmetId = predmetId;
 	}
 
 	public String getNaziv() {

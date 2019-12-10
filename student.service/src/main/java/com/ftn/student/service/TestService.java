@@ -96,11 +96,11 @@ public class TestService {
 		//StudijskiProgramDomaci geo = repoDomaci.findById("Geodezija i geomatika").get();
 		
 		for (PredmetDomaci pd: repoPD.findAll()) {
-			System.out.println(pd.getNaziv() + " " + pd.getProgram().getNaziv());
+			System.out.println(pd.getPredmetId() + " " + pd.getNaziv() + " " + pd.getProgram().getNaziv());
 		}
 		
 		for (PredmetStrani ps: repoPS.findAll()) {
-			System.out.println(ps.getNaziv() + " " + ps.getProgram().getNaziv());
+			System.out.println(ps.getPredmetId() + " " + ps.getNaziv() + " " + ps.getProgram().getNaziv());
 		}
 		
 		for (Formular f: repoF.findAll()) {
@@ -108,7 +108,7 @@ public class TestService {
 		}
 		
 		for (Zamena z: repoZ.findAll()) {
-			System.out.println(z.getIdzamena());
+			System.out.println(z.getIdzamena() + " " + z.getPredmetDomaci().getNaziv() + " " + z.getPredmetStrani().getNaziv());
 			//emailService.sendEmailTeacher(z);
 		}
 		

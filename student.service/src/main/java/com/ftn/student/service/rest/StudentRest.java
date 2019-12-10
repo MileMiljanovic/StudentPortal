@@ -136,6 +136,14 @@ public class StudentRest {
 		
 		return new ResponseEntity<List<Zamena>>(zam, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/formulari", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<Formular>> formulari() {
+
+		List<Formular> zam = repoFormular.findAll();
+		
+		return new ResponseEntity<List<Formular>>(zam, HttpStatus.OK);
+	}
 
 
 }

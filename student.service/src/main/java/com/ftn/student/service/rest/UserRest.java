@@ -74,7 +74,8 @@ public class UserRest {
 		else if (k.getUloga().equals(Uloga.KOORDINATOR)) {
 			List<Formular> koordFormulari = new ArrayList<Formular>();
 			for (Formular f: formulari) {
-				if (f.getOdobrenjeKoord() == null) {
+				if (f.getOdobrenjeKoord() == null && 
+						f.getStudent().getStudije().getDepartman().getKoordinator().equals(k)) {
 					koordFormulari.add(f);
 				}
 			}
@@ -86,8 +87,9 @@ public class UserRest {
 		else {
 			List<Formular> sefFormulari = new ArrayList<Formular>();
 			for (Formular f: formulari) {
-				if (f.getOdobrenjeSef() == null && f.getOdobrenjeKoord() != null && f.getOdobrenjeKoord().equals("Y")) {
-					List<Zamena> zamene = repoZamena.findByFormular(f.getIdformular());
+				if (f.getOdobrenjeSef() == null && f.getOdobrenjeKoord() != null 
+						&& f.getOdobrenjeKoord().equals("Y") && f.getStudent().getStudije().getSef().equals(k)) {
+					List<Zamena> zamene = repoZamena.findByFormular(f);
 					boolean sve = true;
 					for(Zamena z: zamene) {
 						if (z.getOdobreno() == null || z.getOdobreno().equals("N")) {
@@ -120,7 +122,7 @@ public class UserRest {
 		f.setOdobrenjeKoord(request.getOdgovor());
 		repoFormular.save(f);
 		for (Zamena z: f.getZamene()) {
-			emailSvc.sendEmailTeacher(z);
+			emailSvc.sendEmailTeacher(z, f);
 		}
 		
 		return new ResponseEntity<String>(HttpStatus.OK);

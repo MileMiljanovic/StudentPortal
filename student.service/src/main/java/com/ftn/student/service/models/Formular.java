@@ -3,6 +3,7 @@ package com.ftn.student.service.models;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 @Entity(name = "formulari")
 @Table(name = "formulari")
 public class Formular {
@@ -21,11 +21,11 @@ public class Formular {
 	@Column(name = "idformular")
 	private String idformular;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="student")
 	private Student student;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="program_strani")
 	private StudijskiProgramStrani programStrani;
 	
@@ -38,7 +38,7 @@ public class Formular {
 	@Column(name = "datum")
 	private Timestamp datum;
 	
-	@OneToMany(mappedBy="formular", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="formular", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Zamena> zamene;
 
 	public Formular() {}

@@ -2,6 +2,7 @@ package com.ftn.student.service.models;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +34,7 @@ public class Student {
 	@Column(name = "email")
 	private String email;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="studije", nullable=false)
 	private StudijskiProgramDomaci studije;
 	

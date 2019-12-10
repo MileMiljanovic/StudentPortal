@@ -4,7 +4,6 @@ import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.Zamena;
 import com.ftn.student.service.models.ZamenaToken;
 import com.ftn.student.service.pdfservice.PDFGenerator;
-import com.ftn.student.service.repository.FormularRepository;
 import com.ftn.student.service.repository.ZamenaTokenRepository;
 
 import org.slf4j.Logger;
@@ -35,9 +34,6 @@ public class EmailService {
     
     @Autowired
 	private ZamenaTokenRepository repoZT;
-    
-    @Autowired
-	private FormularRepository repoFormular;
 
     private final Logger log = LoggerFactory.getLogger(EmailService.class);
 
@@ -87,7 +83,7 @@ public class EmailService {
 
     }
     
-    public void sendEmailTeacher(Zamena z) {
+    public void sendEmailTeacher(Zamena z, Formular f) {
     	
     	try {
     	
@@ -101,13 +97,11 @@ public class EmailService {
     		ZamenaToken zt = repoZT.findById(z.getIdzamena()).get();
     		String token = zt.getToken();
     		
-    		Formular f = repoFormular.findById(z.getFormular()).get();
-    		
     		//To do: link za potvrdu ili odbijanje
     		helper.setText("Student sa brojem indeksa " + f.getStudent().getBrindeksa() + " želi da zameni predmet "
-    				+ z.getPredmetDomaci() + " na studijskom programu " + z.getStudijskiProgramDomaci()
-    				+ " sa predmetom " + z.getPredmetStrani() + " na stranom studijskom programu " 
-    				+ z.getStudijskiProgramStrani() + ". Kliknite na link ispod da odobrite zamenu:\n\n" +
+    				+ z.getPredmetDomaci().getNaziv() + " na studijskom programu " + f.getStudent().getStudije().getNaziv()
+    				+ " sa predmetom " + z.getPredmetStrani().getNaziv() + " na stranom studijskom programu " 
+    				+ f.getProgramStrani().getNaziv() + ". Kliknite na link ispod da odobrite zamenu:\n\n" +
     				"http://localhost:8080/teacherConfirm/" + token + "/" + z.getIdzamena() + "/Y\n\n" + "Kliknite na link ispod da odbijete zamenu:\n\n" 
     				+ "http://localhost:8080/teacherConfirm/" + token + "/" + z.getIdzamena() + "/N\n\n");
          
