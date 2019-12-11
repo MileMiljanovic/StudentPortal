@@ -2,9 +2,7 @@ package com.ftn.student.service.emailservice;
 
 import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.Zamena;
-import com.ftn.student.service.models.ZamenaToken;
 import com.ftn.student.service.pdfservice.PDFGenerator;
-import com.ftn.student.service.repository.ZamenaTokenRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +29,6 @@ public class EmailService {
     
     @Autowired
     private PDFGenerator pdfGen;
-    
-    @Autowired
-	private ZamenaTokenRepository repoZT;
 
     private final Logger log = LoggerFactory.getLogger(EmailService.class);
 
@@ -93,9 +88,8 @@ public class EmailService {
     		//helper.setTo(z.getPredmetDomaci().getNastavnik().getEmail());
     		helper.setTo("mile.miljanovic92@gmail.com");
     		helper.setSubject("Potvrda o zameni predmeta");
-    		
-    		ZamenaToken zt = repoZT.findById(z.getIdzamena()).get();
-    		String token = zt.getToken();
+
+    		String token = z.getToken();
     		
     		//To do: link za potvrdu ili odbijanje
     		helper.setText("Student sa brojem indeksa " + f.getStudent().getBrindeksa() + " želi da zameni predmet "

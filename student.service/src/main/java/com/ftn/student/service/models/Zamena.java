@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "zamene")
 @Table(name = "zamene")
 public class Zamena {
@@ -29,17 +31,22 @@ public class Zamena {
 	
 	@Column(name = "odobreno")
 	private String odobreno;
+	
+	@Column(name="token", nullable=false)
+	@JsonIgnore
+	private String token;
 
 	public Zamena() {}
 
 	public Zamena(String idzamena, String formular, PredmetDomaci predmetDomaci, PredmetStrani predmetStrani,
-			String odobreno) {
+			String odobreno, String token) {
 		super();
 		this.idzamena = idzamena;
 		this.formular = formular;
 		this.predmetDomaci = predmetDomaci;
 		this.predmetStrani = predmetStrani;
 		this.odobreno = odobreno;
+		this.token = token;
 	}
 
 	public String getIdzamena() {
@@ -81,6 +88,13 @@ public class Zamena {
 	public void setOdobreno(String odobreno) {
 		this.odobreno = odobreno;
 	}
-	
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 }

@@ -1,6 +1,5 @@
 package com.ftn.student.service.models;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +19,7 @@ public class PredmetStrani {
 	@Column(name = "naziv")
 	private String naziv;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="studijski_program_strani", nullable=false)
 	private StudijskiProgramStrani program;
 	

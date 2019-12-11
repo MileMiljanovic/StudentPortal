@@ -32,7 +32,7 @@ public class CronUpdateZamena {
 	private final Logger log = LoggerFactory.getLogger(CronUpdateZamena.class);
 	
 	@Async
-	@Scheduled(cron = "0 0/1 * * * *")
+	@Scheduled(cron = "0 0/10 * * * *")
     public void updateZamena() {
 		
 		List<Formular> formulari = repoFormular.findAll();

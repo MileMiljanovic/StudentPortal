@@ -24,11 +24,9 @@ import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.Korisnik;
 import com.ftn.student.service.models.Uloga;
 import com.ftn.student.service.models.Zamena;
-import com.ftn.student.service.models.ZamenaToken;
 import com.ftn.student.service.repository.FormularRepository;
 import com.ftn.student.service.repository.KorisniciRepository;
 import com.ftn.student.service.repository.ZamenaRepository;
-import com.ftn.student.service.repository.ZamenaTokenRepository;
 import com.ftn.student.service.rest.requests.ConfirmationRequest;
 import com.ftn.student.service.rest.requests.UserLoginRequest;
 import com.ftn.student.service.rest.responses.UserLoginResponse;
@@ -44,9 +42,6 @@ public class UserRest {
 	
 	@Autowired
 	private ZamenaRepository repoZamena;
-	
-	@Autowired
-	private ZamenaTokenRepository repoZT;
 	
 	@Autowired
 	private EmailService emailSvc;
@@ -144,27 +139,22 @@ public class UserRest {
 	public @ResponseBody ResponseEntity<String> teacherConfirm(@PathVariable String uuid, 
 			@PathVariable String zamena, @PathVariable String odgovor) {
 		
-		Optional<ZamenaToken> ztk = repoZT.findById(zamena);
-		
-		if (!ztk.isPresent()) {
-			return new ResponseEntity<String>("Nevalidan token!", HttpStatus.BAD_REQUEST);
-		}
-		
-		ZamenaToken zt = ztk.get();
-		
-		if (!zt.getToken().equals(uuid)) {
-			return new ResponseEntity<String>("Nevalidan token!", HttpStatus.BAD_REQUEST);
-		}
-				
 		Optional<Zamena> z = repoZamena.findById(zamena);
+		
 		if (!z.isPresent()) {
 			return new ResponseEntity<String>("Zamena nije pronadjena!", HttpStatus.NOT_FOUND);
 		}
+		
 		if (!odgovor.equals("Y") && !odgovor.equals("N")) {
 			return new ResponseEntity<String>("Nevalidan odgovor!", HttpStatus.BAD_REQUEST);
 		}
 		
 		Zamena zam = z.get();
+		
+		if (!zam.getToken().equals(uuid)) {
+			return new ResponseEntity<String>("Nevalidan token!", HttpStatus.BAD_REQUEST);
+		}
+				
 		if (zam.getOdobreno() != null) {
 			return new ResponseEntity<String>("Vec ste odgovorili!", HttpStatus.BAD_REQUEST);
 		}

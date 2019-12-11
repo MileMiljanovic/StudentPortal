@@ -25,7 +25,6 @@ import com.ftn.student.service.models.Sequence;
 import com.ftn.student.service.models.Student;
 import com.ftn.student.service.models.StudijskiProgramStrani;
 import com.ftn.student.service.models.Zamena;
-import com.ftn.student.service.models.ZamenaToken;
 import com.ftn.student.service.repository.FormularRepository;
 import com.ftn.student.service.repository.PredmetiDomaciRepository;
 import com.ftn.student.service.repository.PredmetiStraniRepository;
@@ -33,7 +32,6 @@ import com.ftn.student.service.repository.SProgramStraniRepository;
 import com.ftn.student.service.repository.SequenceRepository;
 import com.ftn.student.service.repository.StudentRepository;
 import com.ftn.student.service.repository.ZamenaRepository;
-import com.ftn.student.service.repository.ZamenaTokenRepository;
 import com.ftn.student.service.rest.requests.CancelFormRequest;
 import com.ftn.student.service.rest.requests.ConfirmProgramRequest;
 import com.ftn.student.service.rest.requests.StudentLoginRequest;
@@ -64,9 +62,6 @@ public class StudentRest {
 	
 	@Autowired
 	private SequenceRepository repoSequence;
-	
-	@Autowired
-	private ZamenaTokenRepository repoZT;
 	
 	private final Logger log = LoggerFactory.getLogger(StudentRest.class);
 	
@@ -112,10 +107,9 @@ public class StudentRest {
 		}
 		
 		for (Zamena z: request.getZamene()) {
-			repoZamena.save(z);
 			UUID uuid = UUID.randomUUID();
-			ZamenaToken zt = new ZamenaToken(z.getIdzamena(), uuid.toString());
-			repoZT.save(zt);
+			z.setToken(uuid.toString());
+			repoZamena.save(z);
 		}	
 		
 		return new ResponseEntity<String>("Formular uspesno prosledjen!", HttpStatus.OK);
@@ -135,7 +129,7 @@ public class StudentRest {
 		return new ResponseEntity<String>("Formular uspesno obrisan!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/zamene", method = RequestMethod.GET)
+	@RequestMapping(value = "/zamenexd", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Zamena>> zamene() {
 
 		List<Zamena> zam = repoZamena.findAll();
@@ -143,7 +137,7 @@ public class StudentRest {
 		return new ResponseEntity<List<Zamena>>(zam, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/formulari", method = RequestMethod.GET)
+	@RequestMapping(value = "/formularixd", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Formular>> formulari() {
 
 		List<Formular> zam = repoFormular.findAll();

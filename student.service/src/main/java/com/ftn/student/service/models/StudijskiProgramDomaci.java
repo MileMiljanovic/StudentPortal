@@ -1,6 +1,5 @@
 package com.ftn.student.service.models;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,11 +17,11 @@ public class StudijskiProgramDomaci {
 	@Column(name = "naziv")
 	private String naziv;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="departman", nullable=false)
 	private Departman departman;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="sef", nullable=false)
 	private Korisnik sef;
 
