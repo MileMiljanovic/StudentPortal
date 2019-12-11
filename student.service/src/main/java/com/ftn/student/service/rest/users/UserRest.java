@@ -1,4 +1,4 @@
-package com.ftn.student.service.rest;
+package com.ftn.student.service.rest.users;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,6 +51,8 @@ public class UserRest {
 	@Autowired
 	private EmailService emailSvc;
 	
+	private final Logger log = LoggerFactory.getLogger(UserRest.class);
+	
 	@RequestMapping(value = "/userLogin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<UserLoginResponse> userLogin(@Valid @RequestBody UserLoginRequest request) {
 
@@ -67,7 +71,8 @@ public class UserRest {
 		
 		if (k.getUloga().equals(Uloga.ADMIN)) {
 			response.setKorisnik(k);
-			response.setFormulari(formulari);
+			response.setFormulari(null);
+			log.info("Successfully logged in as: " + k.getUsername());
 			return new ResponseEntity<UserLoginResponse>(response, HttpStatus.OK);
 		}
 		
@@ -81,6 +86,7 @@ public class UserRest {
 			}
 			response.setKorisnik(k);
 			response.setFormulari(koordFormulari);
+			log.info("Successfully logged in as: " + k.getUsername());
 			return new ResponseEntity<UserLoginResponse>(response,  HttpStatus.OK);
 		}
 		
@@ -104,6 +110,7 @@ public class UserRest {
 			}
 			response.setKorisnik(k);
 			response.setFormulari(sefFormulari);
+			log.info("Successfully logged in as: " + k.getUsername());
 			return new ResponseEntity<UserLoginResponse>(response,  HttpStatus.OK);
 		}
 
@@ -112,35 +119,24 @@ public class UserRest {
 	@RequestMapping(value = "/coordinatorConfirm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> coordinatorConfirm(@Valid @RequestBody ConfirmationRequest request) {
 
-		Optional<Formular> fr = repoFormular.findById(request.getFormularId());
-		
-		if (!fr.isPresent()) {
-			return new ResponseEntity<String>("Greska! Formular nije pronadjen!", HttpStatus.NOT_FOUND);
-		}
-		
-		Formular f = repoFormular.findById(request.getFormularId()).get();
+		Formular f = request.getFormularId();
 		f.setOdobrenjeKoord(request.getOdgovor());
 		repoFormular.save(f);
 		for (Zamena z: f.getZamene()) {
 			emailSvc.sendEmailTeacher(z, f);
 		}
-		
+		log.info("Successfully confirmed a formular! ID: " + f.getIdformular());
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/headConfirm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> headConfirm(@Valid @RequestBody ConfirmationRequest request) {
-
-		Optional<Formular> fr = repoFormular.findById(request.getFormularId());
-		
-		if (!fr.isPresent()) {
-			return new ResponseEntity<String>("Greska! Formular nije pronadjen!", HttpStatus.NOT_FOUND);
-		}
-		
-		Formular f = repoFormular.findById(request.getFormularId()).get();		
+	
+		Formular f = request.getFormularId();
 		f.setOdobrenjeSef(request.getOdgovor());
 		repoFormular.save(f);
 		emailSvc.sendEmailStudent(f);
+		log.info("Successfully confirmed a formular! ID: " + f.getIdformular());
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
@@ -174,7 +170,7 @@ public class UserRest {
 		}
 		zam.setOdobreno(odgovor);
 		repoZamena.save(zam);
-
+		log.info("Successfully confirmed a change! ID: " + zam.getIdzamena());
 		return new ResponseEntity<String>("Uspesno odobreno!", HttpStatus.OK);
 	}
 

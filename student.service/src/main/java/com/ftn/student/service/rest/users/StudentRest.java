@@ -1,4 +1,4 @@
-package com.ftn.student.service.rest;
+package com.ftn.student.service.rest.users;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -6,6 +6,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -65,6 +68,7 @@ public class StudentRest {
 	@Autowired
 	private ZamenaTokenRepository repoZT;
 	
+	private final Logger log = LoggerFactory.getLogger(StudentRest.class);
 	
 	@RequestMapping(value = "/studentLogin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<StudentLoginResponse> studentLogin(@Valid @RequestBody StudentLoginRequest request) {
@@ -82,6 +86,7 @@ public class StudentRest {
 		}
 		
 		StudentLoginResponse response = new StudentLoginResponse(s, programi, null);
+		log.info("Student login successful!");
 		return new ResponseEntity<StudentLoginResponse>(response, HttpStatus.OK);
 	}
 	
@@ -95,6 +100,7 @@ public class StudentRest {
 		Formular f = new Formular("F" + s.getCounter().toString(), request.getStudent(), request.getProgramStrani(), null, null, new Timestamp(System.currentTimeMillis()), null);
 		repoFormular.save(f);
 		ConfirmProgramResponse response = new ConfirmProgramResponse(request.getStudent(), request.getProgramStrani(), domaci, strani, f.getIdformular());
+		log.info("Student login successful!");
 		return new ResponseEntity<ConfirmProgramResponse>(response, HttpStatus.OK);
 	}
 	
@@ -111,7 +117,7 @@ public class StudentRest {
 			ZamenaToken zt = new ZamenaToken(z.getIdzamena(), uuid.toString());
 			repoZT.save(zt);
 		}	
-
+		
 		return new ResponseEntity<String>("Formular uspesno prosledjen!", HttpStatus.OK);
 	}
 	

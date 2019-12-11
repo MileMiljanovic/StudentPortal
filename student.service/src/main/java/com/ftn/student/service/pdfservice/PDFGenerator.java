@@ -16,10 +16,14 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PDFGenerator {
+	
+	private final Logger log = LoggerFactory.getLogger(PDFGenerator.class);
 	
 	public ByteArrayInputStream formularReport(Formular f) {
 
@@ -161,10 +165,12 @@ public class PDFGenerator {
             	    w.getDirectContent());
             
             document.close();
+            
+            log.info("PDF successfully generated");
 
-        } catch (DocumentException ex) {
+        } catch (DocumentException e) {
 
-            ex.printStackTrace();
+        	 log.error("DocumentException has occured! CAUSE: " + e.getCause() + "; MESSAGE: " + e.getMessage());
         }
 
         return new ByteArrayInputStream(out.toByteArray());
