@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,6 +33,8 @@ public class AdminRestProgramiDom {
 	@Autowired
 	private KorisniciRepository repoKorisnici;
 	
+	private final Logger log = LoggerFactory.getLogger(AdminRestProgramiDom.class);
+	
 	@RequestMapping(value = "/progDomaci", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminProgramDResponse> progDomaci() {
 
@@ -47,16 +51,24 @@ public class AdminRestProgramiDom {
 
 		Optional<StudijskiProgramDomaci> progDom = repoDomaci.findById(request.getNaziv());
 		if (progDom.isPresent()) {
+			log.error("Program already exists!");
 			return new ResponseEntity<String>("Program (domaci) vec postoji!", HttpStatus.BAD_REQUEST);
 		}
 		repoDomaci.save(request);
+		log.info("Program successfully inserted!");
 		return new ResponseEntity<String>("Program (domaci) uspesno dodat!", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/updateProgDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updateProgDomaci(@Valid @RequestBody StudijskiProgramDomaci request) {
 
+		Optional<StudijskiProgramDomaci> progDom = repoDomaci.findById(request.getNaziv());
+		if (!progDom.isPresent()) {
+			log.error("Program does not exist!");
+			return new ResponseEntity<String>("Program (domaci) ne postoji!", HttpStatus.BAD_REQUEST);
+		}
 		repoDomaci.save(request);
+		log.info("Program successfully updated!");
 		return new ResponseEntity<String>("Program (domaci) uspesno izmenjen!", HttpStatus.OK);
 	}
 	
@@ -65,9 +77,11 @@ public class AdminRestProgramiDom {
 
 		Optional<StudijskiProgramDomaci> progDom = repoDomaci.findById(request.getNaziv());
 		if (!progDom.isPresent()) {
+			log.error("Program does not exist!");
 			return new ResponseEntity<String>("Program (domaci) ne postoji!", HttpStatus.BAD_REQUEST);
 		}
 		repoDomaci.delete(request);
+		log.info("Program successfully deleted!");
 		return new ResponseEntity<String>("Program (domaci) uspesno obrisan!", HttpStatus.OK);
 	}
 

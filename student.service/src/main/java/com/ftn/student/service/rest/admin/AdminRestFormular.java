@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +36,8 @@ public class AdminRestFormular {
 	@Autowired
 	private SProgramStraniRepository repoStrani;
 	
+	private final Logger log = LoggerFactory.getLogger(AdminRestFormular.class);
+	
 	@RequestMapping(value = "/formulari", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminFormularResponse> formulari() {
 
@@ -50,16 +54,24 @@ public class AdminRestFormular {
 
 		Optional<Formular> form = repoFormular.findById(request.getIdformular());
 		if (form.isPresent()) {
+			log.error("Formular already exists!");
 			return new ResponseEntity<String>("Formular vec postoji!", HttpStatus.BAD_REQUEST);
 		}
 		repoFormular.save(request);
+		log.info("Formular successfully inserted!");
 		return new ResponseEntity<String>("Formular uspesno dodat!", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/updateFormular", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updateFormular(@Valid @RequestBody Formular request) {
 
+		Optional<Formular> form = repoFormular.findById(request.getIdformular());
+		if (!form.isPresent()) {
+			log.error("Formular does not exist!");
+			return new ResponseEntity<String>("Formular ne postoji!", HttpStatus.BAD_REQUEST);
+		}
 		repoFormular.save(request);
+		log.info("Formular successfully updated!");
 		return new ResponseEntity<String>("Formular uspesno izmenjen!", HttpStatus.OK);
 	}
 	
@@ -68,9 +80,11 @@ public class AdminRestFormular {
 
 		Optional<Formular> form = repoFormular.findById(request.getIdformular());
 		if (!form.isPresent()) {
+			log.error("Formular does not exist!");
 			return new ResponseEntity<String>("Formular ne postoji!", HttpStatus.BAD_REQUEST);
 		}
 		repoFormular.delete(request);
+		log.info("Formular successfully deleted!");
 		return new ResponseEntity<String>("Formular uspesno obrisan!", HttpStatus.OK);
 	}
 

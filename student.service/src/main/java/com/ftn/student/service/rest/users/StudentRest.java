@@ -77,6 +77,7 @@ public class StudentRest {
 		List<Formular> f = repoFormular.findByStudent(s);
 		if (!f.isEmpty()) {
 			StudentLoginResponse resp = new StudentLoginResponse(s, programi, f.get(0));
+			log.info("Student already has a formular!");
 			return new ResponseEntity<StudentLoginResponse>(resp, HttpStatus.ALREADY_REPORTED);
 		}
 		
@@ -95,7 +96,7 @@ public class StudentRest {
 		Formular f = new Formular("F" + s.getCounter().toString(), request.getStudent(), request.getProgramStrani(), null, null, new Timestamp(System.currentTimeMillis()), null);
 		repoFormular.save(f);
 		ConfirmProgramResponse response = new ConfirmProgramResponse(request.getStudent(), request.getProgramStrani(), domaci, strani, f.getIdformular());
-		log.info("Student login successful!");
+		log.info("Foreign program successfully chosen!");
 		return new ResponseEntity<ConfirmProgramResponse>(response, HttpStatus.OK);
 	}
 	
@@ -103,6 +104,7 @@ public class StudentRest {
 	public @ResponseBody ResponseEntity<String> submitForm(@Valid @RequestBody SubmitFormRequest request) {
 
 		if (request.getZamene().isEmpty()) {
+			log.error("At least one substitute is required!");
 			return new ResponseEntity<String>("Mora postojati bar jedna zamena!", HttpStatus.BAD_REQUEST);
 		}
 		
@@ -112,6 +114,7 @@ public class StudentRest {
 			repoZamena.save(z);
 		}	
 		
+		log.info("Formular successfully submitted!");
 		return new ResponseEntity<String>("Formular uspesno prosledjen!", HttpStatus.OK);
 	}
 	
@@ -121,11 +124,13 @@ public class StudentRest {
 		Optional<Formular> fr = repoFormular.findById(request.getFormularId());
 		
 		if (!fr.isPresent()) {
+			log.error("Formular not found!");
 			return new ResponseEntity<String>("Greska! Formular nije pronadjen!", HttpStatus.NOT_FOUND);
 		}
 		
 		Formular f = repoFormular.findById(request.getFormularId()).get();
 		repoFormular.delete(f);
+		log.info("Formular successfully cancelled!");
 		return new ResponseEntity<String>("Formular uspesno obrisan!", HttpStatus.OK);
 	}
 

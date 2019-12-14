@@ -35,6 +35,7 @@ public class CronUpdateZamena {
 	@Scheduled(cron = "0 0/10 * * * *")
     public void updateZamena() {
 		
+		log.info("Scheduled checkup started!");
 		List<Formular> formulari = repoFormular.findAll();
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 		Calendar cal = Calendar.getInstance();
@@ -50,7 +51,7 @@ public class CronUpdateZamena {
 						if (z.getOdobreno() == null) {
 							z.setOdobreno("Y");
 							repoZamena.save(z);
-							log.info("Zamena " + z.getIdzamena() + " odobrena!");
+							log.info("Substitute " + z.getIdzamena() + " confirmed via scheduled task!");
 						}
 					}
 				}

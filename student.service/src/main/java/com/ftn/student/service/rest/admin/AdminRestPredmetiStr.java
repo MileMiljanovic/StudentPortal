@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,6 +32,8 @@ public class AdminRestPredmetiStr {
 	@Autowired
 	private SProgramStraniRepository repoProgrami;
 	
+	private final Logger log = LoggerFactory.getLogger(AdminRestPredmetiStr.class);
+	
 	@RequestMapping(value = "/predStrani", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminPredmetSResponse> predStrani() {
 
@@ -46,16 +50,24 @@ public class AdminRestPredmetiStr {
 
 		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());
 		if (predStr.isPresent()) {
+			log.error("Subject already exists!");
 			return new ResponseEntity<String>("Predmet (strani) vec postoji!", HttpStatus.BAD_REQUEST);
 		}
 		repoStrani.save(request);
+		log.info("Subject successfully inserted!");
 		return new ResponseEntity<String>("Predmet (strani) uspesno dodat!", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/updatePredStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updatePredStrani(@Valid @RequestBody PredmetStrani request) {
 
+		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());
+		if (!predStr.isPresent()) {
+			log.error("Subject does not exist!");
+			return new ResponseEntity<String>("Predmet (strani) ne postoji!", HttpStatus.BAD_REQUEST);
+		}
 		repoStrani.save(request);
+		log.info("Subject successfully updated!");
 		return new ResponseEntity<String>("Predmet (strani) uspesno izmenjen!", HttpStatus.OK);
 	}
 	
@@ -64,9 +76,11 @@ public class AdminRestPredmetiStr {
 
 		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());
 		if (!predStr.isPresent()) {
+			log.error("Subject does not exist!");
 			return new ResponseEntity<String>("Predmet (strani) ne postoji!", HttpStatus.BAD_REQUEST);
 		}
 		repoStrani.delete(request);
+		log.info("Subject successfully deleted!");
 		return new ResponseEntity<String>("Predmet (strani) uspesno obrisan!", HttpStatus.OK);
 	}
 

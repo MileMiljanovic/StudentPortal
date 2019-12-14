@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +31,8 @@ public class AdminRestStudenti {
 	@Autowired
 	private SProgramDomaciRepository repoDomaci;
 	
+	private final Logger log = LoggerFactory.getLogger(AdminRestStudenti.class);
+	
 	@RequestMapping(value = "/studenti", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminStudentResponse> studenti() {
 
@@ -45,16 +49,24 @@ public class AdminRestStudenti {
 
 		Optional<Student> stud = repoStudent.findById(request.getBrindeksa());
 		if (stud.isPresent()) {
+			log.error("Student already exists!");
 			return new ResponseEntity<String>("Student vec postoji!", HttpStatus.BAD_REQUEST);
 		}
 		repoStudent.save(request);
+		log.info("Student successfully inserted!");
 		return new ResponseEntity<String>("Student uspesno dodat!", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/updateStudent", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updateStudent(@Valid @RequestBody Student request) {
 
+		Optional<Student> stud = repoStudent.findById(request.getBrindeksa());
+		if (!stud.isPresent()) {
+			log.error("Student does not exist!");
+			return new ResponseEntity<String>("Student ne postoji!", HttpStatus.BAD_REQUEST);
+		}
 		repoStudent.save(request);
+		log.info("Student successfully updated!");
 		return new ResponseEntity<String>("Student uspesno izmenjen!", HttpStatus.OK);
 	}
 	
@@ -63,9 +75,11 @@ public class AdminRestStudenti {
 
 		Optional<Student> stud = repoStudent.findById(request.getBrindeksa());
 		if (!stud.isPresent()) {
+			log.error("Student does not exist!");
 			return new ResponseEntity<String>("Student ne postoji!", HttpStatus.BAD_REQUEST);
 		}
 		repoStudent.delete(request);
+		log.info("Student successfully deleted!");
 		return new ResponseEntity<String>("Student uspesno obrisan!", HttpStatus.OK);
 	}
 

@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,6 +42,8 @@ public class AdminRestZamene {
 	@Autowired
 	private PredmetiStraniRepository repoStrani;
 	
+	private final Logger log = LoggerFactory.getLogger(AdminRestZamene.class);
+	
 	@RequestMapping(value = "/zamene", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminZamenaResponse> zamene() {
 
@@ -58,16 +62,24 @@ public class AdminRestZamene {
 
 		Optional<Zamena> zam = repoZ.findById(request.getIdzamena());
 		if (zam.isPresent()) {
+			log.error("Substitute already exists!");
 			return new ResponseEntity<String>("Zamena vec postoji!", HttpStatus.BAD_REQUEST);
 		}
 		repoZ.save(request);
+		log.info("Substitute successfully inserted!");
 		return new ResponseEntity<String>("Zamena uspesno dodata!", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/updateZamena", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updateZamena(@Valid @RequestBody Zamena request) {
 
+		Optional<Zamena> zam = repoZ.findById(request.getIdzamena());
+		if (!zam.isPresent()) {
+			log.error("Substitute does not exist!");
+			return new ResponseEntity<String>("Zamena ne postoji!", HttpStatus.BAD_REQUEST);
+		}
 		repoZ.save(request);
+		log.info("Substitute successfully updated!");
 		return new ResponseEntity<String>("Zamena uspesno izmenjena!", HttpStatus.OK);
 	}
 	
@@ -76,9 +88,11 @@ public class AdminRestZamene {
 
 		Optional<Zamena> zam = repoZ.findById(request.getIdzamena());
 		if (!zam.isPresent()) {
+			log.error("Substitute does not exist!");
 			return new ResponseEntity<String>("Zamena ne postoji!", HttpStatus.BAD_REQUEST);
 		}
 		repoZ.delete(request);
+		log.info("Substitute successfully deleted!");
 		return new ResponseEntity<String>("Zamena uspesno obrisana!", HttpStatus.OK);
 	}
 

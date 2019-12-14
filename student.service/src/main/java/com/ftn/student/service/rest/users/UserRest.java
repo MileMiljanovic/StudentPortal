@@ -1,9 +1,11 @@
 package com.ftn.student.service.rest.users;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ftn.student.service.emailservice.EmailService;
 import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.Korisnik;
 import com.ftn.student.service.models.Uloga;
@@ -30,6 +31,8 @@ import com.ftn.student.service.repository.ZamenaRepository;
 import com.ftn.student.service.rest.requests.ConfirmationRequest;
 import com.ftn.student.service.rest.requests.UserLoginRequest;
 import com.ftn.student.service.rest.responses.UserLoginResponse;
+import com.ftn.student.service.utils.EmailService;
+import com.itextpdf.text.DocumentException;
 
 @RestController
 public class UserRest {
@@ -53,11 +56,13 @@ public class UserRest {
 
 		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());
 		if (!kor.isPresent()) {
+			log.error("Login unsuccessful! Invalid user!");
 			return new ResponseEntity<UserLoginResponse>(HttpStatus.UNAUTHORIZED);
 		}
 		
 		Korisnik k = kor.get();
 		if (!k.getPassword().equals(request.getPassword())) {
+			log.error("Login unsuccessful! Invalid password!");
 			return new ResponseEntity<UserLoginResponse>(HttpStatus.UNAUTHORIZED);
 		}
 		
@@ -112,7 +117,7 @@ public class UserRest {
 	}
 	
 	@RequestMapping(value = "/coordinatorConfirm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> coordinatorConfirm(@Valid @RequestBody ConfirmationRequest request) {
+	public @ResponseBody ResponseEntity<String> coordinatorConfirm(@Valid @RequestBody ConfirmationRequest request) throws MessagingException {
 
 		Formular f = request.getFormularId();
 		f.setOdobrenjeKoord(request.getOdgovor());
@@ -125,7 +130,7 @@ public class UserRest {
 	}
 	
 	@RequestMapping(value = "/headConfirm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> headConfirm(@Valid @RequestBody ConfirmationRequest request) {
+	public @ResponseBody ResponseEntity<String> headConfirm(@Valid @RequestBody ConfirmationRequest request) throws MessagingException, IOException, DocumentException {
 	
 		Formular f = request.getFormularId();
 		f.setOdobrenjeSef(request.getOdgovor());
@@ -142,25 +147,29 @@ public class UserRest {
 		Optional<Zamena> z = repoZamena.findById(zamena);
 		
 		if (!z.isPresent()) {
+			log.error("Substitute does not exist!");
 			return new ResponseEntity<String>("Zamena nije pronadjena!", HttpStatus.NOT_FOUND);
 		}
 		
 		if (!odgovor.equals("Y") && !odgovor.equals("N")) {
+			log.error("Invalid response!");
 			return new ResponseEntity<String>("Nevalidan odgovor!", HttpStatus.BAD_REQUEST);
 		}
 		
 		Zamena zam = z.get();
 		
 		if (!zam.getToken().equals(uuid)) {
+			log.error("Invalid token!");
 			return new ResponseEntity<String>("Nevalidan token!", HttpStatus.BAD_REQUEST);
 		}
 				
 		if (zam.getOdobreno() != null) {
+			log.error("Already answered!");
 			return new ResponseEntity<String>("Vec ste odgovorili!", HttpStatus.BAD_REQUEST);
 		}
 		zam.setOdobreno(odgovor);
 		repoZamena.save(zam);
-		log.info("Successfully confirmed a change! ID: " + zam.getIdzamena());
+		log.info("Successfully confirmed a substitute! ID: " + zam.getIdzamena());
 		return new ResponseEntity<String>("Uspesno odobreno!", HttpStatus.OK);
 	}
 

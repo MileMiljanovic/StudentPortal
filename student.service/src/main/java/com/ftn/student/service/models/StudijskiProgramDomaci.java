@@ -6,7 +6,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity(name = "studijski_programi_domaci")
@@ -21,7 +20,7 @@ public class StudijskiProgramDomaci {
 	@JoinColumn(name="departman", nullable=false)
 	private Departman departman;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="sef", nullable=false)
 	private Korisnik sef;
 
