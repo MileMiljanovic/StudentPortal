@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.student.service.models.PredmetStrani;
+import com.ftn.student.service.models.StudijskiProgramStrani;
 import com.ftn.student.service.repository.PredmetiStraniRepository;
+import com.ftn.student.service.repository.SProgramStraniRepository;
+import com.ftn.student.service.rest.responsesadmin.AdminPredmetSResponse;
 
 @RestController
 public class AdminRestPredmetiStr {
@@ -24,12 +27,18 @@ public class AdminRestPredmetiStr {
 	@Autowired
 	private PredmetiStraniRepository repoStrani;
 	
+	@Autowired
+	private SProgramStraniRepository repoProgrami;
+	
 	@RequestMapping(value = "/predStrani", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<PredmetStrani>> predStrani() {
+	public @ResponseBody ResponseEntity<AdminPredmetSResponse> predStrani() {
 
 		List<PredmetStrani> predStr = repoStrani.findAll();
+		List<StudijskiProgramStrani> prog = repoProgrami.findAll();
 		
-		return new ResponseEntity<List<PredmetStrani>>(predStr, HttpStatus.OK);
+		AdminPredmetSResponse response = new AdminPredmetSResponse(predStr, prog);
+		
+		return new ResponseEntity<AdminPredmetSResponse>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/addPredStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

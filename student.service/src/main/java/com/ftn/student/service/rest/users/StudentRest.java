@@ -128,22 +128,5 @@ public class StudentRest {
 		repoFormular.delete(f);
 		return new ResponseEntity<String>("Formular uspesno obrisan!", HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/zamenexd", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<Zamena>> zamene() {
-
-		List<Zamena> zam = repoZamena.findAll();
-		
-		return new ResponseEntity<List<Zamena>>(zam, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/formularixd", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<Formular>> formulari() {
-
-		List<Formular> zam = repoFormular.findAll();
-		
-		return new ResponseEntity<List<Formular>>(zam, HttpStatus.OK);
-	}
-
 
 }

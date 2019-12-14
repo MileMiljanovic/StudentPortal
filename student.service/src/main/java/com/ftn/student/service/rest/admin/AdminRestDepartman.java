@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.ftn.student.service.models.Departman;
+import com.ftn.student.service.models.Korisnik;
+import com.ftn.student.service.models.Uloga;
 import com.ftn.student.service.repository.DepartmaniRepository;
+import com.ftn.student.service.repository.KorisniciRepository;
+import com.ftn.student.service.rest.responsesadmin.AdminDepartmanResponse;
 
 @RestController
 public class AdminRestDepartman {
@@ -21,13 +25,17 @@ public class AdminRestDepartman {
 	@Autowired
 	private DepartmaniRepository repoDepartmani;
 	
+	@Autowired
+	private KorisniciRepository repoKorisnici;
 	
 	@RequestMapping(value = "/departmani", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<Departman>> departmani() {
+	public @ResponseBody ResponseEntity<AdminDepartmanResponse> departmani() {
 
 		List<Departman> dept = repoDepartmani.findAll();
+		List<Korisnik> koords = repoKorisnici.findByRole(Uloga.KOORDINATOR);
+		AdminDepartmanResponse response = new AdminDepartmanResponse(dept, koords);
 		
-		return new ResponseEntity<List<Departman>>(dept, HttpStatus.OK);
+		return new ResponseEntity<AdminDepartmanResponse>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/addDepartman", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

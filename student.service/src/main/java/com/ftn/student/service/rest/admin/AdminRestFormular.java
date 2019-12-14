@@ -15,7 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.ftn.student.service.models.Formular;
+import com.ftn.student.service.models.Student;
+import com.ftn.student.service.models.StudijskiProgramStrani;
 import com.ftn.student.service.repository.FormularRepository;
+import com.ftn.student.service.repository.SProgramStraniRepository;
+import com.ftn.student.service.repository.StudentRepository;
+import com.ftn.student.service.rest.responsesadmin.AdminFormularResponse;
 
 @RestController
 public class AdminRestFormular {
@@ -23,12 +28,21 @@ public class AdminRestFormular {
 	@Autowired
 	private FormularRepository repoFormular;
 	
+	@Autowired 
+	private StudentRepository repoStudent;
+	
+	@Autowired
+	private SProgramStraniRepository repoStrani;
+	
 	@RequestMapping(value = "/formulari", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<Formular>> formulari() {
+	public @ResponseBody ResponseEntity<AdminFormularResponse> formulari() {
 
 		List<Formular> form = repoFormular.findAll();
+		List<Student> studenti = repoStudent.findAll();
+		List<StudijskiProgramStrani> strani = repoStrani.findAll();
 		
-		return new ResponseEntity<List<Formular>>(form, HttpStatus.OK);
+		AdminFormularResponse response = new AdminFormularResponse(form, studenti, strani);
+		return new ResponseEntity<AdminFormularResponse>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/addFormular", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

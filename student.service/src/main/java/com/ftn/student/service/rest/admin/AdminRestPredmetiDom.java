@@ -15,8 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftn.student.service.models.Nastavnik;
 import com.ftn.student.service.models.PredmetDomaci;
+import com.ftn.student.service.models.StudijskiProgramDomaci;
+import com.ftn.student.service.repository.NastavnikRepository;
 import com.ftn.student.service.repository.PredmetiDomaciRepository;
+import com.ftn.student.service.repository.SProgramDomaciRepository;
+import com.ftn.student.service.rest.responsesadmin.AdminPredmetDResponse;
 
 @RestController
 public class AdminRestPredmetiDom {
@@ -24,12 +29,22 @@ public class AdminRestPredmetiDom {
 	@Autowired
 	private PredmetiDomaciRepository repoDomaci;
 	
+	@Autowired
+	private SProgramDomaciRepository repoProgrami;
+	
+	@Autowired
+	private NastavnikRepository repoNastavnik;
+	
 	@RequestMapping(value = "/predDomaci", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<PredmetDomaci>> predDomaci() {
+	public @ResponseBody ResponseEntity<AdminPredmetDResponse> predDomaci() {
 
 		List<PredmetDomaci> predDom = repoDomaci.findAll();
+		List<StudijskiProgramDomaci> prog = repoProgrami.findAll();
+		List<Nastavnik> nast = repoNastavnik.findAll();
 		
-		return new ResponseEntity<List<PredmetDomaci>>(predDom, HttpStatus.OK);
+		AdminPredmetDResponse response = new AdminPredmetDResponse(predDom, prog, nast);
+		
+		return new ResponseEntity<AdminPredmetDResponse>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/addPredDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

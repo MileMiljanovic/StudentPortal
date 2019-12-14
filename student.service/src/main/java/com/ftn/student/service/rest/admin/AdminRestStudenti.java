@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.ftn.student.service.models.Student;
+import com.ftn.student.service.models.StudijskiProgramDomaci;
+import com.ftn.student.service.repository.SProgramDomaciRepository;
 import com.ftn.student.service.repository.StudentRepository;
+import com.ftn.student.service.rest.responsesadmin.AdminStudentResponse;
 
 @RestController
 public class AdminRestStudenti {
@@ -23,12 +26,18 @@ public class AdminRestStudenti {
 	@Autowired
 	private StudentRepository repoStudent;
 	
+	@Autowired
+	private SProgramDomaciRepository repoDomaci;
+	
 	@RequestMapping(value = "/studenti", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<Student>> studenti() {
+	public @ResponseBody ResponseEntity<AdminStudentResponse> studenti() {
 
 		List<Student> stud = repoStudent.findAll();
+		List<StudijskiProgramDomaci> progDom = repoDomaci.findAll();
 		
-		return new ResponseEntity<List<Student>>(stud, HttpStatus.OK);
+		AdminStudentResponse response = new AdminStudentResponse(stud, progDom);
+		
+		return new ResponseEntity<AdminStudentResponse>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/addStudent", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

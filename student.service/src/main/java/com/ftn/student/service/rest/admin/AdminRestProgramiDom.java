@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ftn.student.service.models.Korisnik;
 import com.ftn.student.service.models.StudijskiProgramDomaci;
+import com.ftn.student.service.models.Uloga;
+import com.ftn.student.service.repository.KorisniciRepository;
 import com.ftn.student.service.repository.SProgramDomaciRepository;
+import com.ftn.student.service.rest.responsesadmin.AdminProgramDResponse;
 
 @RestController
 public class AdminRestProgramiDom {
@@ -23,12 +28,18 @@ public class AdminRestProgramiDom {
 	@Autowired
 	private SProgramDomaciRepository repoDomaci;
 	
+	@Autowired
+	private KorisniciRepository repoKorisnici;
+	
 	@RequestMapping(value = "/progDomaci", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<StudijskiProgramDomaci>> progDomaci() {
+	public @ResponseBody ResponseEntity<AdminProgramDResponse> progDomaci() {
 
 		List<StudijskiProgramDomaci> progDom = repoDomaci.findAll();
+		List<Korisnik> sefovi = repoKorisnici.findByRole(Uloga.SEF);
 		
-		return new ResponseEntity<List<StudijskiProgramDomaci>>(progDom, HttpStatus.OK);
+		AdminProgramDResponse response = new AdminProgramDResponse(progDom, sefovi);
+		
+		return new ResponseEntity<AdminProgramDResponse>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/addProgDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
