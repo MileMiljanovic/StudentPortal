@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "korisnici")
 @Table(name = "korisnici")
 public class Korisnik {
@@ -18,6 +20,7 @@ public class Korisnik {
 	private String username;
 	
 	@Column(name = "password")
+	@JsonIgnore
 	private String password;
 	
 	@Column(name = "ime")
