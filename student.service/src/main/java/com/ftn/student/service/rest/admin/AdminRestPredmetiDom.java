@@ -39,7 +39,7 @@ public class AdminRestPredmetiDom {
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestPredmetiDom.class);
 	
-	@RequestMapping(value = "/predDomaci", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/predDomaci", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminPredmetDResponse> predDomaci() {
 
 		List<PredmetDomaci> predDom = repoDomaci.findAll();
@@ -51,7 +51,7 @@ public class AdminRestPredmetiDom {
 		return new ResponseEntity<AdminPredmetDResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/addPredDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/addPredDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addPredDomaci(@Valid @RequestBody PredmetDomaci request) {
 
 		Optional<PredmetDomaci> predDom = repoDomaci.findById(request.getPredmetId());
@@ -64,7 +64,7 @@ public class AdminRestPredmetiDom {
 		return new ResponseEntity<String>("Predmet (domaci) uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/updatePredDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/updatePredDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updatePredDomaci(@Valid @RequestBody PredmetDomaci request) {
 
 		Optional<PredmetDomaci> predDom = repoDomaci.findById(request.getPredmetId());
@@ -77,7 +77,7 @@ public class AdminRestPredmetiDom {
 		return new ResponseEntity<String>("Predmet (domaci) uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/deletePredDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/deletePredDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deletePredDomaci(@Valid @RequestBody PredmetDomaci request) {
 
 		Optional<PredmetDomaci> predDom = repoDomaci.findById(request.getPredmetId());

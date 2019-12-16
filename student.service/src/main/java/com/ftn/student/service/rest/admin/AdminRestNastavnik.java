@@ -28,7 +28,7 @@ public class AdminRestNastavnik {
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestNastavnik.class);
 	
-	@RequestMapping(value = "/nastavnici", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/nastavnici", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Nastavnik>> nastavnici() {
 
 		List<Nastavnik> nas = repoNastavnici.findAll();
@@ -36,7 +36,7 @@ public class AdminRestNastavnik {
 		return new ResponseEntity<List<Nastavnik>>(nas, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/addNastavnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/addNastavnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addNastavnik(@Valid @RequestBody Nastavnik request) {
 
 		Optional<Nastavnik> nas = repoNastavnici.findById(request.getNastavnikid());
@@ -49,7 +49,7 @@ public class AdminRestNastavnik {
 		return new ResponseEntity<String>("Nastavnik uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/updateNastavnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/updateNastavnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updateNastavnik(@Valid @RequestBody Nastavnik request) {
 
 		Optional<Nastavnik> nas = repoNastavnici.findById(request.getNastavnikid());
@@ -62,7 +62,7 @@ public class AdminRestNastavnik {
 		return new ResponseEntity<String>("Nastavnik uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/deleteNastavnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/deleteNastavnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteNastavnik(@Valid @RequestBody Nastavnik request) {
 
 		Optional<Nastavnik> nas = repoNastavnici.findById(request.getNastavnikid());

@@ -27,7 +27,7 @@ public class AdminRestProgramiStr {
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestProgramiStr.class);
 	
-	@RequestMapping(value = "/progStrani", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/progStrani", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<StudijskiProgramStrani>> progStrani() {
 
 		List<StudijskiProgramStrani> progStr = repoStrani.findAll();
@@ -35,7 +35,7 @@ public class AdminRestProgramiStr {
 		return new ResponseEntity<List<StudijskiProgramStrani>>(progStr, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/addProgStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/addProgStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
 
 		Optional<StudijskiProgramStrani> progStr = repoStrani.findById(request.getNaziv());
@@ -48,7 +48,7 @@ public class AdminRestProgramiStr {
 		return new ResponseEntity<String>("Program (strani) uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/updateProgStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/updateProgStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updateProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
 
 		Optional<StudijskiProgramStrani> progStr = repoStrani.findById(request.getNaziv());
@@ -61,7 +61,7 @@ public class AdminRestProgramiStr {
 		return new ResponseEntity<String>("Program (strani) uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/deleteProgStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/deleteProgStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
 
 		Optional<StudijskiProgramStrani> progStr = repoStrani.findById(request.getNaziv());

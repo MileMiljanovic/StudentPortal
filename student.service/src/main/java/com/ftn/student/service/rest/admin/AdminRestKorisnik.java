@@ -27,7 +27,7 @@ public class AdminRestKorisnik {
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestKorisnik.class);
 	
-	@RequestMapping(value = "/korisnici", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/korisnici", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Korisnik>> korisnici() {
 
 		List<Korisnik> kor = repoKorisnici.findAll();
@@ -35,7 +35,7 @@ public class AdminRestKorisnik {
 		return new ResponseEntity<List<Korisnik>>(kor, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/addKorisnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/addKorisnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addKorisnik(@Valid @RequestBody Korisnik request) {
 
 		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());
@@ -48,7 +48,7 @@ public class AdminRestKorisnik {
 		return new ResponseEntity<String>("Korisnik uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/updateKorisnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/updateKorisnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updateKorisnik(@Valid @RequestBody Korisnik request) {
 
 		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());
@@ -61,7 +61,7 @@ public class AdminRestKorisnik {
 		return new ResponseEntity<String>("Korisnik uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/deleteKorisnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/deleteKorisnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteKorisnik(@Valid @RequestBody Korisnik request) {
 
 		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());

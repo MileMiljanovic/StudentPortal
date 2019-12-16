@@ -33,7 +33,7 @@ public class AdminRestDepartman {
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestDepartman.class);
 	
-	@RequestMapping(value = "/departmani", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/departmani", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminDepartmanResponse> departmani() {
 
 		List<Departman> dept = repoDepartmani.findAll();
@@ -43,7 +43,7 @@ public class AdminRestDepartman {
 		return new ResponseEntity<AdminDepartmanResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/addDepartman", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/addDepartman", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addDepartman(@Valid @RequestBody Departman request) {
 
 		Optional<Departman> dept = repoDepartmani.findById(request.getDepartmanId());
@@ -56,7 +56,7 @@ public class AdminRestDepartman {
 		return new ResponseEntity<String>("Departman uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/updateDepartman", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/updateDepartman", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updateDepartman(@Valid @RequestBody Departman request) {
 
 		Optional<Departman> dept = repoDepartmani.findById(request.getDepartmanId());
@@ -69,7 +69,7 @@ public class AdminRestDepartman {
 		return new ResponseEntity<String>("Departman uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/deleteDepartman", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/admin/deleteDepartman", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteDepartman(@Valid @RequestBody Departman request) {
 
 		Optional<Departman> dept = repoDepartmani.findById(request.getDepartmanId());
