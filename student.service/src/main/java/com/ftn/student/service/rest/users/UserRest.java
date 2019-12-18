@@ -1,13 +1,9 @@
 package com.ftn.student.service.rest.users;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.Korisnik;
 import com.ftn.student.service.models.Uloga;
@@ -32,6 +27,7 @@ import com.ftn.student.service.rest.requests.ConfirmationRequest;
 import com.ftn.student.service.rest.requests.UserLoginRequest;
 import com.ftn.student.service.rest.responses.UserLoginResponse;
 import com.ftn.student.service.utils.EmailService;
+import com.ftn.student.service.utils.FormularDBUtils;
 import com.itextpdf.text.DocumentException;
 
 @RestController
@@ -66,10 +62,9 @@ public class UserRest {
 			return new ResponseEntity<UserLoginResponse>(HttpStatus.UNAUTHORIZED);
 		}
 		
-		UserLoginResponse response = new UserLoginResponse();
-		List<Formular> formulari = repoFormular.findAll();
 		
 		if (k.getUloga().equals(Uloga.ADMIN)) {
+			UserLoginResponse response = new UserLoginResponse();
 			response.setKorisnik(k);
 			response.setFormulari(null);
 			log.info("Successfully logged in as: " + k.getUsername());
@@ -77,39 +72,13 @@ public class UserRest {
 		}
 		
 		else if (k.getUloga().equals(Uloga.KOORDINATOR)) {
-			List<Formular> koordFormulari = new ArrayList<Formular>();
-			for (Formular f: formulari) {
-				if (f.getOdobrenjeKoord() == null && 
-						f.getStudent().getStudije().getDepartman().getKoordinator().equals(k)) {
-					koordFormulari.add(f);
-				}
-			}
-			response.setKorisnik(k);
-			response.setFormulari(koordFormulari);
+			UserLoginResponse response = FormularDBUtils.koordFormulariResponse(k, repoFormular);
 			log.info("Successfully logged in as: " + k.getUsername());
 			return new ResponseEntity<UserLoginResponse>(response,  HttpStatus.OK);
 		}
 		
 		else {
-			List<Formular> sefFormulari = new ArrayList<Formular>();
-			for (Formular f: formulari) {
-				if (f.getOdobrenjeSef() == null && f.getOdobrenjeKoord() != null 
-						&& f.getOdobrenjeKoord().equals("Y") && f.getStudent().getStudije().getSef().equals(k)) {
-					List<Zamena> zamene = repoZamena.findByFormular(f);
-					boolean sve = true;
-					for(Zamena z: zamene) {
-						if (z.getOdobreno() == null || z.getOdobreno().equals("N")) {
-							sve = false;
-							break;
-						}
-					}
-					if (sve) {
-						sefFormulari.add(f);
-					}
-				}
-			}
-			response.setKorisnik(k);
-			response.setFormulari(sefFormulari);
+			UserLoginResponse response = FormularDBUtils.sefFormulariResponse(k, repoFormular);
 			log.info("Successfully logged in as: " + k.getUsername());
 			return new ResponseEntity<UserLoginResponse>(response,  HttpStatus.OK);
 		}
