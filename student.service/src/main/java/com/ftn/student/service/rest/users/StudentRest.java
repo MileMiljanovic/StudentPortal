@@ -4,9 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import javax.validation.Valid;
-
+import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +62,9 @@ public class StudentRest {
 	@Autowired
 	private SequenceRepository repoSequence;
 	
+	@Autowired
+	private KieSession kieSession;
+	
 	private final Logger log = LoggerFactory.getLogger(StudentRest.class);
 	
 	@RequestMapping(value = "/studentLogin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -103,10 +105,8 @@ public class StudentRest {
 	@RequestMapping(value = "/submitForm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> submitForm(@Valid @RequestBody SubmitFormRequest request) {
 
-		if (request.getZamene().isEmpty()) {
-			log.error("At least one substitute is required!");
-			return new ResponseEntity<String>("Mora postojati bar jedna zamena!", HttpStatus.BAD_REQUEST);
-		}
+		kieSession.insert(request);
+		kieSession.fireAllRules(); 
 		
 		for (Zamena z: request.getZamene()) {
 			UUID uuid = UUID.randomUUID();

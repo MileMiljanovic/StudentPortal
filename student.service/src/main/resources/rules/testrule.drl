@@ -1,11 +1,11 @@
 package com.ftn.student.service.rules
 
-import com.ftn.student.service.models.Korisnik;
+import com.ftn.student.service.rest.requests.SubmitFormRequest
 
 rule "Test"
 	when
-		k: Korisnik(ime == "Ivan")
+		sfr: SubmitFormRequest()
 	then
-		System.out.println("IVAN BOLAN");
+		System.out.println(sfr.getStudent().getBrindeksa());
 	
 end
