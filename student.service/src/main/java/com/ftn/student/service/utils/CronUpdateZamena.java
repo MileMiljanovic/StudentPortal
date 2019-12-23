@@ -36,7 +36,7 @@ public class CronUpdateZamena {
     public void updateZamena() {
 		
 		log.info("Scheduled checkup started!");
-		List<Formular> formulari = repoFormular.findAll();
+		List<Formular> formulari = repoFormular.findUnconfirmed();
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 		Calendar cal = Calendar.getInstance();
 	    cal.setTimeInMillis(now.getTime());
@@ -45,18 +45,15 @@ public class CronUpdateZamena {
 	    
 		for (Formular f: formulari) {
 			if (f.getDatum().before(dayAgo)) {
-				if (f.getOdobrenjeSef() == null && f.getOdobrenjeKoord().equals("Y")) {
-					for (Zamena z: f.getZamene()) {
-						if (z.getOdobreno() == null) {
-							z.setOdobreno("Y");
-							repoZamena.save(z);
-							log.info("Substitute " + z.getIdzamena() + " confirmed via scheduled task!");
-						}
+				for (Zamena z: f.getZamene()) {
+					if (z.getOdobreno() == null) {
+						z.setOdobreno("Y");
+						repoZamena.save(z);
+						log.info("Substitute " + z.getIdzamena() + " confirmed via scheduled task!");
 					}
 				}
 			}
 		}
-		
-    }
+	}
 
 }

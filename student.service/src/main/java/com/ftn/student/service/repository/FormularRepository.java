@@ -15,5 +15,9 @@ public interface FormularRepository extends JpaRepository<Formular, String> {
 	
 	@Query("select f from formulari f where f.student = :student")
 	List<Formular> findByStudent(@Param("student") Student student);
+	
+	@Query("select f from formulari f where f.odobrenjeSef is null and f.odobrenjeKoord = 'Y'")
+	List<Formular> findUnconfirmed();
+
 
 }
