@@ -34,7 +34,7 @@ public class AdminRestPredmetiStr {
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestPredmetiStr.class);
 	
-	@RequestMapping(value = "/admin/predStrani", method = RequestMethod.GET)
+	@RequestMapping(value = "/predStrani", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminPredmetSResponse> predStrani() {
 
 		List<PredmetStrani> predStr = repoStrani.findAll();
@@ -45,7 +45,7 @@ public class AdminRestPredmetiStr {
 		return new ResponseEntity<AdminPredmetSResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/addPredStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/predStrani/addPredStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addPredStrani(@Valid @RequestBody PredmetStrani request) {
 
 		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());
@@ -58,7 +58,7 @@ public class AdminRestPredmetiStr {
 		return new ResponseEntity<String>("Predmet (strani) uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/updatePredStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/predStrani/updatePredStrani", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updatePredStrani(@Valid @RequestBody PredmetStrani request) {
 
 		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());
@@ -71,7 +71,7 @@ public class AdminRestPredmetiStr {
 		return new ResponseEntity<String>("Predmet (strani) uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/deletePredStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/predStrani/deletePredStrani", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deletePredStrani(@Valid @RequestBody PredmetStrani request) {
 
 		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());

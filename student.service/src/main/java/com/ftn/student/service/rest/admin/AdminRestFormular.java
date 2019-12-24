@@ -38,7 +38,7 @@ public class AdminRestFormular {
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestFormular.class);
 	
-	@RequestMapping(value = "/admin/formulari", method = RequestMethod.GET)
+	@RequestMapping(value = "/formular", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminFormularResponse> formulari() {
 
 		List<Formular> form = repoFormular.findAll();
@@ -49,7 +49,7 @@ public class AdminRestFormular {
 		return new ResponseEntity<AdminFormularResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/addFormular", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/formular/addFormular", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addFormular(@Valid @RequestBody Formular request) {
 
 		Optional<Formular> form = repoFormular.findById(request.getIdformular());
@@ -62,7 +62,7 @@ public class AdminRestFormular {
 		return new ResponseEntity<String>("Formular uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/updateFormular", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/formular/updateFormular", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updateFormular(@Valid @RequestBody Formular request) {
 
 		Optional<Formular> form = repoFormular.findById(request.getIdformular());
@@ -75,7 +75,7 @@ public class AdminRestFormular {
 		return new ResponseEntity<String>("Formular uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/deleteFormular", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/formular/deleteFormular", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteFormular(@Valid @RequestBody Formular request) {
 
 		Optional<Formular> form = repoFormular.findById(request.getIdformular());

@@ -35,7 +35,7 @@ public class AdminRestProgramiDom {
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestProgramiDom.class);
 	
-	@RequestMapping(value = "/admin/progDomaci", method = RequestMethod.GET)
+	@RequestMapping(value = "/progDomaci", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminProgramDResponse> progDomaci() {
 
 		List<StudijskiProgramDomaci> progDom = repoDomaci.findAll();
@@ -46,7 +46,7 @@ public class AdminRestProgramiDom {
 		return new ResponseEntity<AdminProgramDResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/addProgDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/progDomaci/addProgDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addProgDomaci(@Valid @RequestBody StudijskiProgramDomaci request) {
 
 		Optional<StudijskiProgramDomaci> progDom = repoDomaci.findById(request.getNaziv());
@@ -59,7 +59,7 @@ public class AdminRestProgramiDom {
 		return new ResponseEntity<String>("Program (domaci) uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/updateProgDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/progDomaci/updateProgDomaci", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updateProgDomaci(@Valid @RequestBody StudijskiProgramDomaci request) {
 
 		Optional<StudijskiProgramDomaci> progDom = repoDomaci.findById(request.getNaziv());
@@ -72,7 +72,7 @@ public class AdminRestProgramiDom {
 		return new ResponseEntity<String>("Program (domaci) uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/deleteProgDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/progDomaci/deleteProgDomaci", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteProgDomaci(@Valid @RequestBody StudijskiProgramDomaci request) {
 
 		Optional<StudijskiProgramDomaci> progDom = repoDomaci.findById(request.getNaziv());

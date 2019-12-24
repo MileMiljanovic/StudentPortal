@@ -85,7 +85,7 @@ public class UserRest {
 
 	}
 	
-	@RequestMapping(value = "/coordinatorConfirm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/koordinator/koordinatorConfirm", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> coordinatorConfirm(@Valid @RequestBody ConfirmationRequest request) throws MessagingException {
 
 		Formular f = request.getFormularId();
@@ -98,7 +98,7 @@ public class UserRest {
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/headConfirm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/sef/sefConfirm", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> headConfirm(@Valid @RequestBody ConfirmationRequest request) throws MessagingException, IOException, DocumentException {
 	
 		Formular f = request.getFormularId();
@@ -109,7 +109,7 @@ public class UserRest {
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/teacherConfirm/{uuid}/{zamena}/{odgovor}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/nastavnik/{uuid}/{zamena}/{odgovor}", method = RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<String> teacherConfirm(@PathVariable String uuid, 
 			@PathVariable String zamena, @PathVariable String odgovor) {
 		

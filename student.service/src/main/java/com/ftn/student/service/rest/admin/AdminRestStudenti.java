@@ -33,7 +33,7 @@ public class AdminRestStudenti {
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestStudenti.class);
 	
-	@RequestMapping(value = "/admin/studenti", method = RequestMethod.GET)
+	@RequestMapping(value = "/student", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminStudentResponse> studenti() {
 
 		List<Student> stud = repoStudent.findAll();
@@ -44,7 +44,7 @@ public class AdminRestStudenti {
 		return new ResponseEntity<AdminStudentResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/addStudent", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/student/addStudent", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addStudent(@Valid @RequestBody Student request) {
 
 		Optional<Student> stud = repoStudent.findById(request.getBrindeksa());
@@ -57,7 +57,7 @@ public class AdminRestStudenti {
 		return new ResponseEntity<String>("Student uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/updateStudent", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/student/updateStudent", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> updateStudent(@Valid @RequestBody Student request) {
 
 		Optional<Student> stud = repoStudent.findById(request.getBrindeksa());
@@ -70,7 +70,7 @@ public class AdminRestStudenti {
 		return new ResponseEntity<String>("Student uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/admin/deleteStudent", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/student/deleteStudent", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteStudent(@Valid @RequestBody Student request) {
 
 		Optional<Student> stud = repoStudent.findById(request.getBrindeksa());

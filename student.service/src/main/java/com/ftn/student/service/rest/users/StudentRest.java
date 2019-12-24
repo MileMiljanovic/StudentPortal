@@ -88,7 +88,7 @@ public class StudentRest {
 		return new ResponseEntity<StudentLoginResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/confirmProgram", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/student/confirmProgram", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<ConfirmProgramResponse> confirmProgram(@Valid @RequestBody ConfirmProgramRequest request) {
 		
 		List<PredmetDomaci> domaci = repoPredmetDomaci.findByProgram(request.getStudent().getStudije());
@@ -102,11 +102,8 @@ public class StudentRest {
 		return new ResponseEntity<ConfirmProgramResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/submitForm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/student/confirmProgram/submitForm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> submitForm(@Valid @RequestBody SubmitFormRequest request) {
-
-		kieSession.insert(request);
-		kieSession.fireAllRules(); 
 		
 		for (Zamena z: request.getZamene()) {
 			UUID uuid = UUID.randomUUID();
@@ -114,11 +111,15 @@ public class StudentRest {
 			repoZamena.save(z);
 		}	
 		
+		//ToDo: formular rules
+		kieSession.insert(request);
+		kieSession.fireAllRules(); 
+		
 		log.info("Formular successfully submitted!");
 		return new ResponseEntity<String>("Formular uspesno prosledjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/cancelForm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/student/confirmProgram/cancelForm", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> cancelForm(@Valid @RequestBody CancelFormRequest request) {
 
 		Optional<Formular> fr = repoFormular.findById(request.getFormularId());
