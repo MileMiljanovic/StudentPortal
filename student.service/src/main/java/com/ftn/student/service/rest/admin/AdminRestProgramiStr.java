@@ -35,7 +35,7 @@ public class AdminRestProgramiStr {
 		return new ResponseEntity<List<StudijskiProgramStrani>>(progStr, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/progStrani/addProgStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/progStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
 
 		Optional<StudijskiProgramStrani> progStr = repoStrani.findById(request.getNaziv());
@@ -48,8 +48,8 @@ public class AdminRestProgramiStr {
 		return new ResponseEntity<String>("Program (strani) uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/progStrani/updateProgStrani", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> updateProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
+	@RequestMapping(value = "/progStrani/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<String> putProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
 
 		Optional<StudijskiProgramStrani> progStr = repoStrani.findById(request.getNaziv());
 		if (!progStr.isPresent()) {
@@ -61,7 +61,7 @@ public class AdminRestProgramiStr {
 		return new ResponseEntity<String>("Program (strani) uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/progStrani/deleteProgStrani", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/progStrani/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
 
 		Optional<StudijskiProgramStrani> progStr = repoStrani.findById(request.getNaziv());

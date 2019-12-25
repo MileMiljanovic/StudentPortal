@@ -46,7 +46,7 @@ public class AdminRestProgramiDom {
 		return new ResponseEntity<AdminProgramDResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/progDomaci/addProgDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/progDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addProgDomaci(@Valid @RequestBody StudijskiProgramDomaci request) {
 
 		Optional<StudijskiProgramDomaci> progDom = repoDomaci.findById(request.getNaziv());
@@ -59,8 +59,8 @@ public class AdminRestProgramiDom {
 		return new ResponseEntity<String>("Program (domaci) uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/progDomaci/updateProgDomaci", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> updateProgDomaci(@Valid @RequestBody StudijskiProgramDomaci request) {
+	@RequestMapping(value = "/progDomaci/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<String> putProgDomaci(@Valid @RequestBody StudijskiProgramDomaci request) {
 
 		Optional<StudijskiProgramDomaci> progDom = repoDomaci.findById(request.getNaziv());
 		if (!progDom.isPresent()) {
@@ -72,7 +72,7 @@ public class AdminRestProgramiDom {
 		return new ResponseEntity<String>("Program (domaci) uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/progDomaci/deleteProgDomaci", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/progDomaci/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteProgDomaci(@Valid @RequestBody StudijskiProgramDomaci request) {
 
 		Optional<StudijskiProgramDomaci> progDom = repoDomaci.findById(request.getNaziv());

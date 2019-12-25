@@ -31,7 +31,7 @@ import com.ftn.student.service.utils.FormularDBUtils;
 import com.itextpdf.text.DocumentException;
 
 @RestController
-public class UserRest {
+public class ConfirmationController {
 	
 	@Autowired
 	private KorisniciRepository repoKorisnici;
@@ -45,48 +45,52 @@ public class UserRest {
 	@Autowired
 	private EmailService emailSvc;
 	
-	private final Logger log = LoggerFactory.getLogger(UserRest.class);
+	private final Logger log = LoggerFactory.getLogger(ConfirmationController.class);
 	
 	@RequestMapping(value = "/userLogin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<UserLoginResponse> userLogin(@Valid @RequestBody UserLoginRequest request) {
+	public @ResponseBody ResponseEntity<Korisnik> userLogin(@Valid @RequestBody UserLoginRequest request) {
 
 		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());
 		if (!kor.isPresent()) {
 			log.error("Login unsuccessful! Invalid user!");
-			return new ResponseEntity<UserLoginResponse>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<Korisnik>(HttpStatus.UNAUTHORIZED);
 		}
 		
 		Korisnik k = kor.get();
 		if (!k.getPassword().equals(request.getPassword())) {
 			log.error("Login unsuccessful! Invalid password!");
-			return new ResponseEntity<UserLoginResponse>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<Korisnik>(HttpStatus.UNAUTHORIZED);
 		}
 		
+		log.info("Successfully logged in as: " + request.getUsername());
+		return new ResponseEntity<Korisnik>(k, HttpStatus.OK);	
+
+	}
+	
+	@RequestMapping(value = "/api/formulari", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<UserLoginResponse> userLogged(@Valid @RequestBody Korisnik request) { 
 		
-		if (k.getUloga().equals(Uloga.ADMIN)) {
-			UserLoginResponse response = new UserLoginResponse();
-			response.setKorisnik(k);
-			response.setFormulari(null);
-			log.info("Successfully logged in as: " + k.getUsername());
-			return new ResponseEntity<UserLoginResponse>(response, HttpStatus.OK);
+		if (request.getUloga().equals(Uloga.KOORDINATOR)) {
+			log.info("Fetching a list of formulars...");
+			UserLoginResponse response = FormularDBUtils.koordFormulariResponse(request, repoFormular);
+			return new ResponseEntity<UserLoginResponse>(response,  HttpStatus.OK);
 		}
 		
-		else if (k.getUloga().equals(Uloga.KOORDINATOR)) {
-			UserLoginResponse response = FormularDBUtils.koordFormulariResponse(k, repoFormular);
-			log.info("Successfully logged in as: " + k.getUsername());
+		else if (request.getUloga().equals(Uloga.SEF)) {
+			log.info("Fetching a list of formulars...");
+			UserLoginResponse response = FormularDBUtils.sefFormulariResponse(request, repoFormular);
 			return new ResponseEntity<UserLoginResponse>(response,  HttpStatus.OK);
 		}
 		
 		else {
-			UserLoginResponse response = FormularDBUtils.sefFormulariResponse(k, repoFormular);
-			log.info("Successfully logged in as: " + k.getUsername());
-			return new ResponseEntity<UserLoginResponse>(response,  HttpStatus.OK);
+			log.info("Invalid role for this operation!");
+			return new ResponseEntity<UserLoginResponse>(HttpStatus.UNAUTHORIZED);
 		}
-
+		
 	}
 	
-	@RequestMapping(value = "/api/koordinator/koordinatorConfirm", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> coordinatorConfirm(@Valid @RequestBody ConfirmationRequest request) throws MessagingException {
+	@RequestMapping(value = "/api/formulari/{id}/koordinatorConfirm", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<String> coordinatorConfirm(@PathVariable String id, @Valid @RequestBody ConfirmationRequest request) throws MessagingException {
 
 		Formular f = request.getFormularId();
 		f.setOdobrenjeKoord(request.getOdgovor());
@@ -98,8 +102,8 @@ public class UserRest {
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/api/sef/sefConfirm", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> headConfirm(@Valid @RequestBody ConfirmationRequest request) throws MessagingException, IOException, DocumentException {
+	@RequestMapping(value = "/api/formulari/{id}/sefConfirm", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<String> headConfirm(@PathVariable String id, @Valid @RequestBody ConfirmationRequest request) throws MessagingException, IOException, DocumentException {
 	
 		Formular f = request.getFormularId();
 		f.setOdobrenjeSef(request.getOdgovor());
@@ -109,9 +113,9 @@ public class UserRest {
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/api/nastavnik/{uuid}/{zamena}/{odgovor}", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<String> teacherConfirm(@PathVariable String uuid, 
-			@PathVariable String zamena, @PathVariable String odgovor) {
+	@RequestMapping(value = "/api/formulari/{formular}/zamene/{zamena}/{uuid}/{odgovor}", method = RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<String> teacherConfirm(@PathVariable String formular, @PathVariable String zamena, 
+			@PathVariable String uuid, @PathVariable String odgovor) {
 		
 		Optional<Zamena> z = repoZamena.findById(zamena);
 		

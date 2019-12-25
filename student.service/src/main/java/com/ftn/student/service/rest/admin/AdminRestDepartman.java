@@ -43,7 +43,7 @@ public class AdminRestDepartman {
 		return new ResponseEntity<AdminDepartmanResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/departmani/addDepartman", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/departmani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addDepartman(@Valid @RequestBody Departman request) {
 
 		Optional<Departman> dept = repoDepartmani.findById(request.getDepartmanId());
@@ -56,8 +56,8 @@ public class AdminRestDepartman {
 		return new ResponseEntity<String>("Departman uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/departmani/updateDepartman", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> updateDepartman(@Valid @RequestBody Departman request) {
+	@RequestMapping(value = "/departmani/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<String> putDepartman(@Valid @RequestBody Departman request) {
 
 		Optional<Departman> dept = repoDepartmani.findById(request.getDepartmanId());
 		if (!dept.isPresent()) {
@@ -69,7 +69,7 @@ public class AdminRestDepartman {
 		return new ResponseEntity<String>("Departman uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/departmani/deleteDepartman", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/departmani/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteDepartman(@Valid @RequestBody Departman request) {
 
 		Optional<Departman> dept = repoDepartmani.findById(request.getDepartmanId());

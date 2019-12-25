@@ -35,7 +35,7 @@ public class AdminRestKorisnik {
 		return new ResponseEntity<List<Korisnik>>(kor, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/korisnik/addKorisnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/korisnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addKorisnik(@Valid @RequestBody Korisnik request) {
 
 		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());
@@ -48,8 +48,8 @@ public class AdminRestKorisnik {
 		return new ResponseEntity<String>("Korisnik uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/korisnik/updateKorisnik", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> updateKorisnik(@Valid @RequestBody Korisnik request) {
+	@RequestMapping(value = "/korisnik/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<String> putKorisnik(@Valid @RequestBody Korisnik request) {
 
 		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());
 		if (!kor.isPresent()) {
@@ -61,7 +61,7 @@ public class AdminRestKorisnik {
 		return new ResponseEntity<String>("Korisnik uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/korisnik/deleteKorisnik", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/korisnik/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteKorisnik(@Valid @RequestBody Korisnik request) {
 
 		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());

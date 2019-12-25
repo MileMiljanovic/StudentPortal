@@ -45,7 +45,7 @@ public class AdminRestPredmetiStr {
 		return new ResponseEntity<AdminPredmetSResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/predStrani/addPredStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/predStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addPredStrani(@Valid @RequestBody PredmetStrani request) {
 
 		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());
@@ -58,8 +58,8 @@ public class AdminRestPredmetiStr {
 		return new ResponseEntity<String>("Predmet (strani) uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/predStrani/updatePredStrani", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> updatePredStrani(@Valid @RequestBody PredmetStrani request) {
+	@RequestMapping(value = "/predStrani/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<String> putPredStrani(@Valid @RequestBody PredmetStrani request) {
 
 		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());
 		if (!predStr.isPresent()) {
@@ -71,7 +71,7 @@ public class AdminRestPredmetiStr {
 		return new ResponseEntity<String>("Predmet (strani) uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/predStrani/deletePredStrani", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/predStrani/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deletePredStrani(@Valid @RequestBody PredmetStrani request) {
 
 		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());

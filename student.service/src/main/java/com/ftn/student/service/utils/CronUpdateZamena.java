@@ -40,7 +40,7 @@ public class CronUpdateZamena {
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 		Calendar cal = Calendar.getInstance();
 	    cal.setTimeInMillis(now.getTime());
-	    cal.add(Calendar.DAY_OF_MONTH, -1);
+	    cal.add(Calendar.DAY_OF_MONTH, -3);
 	    Timestamp dayAgo = new Timestamp(cal.getTime().getTime());
 	    
 		for (Formular f: formulari) {

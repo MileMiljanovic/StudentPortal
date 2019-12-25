@@ -39,7 +39,7 @@ import com.ftn.student.service.rest.responses.ConfirmProgramResponse;
 import com.ftn.student.service.rest.responses.StudentLoginResponse;
 
 @RestController
-public class StudentRest {
+public class PodlogaController {
 	
 	@Autowired
 	private StudentRepository repoStudent;
@@ -65,31 +65,44 @@ public class StudentRest {
 	@Autowired
 	private KieSession kieSession;
 	
-	private final Logger log = LoggerFactory.getLogger(StudentRest.class);
+	private final Logger log = LoggerFactory.getLogger(PodlogaController.class);
 	
 	@RequestMapping(value = "/studentLogin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<StudentLoginResponse> studentLogin(@Valid @RequestBody StudentLoginRequest request) {
+	public @ResponseBody ResponseEntity<Student> studentLogin(@Valid @RequestBody StudentLoginRequest request) {
 
 		Optional<Student> st = repoStudent.findById(request.getBrIndeksa());
 		if (!st.isPresent()) {
-			return new ResponseEntity<StudentLoginResponse>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Student>(HttpStatus.NOT_FOUND);
 		}
 		Student s = st.get();
-		List<StudijskiProgramStrani> programi = repoStrani.findAll();
-		List<Formular> f = repoFormular.findByStudent(s);
+		
+		log.info("Student login successful!");
+		return new ResponseEntity<Student>(s, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/api/podloga", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<StudentLoginResponse> initFormular(@Valid @RequestBody Student request) {
+			
+		List<Formular> f = repoFormular.findByStudent(request);
 		if (!f.isEmpty()) {
-			StudentLoginResponse resp = new StudentLoginResponse(s, programi, f.get(0));
+			StudentLoginResponse resp = new StudentLoginResponse(request, null, f.get(0));
 			log.info("Student already has a formular!");
 			return new ResponseEntity<StudentLoginResponse>(resp, HttpStatus.ALREADY_REPORTED);
 		}
-		
-		StudentLoginResponse response = new StudentLoginResponse(s, programi, null);
-		log.info("Student login successful!");
+		List<StudijskiProgramStrani> programi = repoStrani.findAll();
+		StudentLoginResponse response = new StudentLoginResponse(request, programi, null);
+		log.info("Formular creation started!");
 		return new ResponseEntity<StudentLoginResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/api/student/confirmProgram", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/podloga/straniProgram", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<ConfirmProgramResponse> confirmProgram(@Valid @RequestBody ConfirmProgramRequest request) {
+		
+		List<Formular> fs = repoFormular.findByStudent(request.getStudent());
+		if (!fs.isEmpty()) {
+			log.info("Student already has a formular!");
+			return new ResponseEntity<ConfirmProgramResponse>(HttpStatus.ALREADY_REPORTED);
+		}
 		
 		List<PredmetDomaci> domaci = repoPredmetDomaci.findByProgram(request.getStudent().getStudije());
 		List<PredmetStrani> strani = repoPredmetStrani.findByProgramStrani(request.getProgramStrani());
@@ -102,8 +115,18 @@ public class StudentRest {
 		return new ResponseEntity<ConfirmProgramResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/api/student/confirmProgram/submitForm", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/podloga/{id}/zamene", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> submitForm(@Valid @RequestBody SubmitFormRequest request) {
+		
+		List<Formular> fs = repoFormular.findByStudent(request.getStudent());
+		if (!fs.isEmpty()) {
+			log.info("Student already has a formular!");
+			return new ResponseEntity<String>(HttpStatus.ALREADY_REPORTED);
+		}
+		
+		//ToDo: formular rules
+		kieSession.insert(request);
+		kieSession.fireAllRules(); 
 		
 		for (Zamena z: request.getZamene()) {
 			UUID uuid = UUID.randomUUID();
@@ -111,15 +134,11 @@ public class StudentRest {
 			repoZamena.save(z);
 		}	
 		
-		//ToDo: formular rules
-		kieSession.insert(request);
-		kieSession.fireAllRules(); 
-		
 		log.info("Formular successfully submitted!");
 		return new ResponseEntity<String>("Formular uspesno prosledjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/api/student/confirmProgram/cancelForm", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/podloga/{id}/cancelForm", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> cancelForm(@Valid @RequestBody CancelFormRequest request) {
 
 		Optional<Formular> fr = repoFormular.findById(request.getFormularId());

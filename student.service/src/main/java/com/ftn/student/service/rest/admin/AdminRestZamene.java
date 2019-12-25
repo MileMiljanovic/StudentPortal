@@ -44,7 +44,7 @@ public class AdminRestZamene {
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestZamene.class);
 	
-	@RequestMapping(value = "/zamene", method = RequestMethod.GET)
+	@RequestMapping(value = "/zamena", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<AdminZamenaResponse> zamene() {
 
 		List<Zamena> zam = repoZ.findAll();
@@ -57,7 +57,7 @@ public class AdminRestZamene {
 		return new ResponseEntity<AdminZamenaResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/zamene/addZamena", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/zamena", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addZamena(@Valid @RequestBody Zamena request) {
 
 		Optional<Zamena> zam = repoZ.findById(request.getIdzamena());
@@ -70,8 +70,8 @@ public class AdminRestZamene {
 		return new ResponseEntity<String>("Zamena uspesno dodata!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/zamene/updateZamena", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> updateZamena(@Valid @RequestBody Zamena request) {
+	@RequestMapping(value = "/zamena/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<String> putZamena(@Valid @RequestBody Zamena request) {
 
 		Optional<Zamena> zam = repoZ.findById(request.getIdzamena());
 		if (!zam.isPresent()) {
@@ -83,7 +83,7 @@ public class AdminRestZamene {
 		return new ResponseEntity<String>("Zamena uspesno izmenjena!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/zamene/deleteZamena", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/zamena/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteZamena(@Valid @RequestBody Zamena request) {
 
 		Optional<Zamena> zam = repoZ.findById(request.getIdzamena());

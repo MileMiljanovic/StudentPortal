@@ -44,7 +44,7 @@ public class AdminRestStudenti {
 		return new ResponseEntity<AdminStudentResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/student/addStudent", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/student", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addStudent(@Valid @RequestBody Student request) {
 
 		Optional<Student> stud = repoStudent.findById(request.getBrindeksa());
@@ -57,8 +57,8 @@ public class AdminRestStudenti {
 		return new ResponseEntity<String>("Student uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/student/updateStudent", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> updateStudent(@Valid @RequestBody Student request) {
+	@RequestMapping(value = "/student/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<String> putStudent(@Valid @RequestBody Student request) {
 
 		Optional<Student> stud = repoStudent.findById(request.getBrindeksa());
 		if (!stud.isPresent()) {
@@ -70,7 +70,7 @@ public class AdminRestStudenti {
 		return new ResponseEntity<String>("Student uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/student/deleteStudent", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/student/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteStudent(@Valid @RequestBody Student request) {
 
 		Optional<Student> stud = repoStudent.findById(request.getBrindeksa());

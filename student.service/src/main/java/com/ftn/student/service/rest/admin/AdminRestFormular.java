@@ -49,7 +49,7 @@ public class AdminRestFormular {
 		return new ResponseEntity<AdminFormularResponse>(response, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/formular/addFormular", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/formular", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addFormular(@Valid @RequestBody Formular request) {
 
 		Optional<Formular> form = repoFormular.findById(request.getIdformular());
@@ -62,8 +62,8 @@ public class AdminRestFormular {
 		return new ResponseEntity<String>("Formular uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/formular/updateFormular", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> updateFormular(@Valid @RequestBody Formular request) {
+	@RequestMapping(value = "/formular/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<String> putFormular(@Valid @RequestBody Formular request) {
 
 		Optional<Formular> form = repoFormular.findById(request.getIdformular());
 		if (!form.isPresent()) {
@@ -75,7 +75,7 @@ public class AdminRestFormular {
 		return new ResponseEntity<String>("Formular uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/formular/deleteFormular", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/formular/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteFormular(@Valid @RequestBody Formular request) {
 
 		Optional<Formular> form = repoFormular.findById(request.getIdformular());

@@ -36,7 +36,7 @@ public class AdminRestNastavnik {
 		return new ResponseEntity<List<Nastavnik>>(nas, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/nastavnik/addNastavnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/nastavnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> addNastavnik(@Valid @RequestBody Nastavnik request) {
 
 		Optional<Nastavnik> nas = repoNastavnici.findById(request.getNastavnikid());
@@ -49,8 +49,8 @@ public class AdminRestNastavnik {
 		return new ResponseEntity<String>("Nastavnik uspesno dodat!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/nastavnik/updateNastavnik", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> updateNastavnik(@Valid @RequestBody Nastavnik request) {
+	@RequestMapping(value = "/nastavnik/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<String> putNastavnik(@Valid @RequestBody Nastavnik request) {
 
 		Optional<Nastavnik> nas = repoNastavnici.findById(request.getNastavnikid());
 		if (!nas.isPresent()) {
@@ -62,7 +62,7 @@ public class AdminRestNastavnik {
 		return new ResponseEntity<String>("Nastavnik uspesno izmenjen!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/nastavnik/deleteNastavnik", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/nastavnik/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> deleteNastavnik(@Valid @RequestBody Nastavnik request) {
 
 		Optional<Nastavnik> nas = repoNastavnici.findById(request.getNastavnikid());
