@@ -67,7 +67,7 @@ public class PodlogaController {
 	
 	private final Logger log = LoggerFactory.getLogger(PodlogaController.class);
 	
-	@RequestMapping(value = "/studentLogin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/indexValidation", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Student> studentLogin(@Valid @RequestBody StudentLoginRequest request) {
 
 		Optional<Student> st = repoStudent.findById(request.getBrIndeksa());
