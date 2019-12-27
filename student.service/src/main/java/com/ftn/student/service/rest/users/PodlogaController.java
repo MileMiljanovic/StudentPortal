@@ -1,10 +1,12 @@
 package com.ftn.student.service.rest.users;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import javax.validation.Valid;
+import org.drools.core.ClassObjectFilter;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -98,17 +101,11 @@ public class PodlogaController {
 	@RequestMapping(value = "/api/podloga/straniProgram", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<ConfirmProgramResponse> confirmProgram(@Valid @RequestBody ConfirmProgramRequest request) {
 		
-		List<Formular> fs = repoFormular.findByStudent(request.getStudent());
-		if (!fs.isEmpty()) {
-			log.info("Student already has a formular!");
-			return new ResponseEntity<ConfirmProgramResponse>(HttpStatus.ALREADY_REPORTED);
-		}
-		
 		List<PredmetDomaci> domaci = repoPredmetDomaci.findByProgram(request.getStudent().getStudije());
 		List<PredmetStrani> strani = repoPredmetStrani.findByProgramStrani(request.getProgramStrani());
 		Sequence s = new Sequence(null);
 		repoSequence.save(s);
-		Formular f = new Formular("F" + s.getCounter().toString(), request.getStudent(), request.getProgramStrani(), null, null, new Timestamp(System.currentTimeMillis()), null);
+		Formular f = new Formular("F" + s.getCounter().toString(), request.getStudent(), request.getProgramStrani(), null, null, new Timestamp(System.currentTimeMillis()), null, false);
 		repoFormular.save(f);
 		ConfirmProgramResponse response = new ConfirmProgramResponse(request.getStudent(), request.getProgramStrani(), domaci, strani, f.getIdformular());
 		log.info("Foreign program successfully chosen!");
@@ -116,26 +113,48 @@ public class PodlogaController {
 	}
 	
 	@RequestMapping(value = "/api/podloga/{id}/zamene", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> submitForm(@Valid @RequestBody SubmitFormRequest request) {
+	public @ResponseBody ResponseEntity<String> submitForm(@PathVariable String id, @Valid @RequestBody SubmitFormRequest request) {
 		
-		List<Formular> fs = repoFormular.findByStudent(request.getStudent());
-		if (!fs.isEmpty()) {
-			log.info("Student already has a formular!");
-			return new ResponseEntity<String>(HttpStatus.ALREADY_REPORTED);
+		Optional<Formular> fr = repoFormular.findById(id);
+		
+		if (!fr.isPresent()) {
+			log.error("Formular not found!");
+			return new ResponseEntity<String>("Greska! Formular nije pronadjen!", HttpStatus.NOT_FOUND);
 		}
 		
-		//ToDo: formular rules
 		kieSession.insert(request);
+		kieSession.insert(fr.get());
+		
+		kieSession.getAgenda().getAgendaGroup("valid").setFocus();		
 		kieSession.fireAllRules(); 
 		
-		for (Zamena z: request.getZamene()) {
-			UUID uuid = UUID.randomUUID();
-			z.setToken(uuid.toString());
-			repoZamena.save(z);
-		}	
+		@SuppressWarnings("unchecked")
+		Collection<Formular> formular = (Collection<Formular>) kieSession.getObjects(new ClassObjectFilter(Formular.class));
 		
-		log.info("Formular successfully submitted!");
-		return new ResponseEntity<String>("Formular uspesno prosledjen!", HttpStatus.OK);
+		Formular f = formular.iterator().next();
+
+		if (f.isValid()) {
+			
+			log.info("Formular valid and successfully submitted!");
+			
+			for (Zamena z: request.getZamene()) {
+				UUID uuid = UUID.randomUUID();
+				z.setToken(uuid.toString());
+				repoZamena.save(z);
+			}	
+			
+			kieSession.getAgenda().getAgendaGroup("clear").setFocus();		
+			kieSession.fireAllRules(); 
+			return new ResponseEntity<String>("Formular validan i uspesno prosledjen!", HttpStatus.OK);
+		}
+		else {
+			
+			log.error("Formular is not valid!");
+			kieSession.getAgenda().getAgendaGroup("clear").setFocus();		
+			kieSession.fireAllRules(); 
+			return new ResponseEntity<String>("Greska! Formular nije validan! Proverite ESPB bodove.", HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	
 	@RequestMapping(value = "/api/podloga/{id}/cancelForm", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)

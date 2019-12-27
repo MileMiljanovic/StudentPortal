@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity(name = "formulari")
 @Table(name = "formulari")
@@ -40,11 +41,14 @@ public class Formular {
 	
 	@OneToMany(mappedBy="formular", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Zamena> zamene;
+	
+	@Transient
+	private boolean valid;
 
 	public Formular() {}
 
 	public Formular(String idformular, Student student, StudijskiProgramStrani programStrani, String odobrenjeSef,
-			String odobrenjeKoord, Timestamp datum, List<Zamena> zamene) {
+			String odobrenjeKoord, Timestamp datum, List<Zamena> zamene, boolean valid) {
 		this.idformular = idformular;
 		this.student = student;
 		this.programStrani = programStrani;
@@ -52,6 +56,7 @@ public class Formular {
 		this.odobrenjeKoord = odobrenjeKoord;
 		this.datum = datum;
 		this.zamene = zamene;
+		this.valid = valid;
 	}
 
 	public String getIdformular() {
@@ -110,4 +115,11 @@ public class Formular {
 		this.zamene = zamene;
 	}
 
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
 }

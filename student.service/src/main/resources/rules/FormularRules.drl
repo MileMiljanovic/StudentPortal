@@ -1,11 +1,35 @@
 package com.ftn.student.service.rules
 
-import com.ftn.student.service.rest.requests.SubmitFormRequest
+import com.ftn.student.service.rest.requests.SubmitFormRequest;
+import com.ftn.student.service.models.Zamena;
+import com.ftn.student.service.models.Formular;
+import java.util.List;
 
-rule "Test"
+rule "ESPB validity"
+agenda-group "valid"
 	when
-		sfr: SubmitFormRequest()
+		$sfr: SubmitFormRequest( $zamene: zamene )
+		$f: Formular ()
+		$zl: List( size == $zamene.size() ) from accumulate (
+			$z: Zamena(predmetDomaci.espb >= predmetStrani.espb) from $zamene,
+			collectList($z)
+		)
+		$totalEspb : Number( intValue > 10 ) from accumulate (
+        	Zamena($espb: predmetStrani.espb) from $zamene,
+        	sum( $espb ) 
+        )
 	then
-		System.out.println(sfr.getStudent().getBrindeksa());
-	
+		modify ($f) { setValid(true) }
+		System.out.println("ZAMENE VALIDNE! UKUPNO BODOVA: " + $totalEspb);
+end
+
+rule "Clear"
+agenda-group "clear"
+	when
+		$sfr: SubmitFormRequest( )
+		$f: Formular ()
+	then
+		retract ($sfr)
+		retract ($f)
+		System.out.println("RETRACTED!");
 end
