@@ -8,18 +8,16 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity(name = "korisnici")
+@Entity(name = "korisniciAdm")
 @Table(name = "korisnici")
-public class Korisnik {
+public class KorisnikAdm {
 
 	@Id
 	@Column(name = "username")
 	private String username;
 	
 	@Column(name = "password")
-	@JsonIgnore
 	private String password;
 	
 	@Column(name = "ime")
@@ -38,10 +36,10 @@ public class Korisnik {
 	@Column(name = "uloga")
 	private Uloga uloga;
 
-	public Korisnik() {
+	public KorisnikAdm() {
 	}
 
-	public Korisnik(String username, String password, String ime, String prezime, String jmbg, Date datumrodjenja,
+	public KorisnikAdm(String username, String password, String ime, String prezime, String jmbg, Date datumrodjenja,
 			Uloga uloga) {
 		super();
 		this.username = username;

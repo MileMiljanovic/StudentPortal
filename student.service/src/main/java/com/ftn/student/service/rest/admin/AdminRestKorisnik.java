@@ -2,9 +2,7 @@ package com.ftn.student.service.rest.admin;
 
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,29 +14,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.ftn.student.service.models.Korisnik;
-import com.ftn.student.service.repository.KorisniciRepository;
+import com.ftn.student.service.models.KorisnikAdm;
+import com.ftn.student.service.repository.KorisniciAdmRepository;
 
 @RestController
 public class AdminRestKorisnik {
 	
 	@Autowired
-	private KorisniciRepository repoKorisnici;
+	private KorisniciAdmRepository repoKorisnici;
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestKorisnik.class);
 	
 	@RequestMapping(value = "/korisnik", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<Korisnik>> korisnici() {
+	public @ResponseBody ResponseEntity<List<KorisnikAdm>> korisnici() {
 
-		List<Korisnik> kor = repoKorisnici.findAll();
+		List<KorisnikAdm> kor = repoKorisnici.findAll();
 		
-		return new ResponseEntity<List<Korisnik>>(kor, HttpStatus.OK);
+		return new ResponseEntity<List<KorisnikAdm>>(kor, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/korisnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> addKorisnik(@Valid @RequestBody Korisnik request) {
+	public @ResponseBody ResponseEntity<String> addKorisnik(@Valid @RequestBody KorisnikAdm request) {
 
-		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());
+		Optional<KorisnikAdm> kor = repoKorisnici.findById(request.getUsername());
 		if (kor.isPresent()) {
 			log.error("User already exists!");
 			return new ResponseEntity<String>("Korisnik vec postoji!", HttpStatus.BAD_REQUEST);
@@ -49,9 +47,9 @@ public class AdminRestKorisnik {
 	}
 	
 	@RequestMapping(value = "/korisnik/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> putKorisnik(@Valid @RequestBody Korisnik request) {
+	public @ResponseBody ResponseEntity<String> putKorisnik(@Valid @RequestBody KorisnikAdm request) {
 
-		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());
+		Optional<KorisnikAdm> kor = repoKorisnici.findById(request.getUsername());
 		if (!kor.isPresent()) {
 			log.error("User does not exist!");
 			return new ResponseEntity<String>("Korisnik ne postoji!", HttpStatus.BAD_REQUEST);
@@ -62,9 +60,9 @@ public class AdminRestKorisnik {
 	}
 	
 	@RequestMapping(value = "/korisnik/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> deleteKorisnik(@Valid @RequestBody Korisnik request) {
+	public @ResponseBody ResponseEntity<String> deleteKorisnik(@Valid @RequestBody KorisnikAdm request) {
 
-		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());
+		Optional<KorisnikAdm> kor = repoKorisnici.findById(request.getUsername());
 		if (!kor.isPresent()) {
 			log.error("User does not exist!");
 			return new ResponseEntity<String>("Korisnik ne postoji!", HttpStatus.BAD_REQUEST);
