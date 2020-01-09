@@ -105,9 +105,7 @@ public class PodlogaController {
 		List<PredmetStrani> strani = repoPredmetStrani.findByProgramStrani(request.getProgramStrani());
 		Sequence s = new Sequence(null);
 		repoSequence.save(s);
-		Formular f = new Formular("F" + s.getCounter().toString(), request.getStudent(), request.getProgramStrani(), null, null, new Timestamp(System.currentTimeMillis()), null, false);
-		repoFormular.save(f);
-		ConfirmProgramResponse response = new ConfirmProgramResponse(request.getStudent(), request.getProgramStrani(), domaci, strani, f.getIdformular());
+		ConfirmProgramResponse response = new ConfirmProgramResponse(request.getStudent(), request.getProgramStrani(), domaci, strani, "F" + s.getCounter().toString());
 		log.info("Foreign program successfully chosen!");
 		return new ResponseEntity<ConfirmProgramResponse>(response, HttpStatus.OK);
 	}
@@ -115,15 +113,10 @@ public class PodlogaController {
 	@RequestMapping(value = "/api/podloga/{id}/zamene", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> submitForm(@PathVariable String id, @Valid @RequestBody SubmitFormRequest request) {
 		
-		Optional<Formular> fr = repoFormular.findById(id);
-		
-		if (!fr.isPresent()) {
-			log.error("Formular not found!");
-			return new ResponseEntity<String>("Greska! Formular nije pronadjen!", HttpStatus.NOT_FOUND);
-		}
+		Formular fr = new Formular(id, request.getStudent(), request.getProgramStrani(), null, null, new Timestamp(System.currentTimeMillis()), null, false);
 		
 		kieSession.insert(request);
-		kieSession.insert(fr.get());
+		kieSession.insert(fr);
 		
 		kieSession.getAgenda().getAgendaGroup("valid").setFocus();		
 		kieSession.fireAllRules(); 
@@ -136,6 +129,8 @@ public class PodlogaController {
 		if (f.isValid()) {
 			
 			log.info("Formular valid and successfully submitted!");
+			
+			repoFormular.save(f);
 			
 			for (Zamena z: request.getZamene()) {
 				UUID uuid = UUID.randomUUID();
