@@ -1,0 +1,142 @@
+http://localhost:8080/api/podloga/F14/zamene
+
+{
+    "student": {
+        "brindeksa": "AR27/2014",
+        "ime": "Mirko",
+        "prezime": "Mirkovic",
+        "jmbg": "1201993800015",
+        "datumrodjenja": "1993-01-12",
+        "email": "mirkomirkovic123@gmail.com",
+        "studije": {
+            "naziv": "Arhitektura",
+            "departman": {
+                "departmanId": "Departman za arhitekturu",
+                "koordinator": {
+                    "username": "fmarjanovic",
+                    "password": "fmarjanovic",
+                    "ime": "Filip",
+                    "prezime": "Marjanovic",
+                    "jmbg": "0508970800011",
+                    "datumrodjenja": "1970-08-05",
+                    "uloga": "KOORDINATOR"
+                }
+            },
+            "sef": {
+                "username": "dgajic",
+                "password": "dgajic",
+                "ime": "Djordje",
+                "prezime": "Gajic",
+                "jmbg": "0911974800011",
+                "datumrodjenja": "1974-11-09",
+                "uloga": "SEF"
+            }
+        }
+    },
+    "programStrani": {
+        "naziv": "Arhitektonski dizajn"
+    },
+    "zamene": [
+    	 {
+        "idzamena": "F14-121",
+        "formular": "F14",
+        "predmetDomaci": {
+        	"predmetId": "D-ARH-MAT",
+            "naziv": "Matematika",
+            "program": {
+                "naziv": "Arhitektura",
+                "departman": {
+                    "departmanId": "Departman za arhitekturu",
+                    "koordinator": {
+                        "username": "fmarjanovic",
+                        "password": "fmarjanovic",
+                        "ime": "Filip",
+                        "prezime": "Marjanovic",
+                        "jmbg": "0508970800011",
+                        "datumrodjenja": "1970-08-05",
+                        "uloga": "KOORDINATOR"
+                    }
+                },
+                "sef": {
+                    "username": "dgajic",
+                    "password": "dgajic",
+                    "ime": "Djordje",
+                    "prezime": "Gajic",
+                    "jmbg": "0911974800011",
+                    "datumrodjenja": "1974-11-09",
+                    "uloga": "SEF"
+                }
+            },
+            "espb": 7,
+            "nastavnik": {
+                "nastavnikid": "N9912478",
+                "ime": "Goran",
+                "prezime": "Jeftic",
+                "jmbg": "1511960800177",
+                "datumrodjenja": "1960-11-15",
+                "email": "goranjeftic123@gmail.com"
+            }
+        },
+        "predmetStrani": {
+        	"predmetId": "S-AD-MA",
+            "naziv": "Matematika u arhitekturi",
+            "program": {
+                "naziv": "Arhitektonski dizajn"
+            },
+            "espb": 5
+        },
+        "odobreno": null
+    },
+    {
+        "idzamena": "F14-5165",
+        "formular": "F14",
+        "predmetDomaci": {
+        	"predmetId": "D-ARH-AT",
+            "naziv": "Arhitektonske tehnologije",
+            "program": {
+                "naziv": "Arhitektura",
+                "departman": {
+                    "departmanId": "Departman za arhitekturu",
+                    "koordinator": {
+                        "username": "fmarjanovic",
+                        "password": "fmarjanovic",
+                        "ime": "Filip",
+                        "prezime": "Marjanovic",
+                        "jmbg": "0508970800011",
+                        "datumrodjenja": "1970-08-05",
+                        "uloga": "KOORDINATOR"
+                    }
+                },
+                "sef": {
+                    "username": "dgajic",
+                    "password": "dgajic",
+                    "ime": "Djordje",
+                    "prezime": "Gajic",
+                    "jmbg": "0911974800011",
+                    "datumrodjenja": "1974-11-09",
+                    "uloga": "SEF"
+                }
+            },
+            "espb": 8,
+            "nastavnik": {
+                "nastavnikid": "N5534953",
+                "ime": "Dejan",
+                "prezime": "Novakovic",
+                "jmbg": "3012970800177",
+                "datumrodjenja": "1970-12-30",
+                "email": "dejannovakovic123@gmail.com"
+            }
+        },
+        "predmetStrani": {
+        	"predmetId": "S-AD-AA",
+            "naziv": "Arhitektonska analiza",
+            "program": {
+                "naziv": "Arhitektonski dizajn"
+            },
+            "espb": 6
+        },
+        "odobreno": null
+    }
+    ]
+    
+}
