@@ -15,6 +15,9 @@ public class SubmitFormRequest {
 	
 	@NotNull(message="Nedostaje strani studijski program")
 	private StudijskiProgramStrani programStrani;
+	
+	@NotNull(message="Nedostaje id formulara")
+	private String formularId;
 
 	@NotNull(message="Nedostaje bar jedna zamena")
 	private List<Zamena> zamene;
@@ -33,6 +36,14 @@ public class SubmitFormRequest {
 
 	public void setProgramStrani(StudijskiProgramStrani programStrani) {
 		this.programStrani = programStrani;
+	}
+	
+	public String getFormularId() {
+		return formularId;
+	}
+
+	public void setFormularId(String formularId) {
+		this.formularId = formularId;
 	}
 
 	public List<Zamena> getZamene() {

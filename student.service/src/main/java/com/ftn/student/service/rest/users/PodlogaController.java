@@ -113,7 +113,7 @@ public class PodlogaController {
 	@RequestMapping(value = "/api/podloga/{id}/zamene", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<String> submitForm(@PathVariable String id, @Valid @RequestBody SubmitFormRequest request) {
 		
-		Formular fr = new Formular(id, request.getStudent(), request.getProgramStrani(), null, null, new Timestamp(System.currentTimeMillis()), null, false);
+		Formular fr = new Formular(request.getFormularId(), request.getStudent(), request.getProgramStrani(), null, null, new Timestamp(System.currentTimeMillis()), null, false);
 		
 		kieSession.insert(request);
 		kieSession.insert(fr);
