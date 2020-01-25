@@ -22,9 +22,15 @@ export class StudentMainComponent implements OnInit {
   initFormular() {
     this.http.post<any>('http://localhost:8080/api/podloga', this.studentService.student).subscribe(
       (data) => {
-        console.log(data);
-        this.studentService.programiStrani = data.programiStrani;
-        this.router.navigate(['/chooseProgram']);
+        if (data.f) {
+          alert('Već imate aktivan formular!');
+          this.studentService.formular = data.f;
+          console.log(data);
+          this.router.navigate(['/zameneView']);
+        } else {
+          this.studentService.programiStrani = data.programiStrani;
+          this.router.navigate(['/chooseProgram']);
+        }
       },
       (err) => { alert('Neočekivana greška!'); }
     );

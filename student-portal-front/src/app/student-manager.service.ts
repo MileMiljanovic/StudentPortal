@@ -11,6 +11,7 @@ export class StudentManagerService {
   predmetiDomaci = [];
   predmetiStrani = [];
   formularId;
+  formular;
   constructor() { }
 
   /*getStudent() {

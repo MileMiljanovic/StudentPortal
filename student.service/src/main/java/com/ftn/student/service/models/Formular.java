@@ -39,7 +39,7 @@ public class Formular {
 	private String odobrenjeKoord;
 	
 	@Column(name = "datum")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, timezone="CET", pattern = "dd-MM-yyyy HH:mm:ss")
 	private Timestamp datum;
 	
 	@OneToMany(mappedBy="formular", fetch = FetchType.EAGER, cascade=CascadeType.ALL)

@@ -1,1 +1,36 @@
-<p>zamena works!</p>
+<p>Formular ID: {{studentService.formularId}}</p>
+<p>Program: {{studentService.izabraniProgram.naziv}}</p>
+
+<p>Zamene:</p> 
+
+<button class="btn btn-success" (click)="addZamena()">Dodaj zamenu</button>
+<table class="table">
+    <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Domaći predmet</th>
+          <th scope="col">Strani predmet</th>
+          <!--<th scope="col">Potvrdi</th>  -->
+          <th scope="col">Obriši</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let zamena of zamene; let i = index;">
+            <td [(ngModel)]="zamena.idzamena" ngDefaultControl>{{zamena.idzamena}}</td>
+            <td>
+                <select [(ngModel)]="zamena.predmetDomaci">
+                    <option *ngFor="let p of studentService.predmetiDomaci" [ngValue]="p">{{p.naziv}} - {{p.espb}} ESPB</option>
+                </select>
+            </td>
+            <td>
+                <select [(ngModel)]="zamena.predmetStrani">
+                    <option *ngFor="let p of studentService.predmetiStrani" [ngValue]="p">{{p.naziv}} - {{p.espb}} ESPB</option>
+                </select>
+            </td>
+             <!--<td><button class="btn btn-secondary" (click)="confirmZamena(i, zamena.predmetDomaci, zamena.predmetStrani)">Potvrdi zamenu</button></td> -->
+            <td><button class="btn btn-danger" (click)="deleteZamena(i)">Obriši zamenu</button></td>
+        </tr>
+      </tbody>
+</table>
+
+<button class="btn btn-primary" (click)="confirmFormular()">Prosledi formular</button>

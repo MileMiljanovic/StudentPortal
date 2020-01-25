@@ -11,6 +11,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { StudentMainComponent } from './student-main/student-main.component';
 import { ChooseProgramComponent } from './choose-program/choose-program.component';
 import { ZamenaComponent } from './zamena/zamena.component';
+import { ZamenaViewComponent } from './zamena-view/zamena-view.component';
+import { UserIndexComponent } from './user-index/user-index.component';
+import { UserFormularComponent } from './user-formular/user-formular.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { ZamenaComponent } from './zamena/zamena.component';
     StartComponent,
     StudentMainComponent,
     ChooseProgramComponent,
-    ZamenaComponent
+    ZamenaComponent,
+    ZamenaViewComponent,
+    UserIndexComponent,
+    UserFormularComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +37,10 @@ import { ZamenaComponent } from './zamena/zamena.component';
       { path: 'loginPage', component: UserLoginComponent },
       { path: 'studentMainPage', component: StudentMainComponent },
       { path: 'chooseProgram', component: ChooseProgramComponent },
-      { path: 'zamene', component: ZamenaComponent }
+      { path: 'zamene', component: ZamenaComponent },
+      { path: 'zameneView', component: ZamenaViewComponent },
+      { path: 'userIndex', component: UserIndexComponent },
+      { path: 'userFormular', component: UserFormularComponent }
     ]),
     FormsModule,
     ReactiveFormsModule,

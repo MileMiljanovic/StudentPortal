@@ -1,10 +1,10 @@
 package com.ftn.student.service.errorhandling;
 
-public class ErrorResponse {
+public class JsonResponse {
 
 	private String message;
 
-    public ErrorResponse(String message) {
+    public JsonResponse(String message) {
         this.message = message;
     }
 

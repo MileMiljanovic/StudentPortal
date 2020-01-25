@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ftn.student.service.errorhandling.JsonResponse;
 import com.ftn.student.service.models.Formular;
 import com.ftn.student.service.models.PredmetDomaci;
 import com.ftn.student.service.models.PredmetStrani;
@@ -34,7 +36,6 @@ import com.ftn.student.service.repository.SProgramStraniRepository;
 import com.ftn.student.service.repository.SequenceRepository;
 import com.ftn.student.service.repository.StudentRepository;
 import com.ftn.student.service.repository.ZamenaRepository;
-import com.ftn.student.service.rest.requests.CancelFormRequest;
 import com.ftn.student.service.rest.requests.ConfirmProgramRequest;
 import com.ftn.student.service.rest.requests.StudentLoginRequest;
 import com.ftn.student.service.rest.requests.SubmitFormRequest;
@@ -110,7 +111,7 @@ public class PodlogaController {
 	}
 	
 	@RequestMapping(value = "/api/podloga/{id}/zamene", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> submitForm(@PathVariable String id, @Valid @RequestBody SubmitFormRequest request) {
+	public @ResponseBody ResponseEntity<JsonResponse> submitForm(@PathVariable String id, @Valid @RequestBody SubmitFormRequest request) {
 		
 		Formular fr = new Formular(request.getFormularId(), request.getStudent(), request.getProgramStrani(), null, null, new Timestamp(System.currentTimeMillis()), null, false);
 		
@@ -139,32 +140,32 @@ public class PodlogaController {
 			
 			kieSession.getAgenda().getAgendaGroup("clear").setFocus();		
 			kieSession.fireAllRules(); 
-			return new ResponseEntity<String>("Formular validan i uspesno prosledjen!", HttpStatus.OK);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Formular validan i uspesno prosledjen!"), HttpStatus.OK);
 		}
 		else {
 			
 			log.error("Formular is not valid!");
 			kieSession.getAgenda().getAgendaGroup("clear").setFocus();		
 			kieSession.fireAllRules(); 
-			return new ResponseEntity<String>("Greska! Formular nije validan! Proverite ESPB bodove.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Greska! Formular nije validan! Proverite ESPB bodove."), HttpStatus.BAD_REQUEST);
 		}
 		
 	}
 	
-	@RequestMapping(value = "/api/podloga/{id}/cancelForm", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> cancelForm(@Valid @RequestBody CancelFormRequest request) {
+	@RequestMapping(value = "/api/podloga/{id}/cancelForm", method = RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<JsonResponse> cancelForm(@PathVariable String id) {
 
-		Optional<Formular> fr = repoFormular.findById(request.getFormularId());
+		Optional<Formular> fr = repoFormular.findById(id);
 		
 		if (!fr.isPresent()) {
 			log.error("Formular not found!");
-			return new ResponseEntity<String>("Greska! Formular nije pronadjen!", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Greska! Formular nije pronadjen!"), HttpStatus.NOT_FOUND);
 		}
 		
-		Formular f = repoFormular.findById(request.getFormularId()).get();
+		Formular f = repoFormular.findById(id).get();
 		repoFormular.delete(f);
 		log.info("Formular successfully cancelled!");
-		return new ResponseEntity<String>("Formular uspesno obrisan!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Formular uspesno obrisan!"), HttpStatus.OK);
 	}
 
 }

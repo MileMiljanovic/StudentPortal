@@ -25,7 +25,7 @@ public class JsonExceptionHandler {
     public ResponseEntity<Object> handleMessagingException(MessagingException exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorResponse("MessagingException has occured! Cause: "+ exception.getCause() + 
+                .body(new JsonResponse("MessagingException has occured! Cause: "+ exception.getCause() + 
                 		" Message: " + exception.getMessage()));
     }
 	
@@ -34,7 +34,7 @@ public class JsonExceptionHandler {
     public ResponseEntity<Object> handleDocumentException(DocumentException exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorResponse("DocumentException has occured! Cause: "+ exception.getCause() + 
+                .body(new JsonResponse("DocumentException has occured! Cause: "+ exception.getCause() + 
                 		" Message: " + exception.getMessage()));    }
 	
 
@@ -43,7 +43,7 @@ public class JsonExceptionHandler {
     public ResponseEntity<Object> handleIOException(IOException exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorResponse("IOException has occured! Cause: "+ exception.getCause() + 
+                .body(new JsonResponse("IOException has occured! Cause: "+ exception.getCause() + 
                 		" Message: " + exception.getMessage()));    }
 	
 	@ExceptionHandler(RecoverableDataAccessException.class)
@@ -51,7 +51,7 @@ public class JsonExceptionHandler {
     public ResponseEntity<Object> handleRecoverableDataAccessException(RecoverableDataAccessException exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorResponse("RecoverableDataAccessException has occured! Cause: "+ exception.getCause() + 
+                .body(new JsonResponse("RecoverableDataAccessException has occured! Cause: "+ exception.getCause() + 
                 		" Message: " + exception.getMessage()));    }
 	
 	@ExceptionHandler(NonTransientDataAccessException.class)
@@ -59,7 +59,7 @@ public class JsonExceptionHandler {
     public ResponseEntity<Object> handleNonTransientDataAccessException(NonTransientDataAccessException exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorResponse("NonTransientDataAccessException has occured! Cause: "+ exception.getCause() + 
+                .body(new JsonResponse("NonTransientDataAccessException has occured! Cause: "+ exception.getCause() + 
                 		" Message: " + exception.getMessage()));    }
 	
 	@ExceptionHandler(TransientDataAccessException.class)
@@ -67,7 +67,7 @@ public class JsonExceptionHandler {
     public ResponseEntity<Object> handleTransientDataAccessException(TransientDataAccessException exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorResponse("TransientDataAccessException has occured! Cause: "+ exception.getCause() + 
+                .body(new JsonResponse("TransientDataAccessException has occured! Cause: "+ exception.getCause() + 
                 		" Message: " + exception.getMessage()));    }
 	
 	@ExceptionHandler(ScriptException.class)
@@ -75,7 +75,7 @@ public class JsonExceptionHandler {
     public ResponseEntity<Object> handleScriptException(ScriptException exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorResponse("ScriptException has occured! Cause: "+ exception.getCause() + 
+                .body(new JsonResponse("ScriptException has occured! Cause: "+ exception.getCause() + 
                 		" Message: " + exception.getMessage()));    }
 	
 	@ExceptionHandler(Exception.class)
@@ -83,7 +83,7 @@ public class JsonExceptionHandler {
     public ResponseEntity<Object> handleAllErrors(Exception exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorResponse("Generic Exception has occured! Cause: "+ exception.getCause() + 
+                .body(new JsonResponse("Generic Exception has occured! Cause: "+ exception.getCause() + 
                 		" Message: " + exception.getMessage()));    }
 }
 

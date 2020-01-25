@@ -36,6 +36,7 @@ http://localhost:8080/api/podloga/F14/zamene
     "programStrani": {
         "naziv": "Arhitektonski dizajn"
     },
+	"formularId": "F14",
     "zamene": [
     	 {
         "idzamena": "F14-121",
