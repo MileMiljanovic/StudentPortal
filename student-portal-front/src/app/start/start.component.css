@@ -1,0 +1,23 @@
+.main{
+    position:absolute;
+    width:50%;
+    height:30%;
+    top:0;
+      bottom: 0;
+      left: 0;
+      right: 0;	
+      margin: auto;
+    padding:10px;
+}
+.main > div{
+    float:right;
+    margin:10px;
+}
+.d1{
+    width:47%;
+    height:92%;
+    border:1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

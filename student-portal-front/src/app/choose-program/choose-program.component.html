@@ -1,0 +1,6 @@
+<select [(ngModel)]="selectedValue">
+    <option *ngFor="let p of studentService.programiStrani" [ngValue]="p">{{p.naziv}}</option>
+</select>
+
+<button class="btn btn-primary" (click)="confirmProgram()">Potvrdi</button>
+  
