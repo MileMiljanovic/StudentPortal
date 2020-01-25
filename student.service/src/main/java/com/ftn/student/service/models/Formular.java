@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity(name = "formulari")
 @Table(name = "formulari")
 public class Formular {
@@ -37,6 +39,7 @@ public class Formular {
 	private String odobrenjeKoord;
 	
 	@Column(name = "datum")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp datum;
 	
 	@OneToMany(mappedBy="formular", fetch = FetchType.EAGER, cascade=CascadeType.ALL)

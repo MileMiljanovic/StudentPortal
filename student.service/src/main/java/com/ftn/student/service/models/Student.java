@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity(name = "studenti")
 @Table(name = "studenti")
@@ -28,6 +29,7 @@ public class Student {
 	private String jmbg;
 	
 	@Column(name = "datumrodjenja")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date datumrodjenja;
 	
 	@Column(name = "email")

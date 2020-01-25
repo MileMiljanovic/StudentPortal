@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity(name = "korisniciAdm")
 @Table(name = "korisnici")
 public class KorisnikAdm {
@@ -30,6 +32,7 @@ public class KorisnikAdm {
 	private String jmbg;
 	
 	@Column(name = "datumrodjenja")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date datumrodjenja;
 	
 	@Enumerated(EnumType.STRING)

@@ -78,7 +78,6 @@ public class PodlogaController {
 			return new ResponseEntity<Student>(HttpStatus.NOT_FOUND);
 		}
 		Student s = st.get();
-		
 		log.info("Student login successful!");
 		return new ResponseEntity<Student>(s, HttpStatus.OK);
 	}
