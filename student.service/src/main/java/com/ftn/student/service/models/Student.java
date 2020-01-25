@@ -29,7 +29,7 @@ public class Student {
 	private String jmbg;
 	
 	@Column(name = "datumrodjenja")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, timezone="CET", pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date datumrodjenja;
 	
 	@Column(name = "email")
