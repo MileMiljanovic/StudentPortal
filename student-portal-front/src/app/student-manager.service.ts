@@ -13,16 +13,4 @@ export class StudentManagerService {
   formularId;
   formular;
   constructor() { }
-
-  /*getStudent() {
-    return this.student;
-  }
-
-  getProgramiStrani() {
-    return this.programiStrani;
-  }
-
-  getIzabraniProgram() {
-    return this.izabraniProgram;
-  }*/
 }

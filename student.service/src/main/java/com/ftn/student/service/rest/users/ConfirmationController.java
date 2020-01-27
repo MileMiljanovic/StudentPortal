@@ -67,7 +67,7 @@ public class ConfirmationController {
 
 	}
 	
-	@RequestMapping(value = "/api/formulari", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/formulari", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<UserLoginResponse> userLogged(@Valid @RequestBody Korisnik request) { 
 		
 		if (request.getUloga().equals(Uloga.KOORDINATOR)) {
@@ -94,10 +94,10 @@ public class ConfirmationController {
 
 		Formular f = request.getFormularId();
 		f.setOdobrenjeKoord(request.getOdgovor());
-		repoFormular.save(f);
 		for (Zamena z: f.getZamene()) {
 			emailSvc.sendEmailTeacher(z, f);
 		}
+		repoFormular.save(f);
 		log.info("Successfully confirmed a formular! ID: " + f.getIdformular());
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}

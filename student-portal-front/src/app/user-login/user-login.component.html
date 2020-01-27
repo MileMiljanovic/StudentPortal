@@ -1,1 +1,15 @@
-<p>user-login works!</p>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+
+    <div>
+      <label for="username">
+        Korisničko ime:
+      </label>    
+      <input class="form-control" id="username" type="text" formControlName="username" placeholder="Korisničko ime">
+      <label for="password">
+        Lozinka:
+      </label>    
+      <input class="form-control" id="password" type="password" formControlName="password" placeholder="Lozinka">
+    </div>
+    <br>
+    <button class="btn btn-primary" type="submit">Potvrdi</button>
+</form>

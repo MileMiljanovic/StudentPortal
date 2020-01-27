@@ -18,12 +18,11 @@ public class FormularDBUtils {
 		List<Formular> koordFormulari = new ArrayList<Formular>();
 		for (Formular f: sviFormulari) {
 			if (f.getOdobrenjeKoord() == null && 
-					f.getStudent().getStudije().getDepartman().getKoordinator().equals(k)) {
+					f.getStudent().getStudije().getDepartman().getKoordinator().getUsername().equals(k.getUsername())) {
 				koordFormulari.add(f);
 			}
 		}
 		
-		response.setKorisnik(k);
 		response.setFormulari(koordFormulari);
 		
 		return response;
@@ -38,7 +37,7 @@ public class FormularDBUtils {
 		
 		for (Formular f: sviFormulari) {
 			if (f.getOdobrenjeSef() == null && f.getOdobrenjeKoord() != null 
-					&& f.getOdobrenjeKoord().equals("Y") && f.getStudent().getStudije().getSef().equals(k)) {
+					&& f.getOdobrenjeKoord().equals("Y") && f.getStudent().getStudije().getSef().getUsername().equals(k.getUsername())) {
 				List<Zamena> zamene = f.getZamene();
 				boolean sve = true;
 				for(Zamena z: zamene) {
@@ -53,7 +52,6 @@ public class FormularDBUtils {
 			}
 		}
 		
-		response.setKorisnik(k);
 		response.setFormulari(sefFormulari);
 		
 		return response;

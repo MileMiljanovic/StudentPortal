@@ -1,1 +1,43 @@
-<p>user-index works!</p>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#glavna">Glavna</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#formulari">Formulari</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="glavna">
+
+        <h3>Podaci o korisniku</h3>
+        <br>
+        <p>Korisničko ime:    {{userService.user.username}}</p>
+        <p>Ime:    {{userService.user.ime}}</p>
+        <p>Prezime:    {{userService.user.prezime}}</p>
+        <p>Uloga:    {{userService.user.uloga}}</p>
+        <p>Datum rodjenja:    {{userService.user.datumrodjenja}}</p>
+        <p>JMBG:    {{userService.user.jmbg}}</p>
+
+    </div>
+    <div class="tab-pane fade" id="formulari">
+        <app-user-formular></app-user-formular>
+    </div>
+  </div>  
+
+<!--<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-glavna" role="tabpanel" aria-labelledby="glavna">
+        <h3>Podaci o korisniku</h3>
+        <br>
+        <p>Korisničko ime:    {{userService.user.username}}</p>
+        <p>Ime:    {{userService.user.ime}}</p>
+        <p>Prezime:    {{userService.user.prezime}}</p>
+        <p>Uloga:    {{userService.user.uloga}}</p>
+        <p>Datum rodjenja:    {{userService.user.datumrodjenja}}</p>
+        <p>JMBG:    {{userService.user.jmbg}}</p>
+    </div>
+    <div class="tab-pane fade" id="nav-formulari" role="tabpanel" aria-labelledby="formulari">...</div>
+</div>-->
+
+
+

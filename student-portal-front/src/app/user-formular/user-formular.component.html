@@ -1,1 +1,10 @@
-<p>user-formular works!</p>
+<div class="card" style="width: 50%;" *ngFor="let f of userService.formulari">
+    <div class="card-body">
+      <h5 class="card-title">{{f.idformular}}</h5>
+      <p class="card-text">{{f.student.brindeksa}}</p>
+      <p class="card-text">{{f.programStrani.naziv}}</p>
+      <p class="card-text">{{f.datum}}</p>
+      <button class="btn btn-primary" (click)="odgovor(f, 'Y')">Potvrdi</button>&nbsp;&nbsp;&nbsp;
+      <button class="btn btn-danger" (click)="odgovor(f, 'N')">Odbij</button>
+    </div>
+</div>
