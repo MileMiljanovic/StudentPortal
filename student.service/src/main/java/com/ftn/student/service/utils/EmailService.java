@@ -87,8 +87,8 @@ public class EmailService {
     			+ z.getPredmetDomaci().getNaziv() + " na studijskom programu " + f.getStudent().getStudije().getNaziv()
     			+ " sa predmetom " + z.getPredmetStrani().getNaziv() + " na stranom studijskom programu " 
     			+ f.getProgramStrani().getNaziv() + ". Kliknite na link ispod da odobrite zamenu:\n\n" +
-    			"http://localhost:8080/teacherConfirm/" + token + "/" + z.getIdzamena() + "/Y\n\n" + "Kliknite na link ispod da odbijete zamenu:\n\n" 
-    			+ "http://localhost:8080/teacherConfirm/" + token + "/" + z.getIdzamena() + "/N\n\n");
+    			"http://localhost:8080/api/formulari/" + f.getIdformular() + "/zamene/" + z.getIdzamena() + "/" + token + "/Y\n\n" + "Kliknite na link ispod da odbijete zamenu:\n\n" 
+    			+ "http://localhost:8080/api/formulari/" + f.getIdformular() + "/zamene/" + z.getIdzamena() + "/" + token + "/N\n\n");
 
 
     	javaMailSender.send(message);

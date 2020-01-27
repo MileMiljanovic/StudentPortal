@@ -8,8 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity(name = "zamene")
 @Table(name = "zamene")
 public class Zamena {
@@ -33,7 +31,6 @@ public class Zamena {
 	private String odobreno;
 	
 	@Column(name="token", nullable=false)
-	@JsonIgnore
 	private String token;
 
 	public Zamena() {}

@@ -113,7 +113,7 @@ public class ConfirmationController {
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/api/formulari/{formular}/zamene/{zamena}/{uuid}/{odgovor}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/api/formulari/{formular}/zamene/{zamena}/{uuid}/{odgovor}", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> teacherConfirm(@PathVariable String formular, @PathVariable String zamena, 
 			@PathVariable String uuid, @PathVariable String odgovor) {
 		
