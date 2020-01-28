@@ -18,6 +18,14 @@ export class ChooseProgramComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (localStorage.getItem('studentService') != null) {
+      this.studentService = JSON.parse(localStorage.getItem('studentService'));
+      if (!this.studentService.student) {
+        this.router.navigate(['/']);
+      }
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   confirmProgram() {
@@ -38,6 +46,7 @@ export class ChooseProgramComponent implements OnInit {
         this.studentService.predmetiDomaci = data.predmetiDomaci;
         this.studentService.predmetiStrani = data.predmetiStrani;
         this.studentService.formularId = data.formularId;
+        localStorage.setItem('studentService', JSON.stringify(this.studentService));
         this.router.navigate(['/zamene']);
       },
       (err) => { alert('Neočekivana greška!'); }

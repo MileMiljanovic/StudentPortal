@@ -17,6 +17,14 @@ export class StudentMainComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (localStorage.getItem('studentService') != null) {
+      this.studentService = JSON.parse(localStorage.getItem('studentService'));
+      if (!this.studentService.student) {
+        this.router.navigate(['/']);
+      }
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   initFormular() {
@@ -25,10 +33,11 @@ export class StudentMainComponent implements OnInit {
         if (data.f) {
           alert('Već imate aktivan formular!');
           this.studentService.formular = data.f;
-          console.log(data);
+          localStorage.setItem('studentService', JSON.stringify(this.studentService));
           this.router.navigate(['/zameneView']);
         } else {
           this.studentService.programiStrani = data.programiStrani;
+          localStorage.setItem('studentService', JSON.stringify(this.studentService));
           this.router.navigate(['/chooseProgram']);
         }
       },

@@ -23,6 +23,31 @@ export class ZamenaComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (localStorage.getItem('studentService') != null) {
+      this.studentService = JSON.parse(localStorage.getItem('studentService'));
+      if (!this.studentService.student) {
+        this.router.navigate(['/']);
+      }
+    } else {
+      this.router.navigate(['/']);
+    }
+    if (localStorage.getItem('zamene') != null) {
+      this.zamene = JSON.parse(localStorage.getItem('zamene'));
+    }
+    if (localStorage.getItem('counter') != null) {
+      // tslint:disable-next-line: radix
+      this.counter = parseInt(localStorage.getItem('counter'));
+    }
+  }
+
+  changeDomaci(p, i) {
+    this.zamene[i].predmetDomaci = p;
+    localStorage.setItem('zamene', JSON.stringify(this.zamene));
+  }
+
+  changeStrani(p, i) {
+    this.zamene[i].predmetStrani = p;
+    localStorage.setItem('zamene', JSON.stringify(this.zamene));
   }
 
   addZamena() {
@@ -33,24 +58,13 @@ export class ZamenaComponent implements OnInit {
       odobreno: null };
     this.zamene.push(this.newZamena);
     this.counter++;
+    localStorage.setItem('zamene', JSON.stringify(this.zamene));
+    localStorage.setItem('counter', this.counter.toString());
   }
-
-  /*confirmZamena(index, domaci, strani) {
-    if (Object.keys(domaci).length === 0) {
-      alert('Odaberite domaći predmet!');
-      return;
-    }
-    if (Object.keys(strani).length === 0) {
-      alert('Odaberite strani predmet!');
-      return;
-    }
-    this.zamene[index].predmetDomaci = domaci;
-    this.zamene[index].predmetStrani = strani;
-    console.log(this.zamene);
-  }*/
 
   deleteZamena(index) {
     this.zamene.splice(index, 1);
+    localStorage.setItem('zamene', JSON.stringify(this.zamene));
   }
 
   confirmFormular() {
@@ -73,21 +87,31 @@ export class ZamenaComponent implements OnInit {
       }
       for (let j = i + 1; j < this.zamene.length; j++) {
         if (x === this.zamene[j].predmetDomaci) {
-          alert('Postoji duplikat u domaćim predmetima: ' + x.naziv);
+          alert('Postoji duplikat u domaćim predmetima: ' + x);
           return;
         }
         if (y === this.zamene[j].predmetStrani) {
-          alert('Postoji duplikat u stranim predmetima: ' + y.naziv);
+          alert('Postoji duplikat u stranim predmetima: ' + y);
           return;
         }
       }
     }
 
+    const reqZamene = [];
+    this.zamene.forEach( (zam) => {
+      const zamElement = JSON.parse(JSON.stringify(zam));
+      const predmetDom = this.studentService.predmetiDomaci.find(x => x.naziv === zam.predmetDomaci);
+      zamElement.predmetDomaci = predmetDom;
+      const predmetStr = this.studentService.predmetiStrani.find(x => x.naziv === zam.predmetStrani);
+      zamElement.predmetStrani = predmetStr;
+      reqZamene.push(zamElement);
+    });
+
     const request = {
       student: this.studentService.student,
       programStrani: this.studentService.izabraniProgram,
       formularId: this.studentService.formularId,
-      zamene: this.zamene
+      zamene: reqZamene
     };
     console.log(request);
     this.http.post<any>('http://localhost:8080/api/podloga/' + this.studentService.formularId
@@ -100,9 +124,14 @@ export class ZamenaComponent implements OnInit {
         this.studentService.predmetiStrani = [];
         this.studentService.formular = '';
         this.studentService.formularId = '';
+        localStorage.setItem('studentService', JSON.stringify(this.studentService));
+        localStorage.removeItem('zamene');
+        localStorage.removeItem('counter');
         this.router.navigate(['/studentMainPage']);
       },
-      (err) => { alert(err.message); }
+      (err) => {
+        alert(err.message);
+      }
     );
   }
 

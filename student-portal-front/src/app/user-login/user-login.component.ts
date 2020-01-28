@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserManagerService } from '../user-manager.service';
 
+
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
@@ -16,7 +17,7 @@ export class UserLoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private userService: UserManagerService
+    private userService: UserManagerService,
   ) {
     this.loginForm = this.formBuilder.group({
       username: '',
@@ -31,6 +32,7 @@ export class UserLoginComponent implements OnInit {
     this.http.post<any>('http://localhost:8080/userLogin', login).subscribe(
       (data) => {
         this.userService.user = data;
+        localStorage.setItem('userService', JSON.stringify(this.userService));
         this.router.navigate(['/userIndex']);
       },
       (err) => { alert('Neuspešan login!'); }

@@ -1,0 +1,5 @@
+<a [routerLink]="" (click)="homePage()" >
+    <h2>Student Portal</h2>
+</a>
+  
+<button *ngIf="userService.user || studentService.student" type="button" class="btn btn-outline-light" (click)="logout()">Logout</button>

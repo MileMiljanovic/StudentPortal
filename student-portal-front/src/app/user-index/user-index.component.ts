@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { UserManagerService } from '../user-manager.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-index',
@@ -11,12 +10,19 @@ import { UserManagerService } from '../user-manager.service';
 export class UserIndexComponent implements OnInit {
 
   constructor(
-    private http: HttpClient,
+    private userService: UserManagerService,
     private router: Router,
-    private userService: UserManagerService
-  ) { }
+  ) {}
 
   ngOnInit() {
+    if (localStorage.getItem('userService') != null) {
+      this.userService = JSON.parse(localStorage.getItem('userService'));
+      if (!this.userService.user) {
+        this.router.navigate(['/']);
+      }
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
 }

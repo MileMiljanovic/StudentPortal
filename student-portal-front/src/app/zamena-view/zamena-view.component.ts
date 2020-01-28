@@ -17,6 +17,17 @@ export class ZamenaViewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (localStorage.getItem('studentService') != null) {
+      this.studentService = JSON.parse(localStorage.getItem('studentService'));
+      if (!this.studentService.student) {
+        this.router.navigate(['/']);
+      }
+    } else {
+      this.router.navigate(['/']);
+    }
+    if (!this.studentService.formular) {
+      this.router.navigate(['/studentMainPage']);
+    }
   }
 
   cancelFormular() {
@@ -29,6 +40,7 @@ export class ZamenaViewComponent implements OnInit {
         this.studentService.predmetiDomaci = [];
         this.studentService.predmetiStrani = [];
         this.studentService.formular = '';
+        localStorage.setItem('studentService', JSON.stringify(this.studentService));
         this.router.navigate(['/studentMainPage']);
       },
       (err) => { alert(err); }

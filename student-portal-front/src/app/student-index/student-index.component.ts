@@ -30,12 +30,7 @@ export class StudentIndexComponent implements OnInit {
     this.http.post<any>('http://localhost:8080/indexValidation', index).subscribe(
       (data) => {
         this.studentService.student = data;
-        this.studentService.programiStrani = [];
-        this.studentService.izabraniProgram = '';
-        this.studentService.predmetiDomaci = [];
-        this.studentService.predmetiStrani = [];
-        this.studentService.formular = '';
-        this.studentService.formularId = '';
+        localStorage.setItem('studentService', JSON.stringify(this.studentService));
         this.router.navigate(['/studentMainPage']);
       },
       (err) => { alert('Neuspesan login!'); }

@@ -43,7 +43,8 @@ public class EmailService {
     	//helper.setTo(f.getStudent().getEmail());
     	helper.setTo("mile.miljanovic92@gmail.com");
     	helper.setSubject("Izveštaj o zahtevu za studiranje u inostranstvu");
-    	helper.setText("U prilogu se nalazi izveštaj o zahtevu za studiranje u inostranstvu.");
+    	helper.setText("Šef vašeg studijskog programa je odobrio vaš formular. "
+    			+ "U prilogu se nalazi izveštaj o zahtevu za studiranje u inostranstvu.");
 
     	ByteArrayInputStream pdf = pdfGen.formularReport(f);
 
@@ -66,8 +67,6 @@ public class EmailService {
     	log.info("Email successfully sent!");
 
     	file.delete();
-
-
     }
     
     public void sendEmailTeacher(Zamena z, Formular f) throws MessagingException {
@@ -90,11 +89,79 @@ public class EmailService {
     			"http://localhost:8080/api/formulari/" + f.getIdformular() + "/zamene/" + z.getIdzamena() + "/" + token + "/Y\n\n" + "Kliknite na link ispod da odbijete zamenu:\n\n" 
     			+ "http://localhost:8080/api/formulari/" + f.getIdformular() + "/zamene/" + z.getIdzamena() + "/" + token + "/N\n\n");
 
+    	javaMailSender.send(message);
+    	log.info("Email successfully sent!");
+
+    }
+    
+    public void sendEmailStudentConfirm(Formular f) throws MessagingException, IOException, DocumentException {
+
+    	
+    	log.info("Email sending initiated!");
+
+    	MimeMessage message = javaMailSender.createMimeMessage();
+    	MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+    	//helper.setTo(f.getStudent().getEmail());
+    	helper.setTo("mile.miljanovic92@gmail.com");
+    	helper.setSubject("Obaveštenje o statusu formulara");
+    	helper.setText("Poštovani, obaveštavamo vas da je vaš formular sa identifikacionom oznakom " + f.getIdformular()
+    	+ " odbijen od koordinatora departmana. Poslati su mejlovi svim predmetnim profesorima, molimo vas da sačekate njihova odobrenja");
 
     	javaMailSender.send(message);
     	log.info("Email successfully sent!");
 
+    }
+    
+    public void sendEmailStudentReject(Formular f, String role) throws MessagingException, IOException, DocumentException {
 
+    	
+    	log.info("Email sending initiated!");
+
+    	MimeMessage message = javaMailSender.createMimeMessage();
+    	MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    	String roleString = "";
+    	if (role.equals("SEF")) {
+    		roleString += "šefa studijskog programa";
+    	}
+    	else {
+    		roleString += "koordinatora departmana";
+    	}
+
+    	//helper.setTo(f.getStudent().getEmail());
+    	helper.setTo("mile.miljanovic92@gmail.com");
+    	helper.setSubject("Obaveštenje o statusu formulara");
+    	helper.setText("Poštovani, obaveštavamo vas da je vaš formular sa identifikacionom oznakom " + f.getIdformular()
+    	+ " odbijen od strane " + roleString + ". Molimo vas proverite sa službom razlog i izmenite formular.");
+
+    	javaMailSender.send(message);
+    	log.info("Email successfully sent!");
+
+    }
+    
+    public void sendEmailStudentTeacher(Zamena z, String odgovor) throws MessagingException, IOException, DocumentException {
+
+    	
+    	log.info("Email sending initiated!");
+
+    	MimeMessage message = javaMailSender.createMimeMessage();
+    	MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    	String status = "";
+    	if (odgovor.equals("Y")) {
+    		status += " odobrena.";
+    	}
+    	else {
+    		status += " odbijena.";
+    	}
+    	
+    	//helper.setTo(f.getStudent().getEmail());
+    	helper.setTo("mile.miljanovic92@gmail.com");
+    	helper.setSubject("Obaveštenje o statusu zamene");
+    	helper.setText("Poštovani, obaveštavamo vas da je vaša zamena sa identifikacionom oznakom " + z.getIdzamena() + " u formularu "
+    	+ z.getFormular() + status + " Konsultujte se sa vašim predmetnim profesorom ukoliko imate nekih pitanja.");
+
+    	javaMailSender.send(message);
+    	log.info("Email successfully sent!");
 
     }
 

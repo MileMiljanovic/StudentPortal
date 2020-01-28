@@ -14,6 +14,9 @@ import { ZamenaComponent } from './zamena/zamena.component';
 import { ZamenaViewComponent } from './zamena-view/zamena-view.component';
 import { UserIndexComponent } from './user-index/user-index.component';
 import { UserFormularComponent } from './user-formular/user-formular.component';
+import { TopBarComponent } from './top-bar/top-bar.component';
+import { UserManagerService } from './user-manager.service';
+import { StudentManagerService } from './student-manager.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,8 @@ import { UserFormularComponent } from './user-formular/user-formular.component';
     ZamenaComponent,
     ZamenaViewComponent,
     UserIndexComponent,
-    UserFormularComponent
+    UserFormularComponent,
+    TopBarComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,10 @@ import { UserFormularComponent } from './user-formular/user-formular.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    UserManagerService,
+    StudentManagerService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

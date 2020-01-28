@@ -90,12 +90,18 @@ public class ConfirmationController {
 	}
 	
 	@RequestMapping(value = "/api/formulari/{id}/koordinatorConfirm", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> coordinatorConfirm(@PathVariable String id, @Valid @RequestBody ConfirmationRequest request) throws MessagingException {
+	public @ResponseBody ResponseEntity<String> coordinatorConfirm(@PathVariable String id, @Valid @RequestBody ConfirmationRequest request) throws MessagingException, IOException, DocumentException {
 
 		Formular f = request.getFormularId();
 		f.setOdobrenjeKoord(request.getOdgovor());
-		for (Zamena z: f.getZamene()) {
-			emailSvc.sendEmailTeacher(z, f);
+		if (request.getOdgovor().equals("Y")) {
+			for (Zamena z: f.getZamene()) {
+				emailSvc.sendEmailTeacher(z, f);
+			}
+			emailSvc.sendEmailStudentConfirm(f);
+		}
+		else {
+			emailSvc.sendEmailStudentReject(f, "KOORDINATOR");
 		}
 		repoFormular.save(f);
 		log.info("Successfully confirmed a formular! ID: " + f.getIdformular());
@@ -108,14 +114,19 @@ public class ConfirmationController {
 		Formular f = request.getFormularId();
 		f.setOdobrenjeSef(request.getOdgovor());
 		repoFormular.save(f);
-		emailSvc.sendEmailStudent(f);
+		if (request.getOdgovor().equals("Y")) {
+			emailSvc.sendEmailStudent(f);
+		}
+		else {
+			emailSvc.sendEmailStudentReject(f, "SEF");
+		}
 		log.info("Successfully confirmed a formular! ID: " + f.getIdformular());
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/api/formulari/{formular}/zamene/{zamena}/{uuid}/{odgovor}", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> teacherConfirm(@PathVariable String formular, @PathVariable String zamena, 
-			@PathVariable String uuid, @PathVariable String odgovor) {
+			@PathVariable String uuid, @PathVariable String odgovor) throws MessagingException, IOException, DocumentException {
 		
 		Optional<Zamena> z = repoZamena.findById(zamena);
 		
@@ -142,6 +153,7 @@ public class ConfirmationController {
 		}
 		zam.setOdobreno(odgovor);
 		repoZamena.save(zam);
+		emailSvc.sendEmailStudentTeacher(zam, odgovor);
 		log.info("Successfully confirmed a substitute! ID: " + zam.getIdzamena());
 		return new ResponseEntity<String>("Uspesno odobreno!", HttpStatus.OK);
 	}

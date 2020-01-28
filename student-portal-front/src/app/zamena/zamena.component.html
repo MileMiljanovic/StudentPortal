@@ -10,7 +10,6 @@
           <th scope="col">ID</th>
           <th scope="col">Domaći predmet</th>
           <th scope="col">Strani predmet</th>
-          <!--<th scope="col">Potvrdi</th>  -->
           <th scope="col">Obriši</th>
         </tr>
       </thead>
@@ -18,16 +17,15 @@
         <tr *ngFor="let zamena of zamene; let i = index;">
             <td [(ngModel)]="zamena.idzamena" ngDefaultControl>{{zamena.idzamena}}</td>
             <td>
-                <select [(ngModel)]="zamena.predmetDomaci">
-                    <option *ngFor="let p of studentService.predmetiDomaci" [ngValue]="p">{{p.naziv}} - {{p.espb}} ESPB</option>
+                <select [(ngModel)]="zamena.predmetDomaci" (change)="changeDomaci(zamena.predmetDomaci, i)">
+                    <option *ngFor="let p of studentService.predmetiDomaci" value="{{p.naziv}}" [selected]="p.naziv==zamena.predmetDomaci.naziv">{{p.naziv}} - {{p.espb}} ESPB</option>
                 </select>
             </td>
             <td>
-                <select [(ngModel)]="zamena.predmetStrani">
-                    <option *ngFor="let p of studentService.predmetiStrani" [ngValue]="p">{{p.naziv}} - {{p.espb}} ESPB</option>
+                <select [(ngModel)]="zamena.predmetStrani"(change)="changeStrani(zamena.predmetStrani, i)">
+                    <option *ngFor="let p of studentService.predmetiStrani" value="{{p.naziv}}" [selected]="p.naziv==zamena.predmetStrani.naziv">{{p.naziv}} - {{p.espb}} ESPB</option>
                 </select>
             </td>
-             <!--<td><button class="btn btn-secondary" (click)="confirmZamena(i, zamena.predmetDomaci, zamena.predmetStrani)">Potvrdi zamenu</button></td> -->
             <td><button class="btn btn-danger" (click)="deleteZamena(i)">Obriši zamenu</button></td>
         </tr>
       </tbody>
