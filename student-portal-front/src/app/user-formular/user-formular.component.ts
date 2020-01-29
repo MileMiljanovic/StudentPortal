@@ -21,7 +21,6 @@ export class UserFormularComponent implements OnInit {
     this.http.post<any>('http://localhost:8080/api/formulari', usr).subscribe(
       (data) => {
         this.userService.formulari = data.formulari;
-        localStorage.setItem('userService', JSON.stringify(this.userService));
       },
       (err) => { alert('Došlo je do neočekivane greške!'); }
     );
@@ -40,7 +39,6 @@ export class UserFormularComponent implements OnInit {
           const index = this.userService.formulari.indexOf(f, 0);
           if (index > -1) {
             this.userService.formulari.splice(index, 1);
-            localStorage.setItem('userService', JSON.stringify(this.userService));
           }
         },
         (err) => { alert('Došlo je do neočekivane greške!'); }
@@ -52,7 +50,6 @@ export class UserFormularComponent implements OnInit {
           const index = this.userService.formulari.indexOf(f, 0);
           if (index > -1) {
             this.userService.formulari.splice(index, 1);
-            localStorage.setItem('userService', JSON.stringify(this.userService));
           }
         },
         (err) => { alert('Došlo je do neočekivane greške!'); }

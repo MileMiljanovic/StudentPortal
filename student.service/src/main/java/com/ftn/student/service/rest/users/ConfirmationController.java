@@ -47,7 +47,8 @@ public class ConfirmationController {
 	
 	private final Logger log = LoggerFactory.getLogger(ConfirmationController.class);
 	
-	@RequestMapping(value = "/userLogin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Korisnik> userLogin(@Valid @RequestBody UserLoginRequest request) {
 
 		Optional<Korisnik> kor = repoKorisnici.findById(request.getUsername());
@@ -61,10 +62,9 @@ public class ConfirmationController {
 			log.error("Login unsuccessful! Invalid password!");
 			return new ResponseEntity<Korisnik>(HttpStatus.UNAUTHORIZED);
 		}
-		
+
 		log.info("Successfully logged in as: " + request.getUsername());
 		return new ResponseEntity<Korisnik>(k, HttpStatus.OK);	
-
 	}
 	
 	@RequestMapping(value = "/api/formulari", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -2,4 +2,4 @@
     <h2>Student Portal</h2>
 </a>
   
-<button *ngIf="userService.user || studentService.student" type="button" class="btn btn-outline-light" (click)="logout()">Logout</button>
+<button *ngIf="userService.user || studentService.student || adminService.user" type="button" class="btn btn-outline-light" (click)="logout()">Logout</button>

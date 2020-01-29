@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserManagerService } from '../user-manager.service';
+import { AdminManagerService } from '../admin-manager.service';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class UserLoginComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private userService: UserManagerService,
+    private adminService: AdminManagerService
   ) {
     this.loginForm = this.formBuilder.group({
       username: '',
@@ -29,11 +31,17 @@ export class UserLoginComponent implements OnInit {
   }
 
   onSubmit(login) {
-    this.http.post<any>('http://localhost:8080/userLogin', login).subscribe(
+    this.http.post<any>('http://localhost:8080/login', login).subscribe(
       (data) => {
-        this.userService.user = data;
-        localStorage.setItem('userService', JSON.stringify(this.userService));
-        this.router.navigate(['/userIndex']);
+        if (data.uloga === 'ADMIN') {
+          this.adminService.user = data;
+          localStorage.setItem('adminService', JSON.stringify(this.adminService));
+          this.router.navigate(['/adminMain']);
+        } else {
+          this.userService.user = data;
+          localStorage.setItem('userService', JSON.stringify(this.userService));
+          this.router.navigate(['/userIndex']);
+        }
       },
       (err) => { alert('Neuspešan login!'); }
     );

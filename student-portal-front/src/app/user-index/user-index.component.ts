@@ -11,7 +11,7 @@ export class UserIndexComponent implements OnInit {
 
   constructor(
     private userService: UserManagerService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit() {

@@ -17,6 +17,8 @@ import { UserFormularComponent } from './user-formular/user-formular.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { UserManagerService } from './user-manager.service';
 import { StudentManagerService } from './student-manager.service';
+import { AdminMainComponent } from './admin-main/admin-main.component';
+import { AdminManagerService } from './admin-manager.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { StudentManagerService } from './student-manager.service';
     ZamenaViewComponent,
     UserIndexComponent,
     UserFormularComponent,
-    TopBarComponent
+    TopBarComponent,
+    AdminMainComponent
   ],
   imports: [
     BrowserModule,
@@ -44,15 +47,17 @@ import { StudentManagerService } from './student-manager.service';
       { path: 'zamene', component: ZamenaComponent },
       { path: 'zameneView', component: ZamenaViewComponent },
       { path: 'userIndex', component: UserIndexComponent },
-      { path: 'userFormular', component: UserFormularComponent }
+      { path: 'userFormular', component: UserFormularComponent },
+      { path: 'adminMain', component: AdminMainComponent }
     ]),
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
   ],
   providers: [
-    UserManagerService,
-    StudentManagerService
+    /*UserManagerService,
+    StudentManagerService,
+    AdminManagerService*/
   ],
   bootstrap: [AppComponent]
 })

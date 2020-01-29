@@ -1,0 +1,80 @@
+<ul class="nav nav-tabs nav-justified">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#glavna">Glavna</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#departmani">Departmani</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#korisnici">Korisnici</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#nastavnici">Nastavnici</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#studenti">Studenti</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#formulari">Formulari</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#zamene">Zamene</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#predDomaci">Predmeti domaći</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#predStrani">Predmeti strani</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#progDomaci">Programi domaći</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#progStrani">Programi strani</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="glavna">
+
+        <h3>Podaci o korisniku</h3>
+        <br>
+        <p>Korisničko ime:    {{adminService.user.username}}</p>
+        <p>Ime:    {{adminService.user.ime}}</p>
+        <p>Prezime:    {{adminService.user.prezime}}</p>
+        <p>Uloga:    {{adminService.user.uloga}}</p>
+        <p>Datum rodjenja:    {{adminService.user.datumrodjenja}}</p>
+        <p>JMBG:    {{adminService.user.jmbg}}</p>
+
+    </div>
+    <div class="tab-pane fade" id="departmani">
+        <p>OVDE IDU DEPARTMANI</p>
+    </div>
+    <div class="tab-pane fade" id="korisnici">
+        <p>OVDE IDU KORISNICI</p>
+    </div>
+    <div class="tab-pane fade" id="nastavnici">
+        <p>OVDE IDU NASTAVNICI</p>
+    </div>
+    <div class="tab-pane fade" id="studenti">
+        <p>OVDE IDU STUDENTI</p>
+    </div>
+    <div class="tab-pane fade" id="formulari">
+        <p>OVDE IDU FORMULARI</p>
+    </div>
+    <div class="tab-pane fade" id="zamene">
+        <p>OVDE IDU ZAMENE</p>
+    </div>
+    <div class="tab-pane fade" id="predDomaci">
+        <p>OVDE IDU PREDMETI DOMACI</p>
+    </div>
+    <div class="tab-pane fade" id="predStrani">
+        <p>OVDE IDU PREDMETI STRANI</p>
+    </div>
+    <div class="tab-pane fade" id="progDomaci">
+        <p>OVDE IDU PROGRAMI DOMACI</p>
+    </div>
+    <div class="tab-pane fade" id="progStrani">
+        <p>OVDE IDU PROGRAMI STRANI</p>
+    </div>
+  </div>  

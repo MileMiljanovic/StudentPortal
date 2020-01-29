@@ -38,6 +38,12 @@ export class ZamenaComponent implements OnInit {
       // tslint:disable-next-line: radix
       this.counter = parseInt(localStorage.getItem('counter'));
     }
+    if (!this.studentService.izabraniProgram) {
+      this.router.navigate(['/studentMainPage']);
+    }
+    if (!this.studentService.formularId) {
+      this.router.navigate(['/studentMainPage']);
+    }
   }
 
   changeDomaci(p, i) {
@@ -65,6 +71,19 @@ export class ZamenaComponent implements OnInit {
   deleteZamena(index) {
     this.zamene.splice(index, 1);
     localStorage.setItem('zamene', JSON.stringify(this.zamene));
+  }
+
+  cancelFormular() {
+    this.studentService.programiStrani = [];
+    this.studentService.izabraniProgram = '';
+    this.studentService.predmetiDomaci = [];
+    this.studentService.predmetiStrani = [];
+    this.studentService.formular = '';
+    this.studentService.formularId = '';
+    localStorage.setItem('studentService', JSON.stringify(this.studentService));
+    localStorage.removeItem('zamene');
+    localStorage.removeItem('counter');
+    this.router.navigate(['/studentMainPage']);
   }
 
   confirmFormular() {

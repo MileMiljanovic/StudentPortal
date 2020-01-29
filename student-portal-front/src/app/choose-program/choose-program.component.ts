@@ -26,6 +26,9 @@ export class ChooseProgramComponent implements OnInit {
     } else {
       this.router.navigate(['/']);
     }
+    if (this.studentService.programiStrani.length === 0) {
+      this.router.navigate(['/studentMainPage']);
+    }
   }
 
   confirmProgram() {
@@ -47,6 +50,8 @@ export class ChooseProgramComponent implements OnInit {
         this.studentService.predmetiStrani = data.predmetiStrani;
         this.studentService.formularId = data.formularId;
         localStorage.setItem('studentService', JSON.stringify(this.studentService));
+        localStorage.removeItem('zamene');
+        localStorage.removeItem('counter');
         this.router.navigate(['/zamene']);
       },
       (err) => { alert('Neočekivana greška!'); }

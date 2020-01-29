@@ -27,7 +27,9 @@
             <td>{{z.predmetDomaci.espb}}</td>
             <td>{{z.predmetStrani.naziv}}</td>
             <td>{{z.predmetStrani.espb}}</td>
-            <td>{{z.odobreno}}</td>
+            <td *ngIf="z.odobreno=='Y'">ODOBRENO</td>
+            <td *ngIf="z.odobreno=='N'">ODBIJENO</td>
+            <td *ngIf="z.odobreno==null">NEMA ODGOVORA</td>
         </tr>
       </tbody>
 </table>
