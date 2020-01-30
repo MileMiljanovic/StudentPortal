@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ftn.student.service.errorhandling.JsonResponse;
 import com.ftn.student.service.models.StudijskiProgramStrani;
 import com.ftn.student.service.repository.SProgramStraniRepository;
 
@@ -36,42 +39,42 @@ public class AdminRestProgramiStr {
 	}
 	
 	@RequestMapping(value = "/progStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> addProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
+	public @ResponseBody ResponseEntity<JsonResponse> addProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
 
 		Optional<StudijskiProgramStrani> progStr = repoStrani.findById(request.getNaziv());
 		if (progStr.isPresent()) {
 			log.error("Program already exists!");
-			return new ResponseEntity<String>("Program (strani) vec postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Program (strani) vec postoji!"), HttpStatus.BAD_REQUEST);
 		}
 		repoStrani.save(request);
 		log.info("Program successfully inserted!");
-		return new ResponseEntity<String>("Program (strani) uspesno dodat!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Program (strani) uspesno dodat!"), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/progStrani/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> putProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
+	public @ResponseBody ResponseEntity<JsonResponse> putProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
 
 		Optional<StudijskiProgramStrani> progStr = repoStrani.findById(request.getNaziv());
 		if (!progStr.isPresent()) {
 			log.error("Program does not exist!");
-			return new ResponseEntity<String>("Program (strani) ne postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Program (strani) ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
 		repoStrani.save(request);
 		log.info("Program successfully updated!");
-		return new ResponseEntity<String>("Program (strani) uspesno izmenjen!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Program (strani) uspesno izmenjen!"), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/progStrani/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> deleteProgStrani(@Valid @RequestBody StudijskiProgramStrani request) {
+	@RequestMapping(value = "/progStrani/{id}", method = RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<JsonResponse> deleteProgStrani(@PathVariable String id) {
 
-		Optional<StudijskiProgramStrani> progStr = repoStrani.findById(request.getNaziv());
+		Optional<StudijskiProgramStrani> progStr = repoStrani.findById(id);
 		if (!progStr.isPresent()) {
 			log.error("Program does not exist!");
-			return new ResponseEntity<String>("Program (strani) ne postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Program (strani) ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
-		repoStrani.delete(request);
+		repoStrani.delete(progStr.get());
 		log.info("Program successfully deleted!");
-		return new ResponseEntity<String>("Program (strani) uspesno obrisan!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Program (strani) uspesno obrisan!"), HttpStatus.OK);
 	}
 
 }

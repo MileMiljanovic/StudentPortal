@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftn.student.service.errorhandling.JsonResponse;
 import com.ftn.student.service.models.PredmetStrani;
 import com.ftn.student.service.repository.PredmetiStraniRepository;
 
@@ -37,42 +39,42 @@ public class AdminRestPredmetiStr {
 	}
 	
 	@RequestMapping(value = "/predStrani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> addPredStrani(@Valid @RequestBody PredmetStrani request) {
+	public @ResponseBody ResponseEntity<JsonResponse> addPredStrani(@Valid @RequestBody PredmetStrani request) {
 
 		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());
 		if (predStr.isPresent()) {
 			log.error("Subject already exists!");
-			return new ResponseEntity<String>("Predmet (strani) vec postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Predmet (strani) vec postoji!"), HttpStatus.BAD_REQUEST);
 		}
 		repoStrani.save(request);
 		log.info("Subject successfully inserted!");
-		return new ResponseEntity<String>("Predmet (strani) uspesno dodat!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Predmet (strani) uspesno dodat!"), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/predStrani/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> putPredStrani(@Valid @RequestBody PredmetStrani request) {
+	public @ResponseBody ResponseEntity<JsonResponse> putPredStrani(@Valid @RequestBody PredmetStrani request) {
 
 		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());
 		if (!predStr.isPresent()) {
 			log.error("Subject does not exist!");
-			return new ResponseEntity<String>("Predmet (strani) ne postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Predmet (strani) ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
 		repoStrani.save(request);
 		log.info("Subject successfully updated!");
-		return new ResponseEntity<String>("Predmet (strani) uspesno izmenjen!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Predmet (strani) uspesno izmenjen!"), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/predStrani/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> deletePredStrani(@Valid @RequestBody PredmetStrani request) {
+	@RequestMapping(value = "/predStrani/{id}", method = RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<JsonResponse> deletePredStrani(@PathVariable String id) {
 
-		Optional<PredmetStrani> predStr = repoStrani.findById(request.getPredmetId());
+		Optional<PredmetStrani> predStr = repoStrani.findById(id);
 		if (!predStr.isPresent()) {
 			log.error("Subject does not exist!");
-			return new ResponseEntity<String>("Predmet (strani) ne postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Predmet (strani) ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
-		repoStrani.delete(request);
+		repoStrani.delete(predStr.get());
 		log.info("Subject successfully deleted!");
-		return new ResponseEntity<String>("Predmet (strani) uspesno obrisan!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Predmet (strani) uspesno obrisan!"), HttpStatus.OK);
 	}
 
 }

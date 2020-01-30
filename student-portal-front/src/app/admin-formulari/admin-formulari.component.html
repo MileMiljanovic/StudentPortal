@@ -1,31 +1,37 @@
-<button class="btn btn-success" (click)="newFormular()">Dodaj novi formular</button>
-<table class="table">
-    <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Student</th>
-          <th scope="col">Strani program</th>
-          <th scope="col">Odobrenje šefa</th>
-          <th scope="col">Odobrenje koordinatora</th>
-          <th scope="col">Datum i vreme</th>
-          <th scope="col">Izmeni</th>
-          <th scope="col">Obriši</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let f of adminService.formulari; let i = index;">
-            <td>{{f.idformular}}</td>
-            <td>{{f.student.brindeksa}}</td>
-            <td>{{f.programStrani.naziv}}</td>
-            <td *ngIf="f.odobrenjeSef=='Y'">ODOBRENO</td>
-            <td *ngIf="f.odobrenjeSef=='N'">ODBIJENO</td>
-            <td *ngIf="f.odobrenjeSef==null">NEMA ODGOVORA</td>
-            <td *ngIf="f.odobrenjeKoord=='Y'">ODOBRENO</td>
-            <td *ngIf="f.odobrenjeKoord=='N'">ODBIJENO</td>
-            <td *ngIf="f.odobrenjeKoord==null">NEMA ODGOVORA</td>
-            <td>{{f.datum}}</td>
-            <td><button class="btn btn-primary" (click)="editFormular(i)">Izmeni</button></td>
-            <td><button class="btn btn-danger" (click)="deleteFormular(i)">Obriši</button></td>
-        </tr>
-      </tbody>
-</table>
+<div class="card" style="width: 80%;" *ngFor="let f of adminService.formulari; let i = index;">
+    <div class="card-body">
+      <h5 class="card-title">Formular ID: {{f.idformular}}</h5>
+      <p class="card-text">Student: {{f.student.brindeksa}}</p>
+      <p class="card-text">Strani program: {{f.programStrani.naziv}}</p>
+      <p class="card-text">Datum i vreme: {{f.datum}}</p>
+      <p>Zamene:</p>
+      <table class="table">
+        <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Domaći predmet</th>
+              <th scope="col">ESPB</th>
+              <th scope="col">Strani predmet</th>
+              <th scope="col">ESPB</th>
+              <th scope="col">Odobreno</th>
+              <th scope="col">Obriši</th>
+              <th scope="col">Izmeni</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let z of f.zamene; let j = index;">
+                <td>{{z.idzamena}}</td>
+                <td>{{z.predmetDomaci.naziv}}</td>
+                <td>{{z.predmetDomaci.espb}}</td>
+                <td>{{z.predmetStrani.naziv}}</td>
+                <td>{{z.predmetStrani.espb}}</td>
+                <td>{{z.odobreno}}</td>
+                <td><button class="btn btn-primary" (click)="editZamena(i, j)">Izmeni</button></td>
+                <td><button class="btn btn-danger" (click)="deleteZamena(i, j)">Obriši</button></td>
+            </tr>
+          </tbody>
+    </table>
+      <button class="btn btn-primary" (click)="editFormular(i)">Izmeni formular</button>&nbsp;&nbsp;&nbsp;
+      <button class="btn btn-danger" (click)="deleteFormular(i)">Obriši formular</button>
+    </div>
+</div>

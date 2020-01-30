@@ -43,7 +43,7 @@ export class ZamenaViewComponent implements OnInit {
         localStorage.setItem('studentService', JSON.stringify(this.studentService));
         this.router.navigate(['/studentMainPage']);
       },
-      (err) => { alert(err); }
+      (err) => { alert(err.status + ' - ' + err.error.message); }
     );
   }
 

@@ -28,7 +28,6 @@ import { AdminPredmetiStraniComponent } from './admin-predmeti-strani/admin-pred
 import { AdminProgramiDomaciComponent } from './admin-programi-domaci/admin-programi-domaci.component';
 import { AdminProgramiStraniComponent } from './admin-programi-strani/admin-programi-strani.component';
 import { AdminFormulariComponent } from './admin-formulari/admin-formulari.component';
-import { AdminZameneComponent } from './admin-zamene/admin-zamene.component';
 
 @NgModule({
   declarations: [
@@ -52,9 +51,8 @@ import { AdminZameneComponent } from './admin-zamene/admin-zamene.component';
     AdminPredmetiStraniComponent,
     AdminProgramiDomaciComponent,
     AdminProgramiStraniComponent,
-    AdminFormulariComponent,
-    AdminZameneComponent
-  ],
+    AdminFormulariComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -75,9 +73,6 @@ import { AdminZameneComponent } from './admin-zamene/admin-zamene.component';
     HttpClientModule
   ],
   providers: [
-    /*UserManagerService,
-    StudentManagerService,
-    AdminManagerService*/
   ],
   bootstrap: [AppComponent]
 })

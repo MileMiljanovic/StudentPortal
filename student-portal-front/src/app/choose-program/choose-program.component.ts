@@ -54,7 +54,7 @@ export class ChooseProgramComponent implements OnInit {
         localStorage.removeItem('counter');
         this.router.navigate(['/zamene']);
       },
-      (err) => { alert('Neočekivana greška!'); }
+      (err) => { alert(err.status + ' - ' + err.error.message); }
     );
   }
 

@@ -41,7 +41,7 @@ export class StudentMainComponent implements OnInit {
           this.router.navigate(['/chooseProgram']);
         }
       },
-      (err) => { alert('Neočekivana greška!'); }
+      (err) => { alert(err.status + ' - ' + err.error.message); }
     );
   }
 

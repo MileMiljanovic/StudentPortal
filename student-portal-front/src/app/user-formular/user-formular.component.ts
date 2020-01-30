@@ -25,7 +25,7 @@ export class UserFormularComponent implements OnInit {
       (data) => {
         this.userService.formulari = data.formulari;
       },
-      (err) => { alert('Došlo je do neočekivane greške!'); }
+      (err) => { alert(err.status + ' - ' + err.error.message); }
     );
   }
 
@@ -45,7 +45,7 @@ export class UserFormularComponent implements OnInit {
             this.userService.formulari.splice(index, 1);
           }
         },
-        (err) => { alert('Došlo je do neočekivane greške!'); }
+        (err) => { alert(err.status + ' - ' + err.error.message); }
       );
     } else if (this.userService.user.uloga === 'SEF') {
       this.http.put<any>('http://localhost:8080/api/formulari/' + f.idformular + '/sefConfirm', request, {headers}).subscribe(
@@ -56,7 +56,7 @@ export class UserFormularComponent implements OnInit {
             this.userService.formulari.splice(index, 1);
           }
         },
-        (err) => { alert('Došlo je do neočekivane greške!'); }
+        (err) => { alert(err.status + ' - ' + err.error.message); }
       );
     } else {
       alert('Nepoznata uloga!');

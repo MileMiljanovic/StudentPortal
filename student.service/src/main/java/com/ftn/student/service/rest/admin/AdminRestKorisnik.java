@@ -10,11 +10,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ftn.student.service.errorhandling.JsonResponse;
 import com.ftn.student.service.models.KorisnikAdm;
 import com.ftn.student.service.repository.KorisniciAdmRepository;
 
@@ -37,44 +40,44 @@ public class AdminRestKorisnik {
 	}
 	
 	@RequestMapping(value = "/korisnik", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> addKorisnik(@Valid @RequestBody KorisnikAdm request) {
+	public @ResponseBody ResponseEntity<JsonResponse> addKorisnik(@Valid @RequestBody KorisnikAdm request) {
 
 		Optional<KorisnikAdm> kor = repoKorisnici.findById(request.getUsername());
 		if (kor.isPresent()) {
 			log.error("User already exists!");
-			return new ResponseEntity<String>("Korisnik vec postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Korisnik vec postoji!"), HttpStatus.BAD_REQUEST);
 		}
 		String encodedPassword = passwordEncoder.encode(request.getPassword());
 		request.setPassword(encodedPassword);
 		repoKorisnici.save(request);
 		log.info("User successfully added!");
-		return new ResponseEntity<String>("Korisnik uspesno dodat!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Korisnik uspesno dodat!"), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/korisnik/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> putKorisnik(@Valid @RequestBody KorisnikAdm request) {
+	public @ResponseBody ResponseEntity<JsonResponse> putKorisnik(@Valid @RequestBody KorisnikAdm request) {
 
 		Optional<KorisnikAdm> kor = repoKorisnici.findById(request.getUsername());
 		if (!kor.isPresent()) {
 			log.error("User does not exist!");
-			return new ResponseEntity<String>("Korisnik ne postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Korisnik ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
 		repoKorisnici.save(request);
 		log.info("User successfully updated!");
-		return new ResponseEntity<String>("Korisnik uspesno izmenjen!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Korisnik uspesno izmenjen!"), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/korisnik/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> deleteKorisnik(@Valid @RequestBody KorisnikAdm request) {
+	@RequestMapping(value = "/korisnik/{id}", method = RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<JsonResponse> deleteKorisnik(@PathVariable String id) {
 
-		Optional<KorisnikAdm> kor = repoKorisnici.findById(request.getUsername());
+		Optional<KorisnikAdm> kor = repoKorisnici.findById(id);
 		if (!kor.isPresent()) {
 			log.error("User does not exist!");
-			return new ResponseEntity<String>("Korisnik ne postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Korisnik ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
-		repoKorisnici.delete(request);
+		repoKorisnici.delete(kor.get());
 		log.info("User successfully deleted!");
-		return new ResponseEntity<String>("Korisnik uspesno obrisan!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Korisnik uspesno obrisan!"), HttpStatus.OK);
 	}
 
 }

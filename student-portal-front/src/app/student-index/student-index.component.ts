@@ -33,7 +33,7 @@ export class StudentIndexComponent implements OnInit {
         localStorage.setItem('studentService', JSON.stringify(this.studentService));
         this.router.navigate(['/studentMainPage']);
       },
-      (err) => { alert('Neuspesan login!'); }
+      (err) => { alert('Neuspešan login!'); }
     );
   }
 

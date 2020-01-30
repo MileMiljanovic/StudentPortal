@@ -149,7 +149,7 @@ export class ZamenaComponent implements OnInit {
         this.router.navigate(['/studentMainPage']);
       },
       (err) => {
-        alert(err.message);
+        alert(err.status + ' - ' + err.error.message);
       }
     );
   }

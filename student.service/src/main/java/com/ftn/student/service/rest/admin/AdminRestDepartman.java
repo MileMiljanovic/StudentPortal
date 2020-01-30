@@ -10,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ftn.student.service.errorhandling.JsonResponse;
 import com.ftn.student.service.models.Departman;
 import com.ftn.student.service.repository.DepartmaniRepository;
 
@@ -36,42 +39,42 @@ public class AdminRestDepartman {
 	}
 	
 	@RequestMapping(value = "/departmani", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> addDepartman(@Valid @RequestBody Departman request) {
+	public @ResponseBody ResponseEntity<JsonResponse> addDepartman(@Valid @RequestBody Departman request) {
 
 		Optional<Departman> dept = repoDepartmani.findById(request.getDepartmanId());
 		if (dept.isPresent()) {
 			log.error("Department already exists!");
-			return new ResponseEntity<String>("Departman vec postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Departman vec postoji!"), HttpStatus.BAD_REQUEST);
 		}
 		repoDepartmani.save(request);
 		log.info("Department successfully inserted!");
-		return new ResponseEntity<String>("Departman uspesno dodat!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Departman uspesno dodat!"), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/departmani/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> putDepartman(@Valid @RequestBody Departman request) {
+	public @ResponseBody ResponseEntity<JsonResponse> putDepartman(@Valid @RequestBody Departman request) {
 
 		Optional<Departman> dept = repoDepartmani.findById(request.getDepartmanId());
 		if (!dept.isPresent()) {
 			log.error("Department does not exist!");
-			return new ResponseEntity<String>("Departman ne postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Departman ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
 		repoDepartmani.save(request);
 		log.info("Department successfully updated!");
-		return new ResponseEntity<String>("Departman uspesno izmenjen!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Departman uspesno izmenjen!"), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/departmani/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> deleteDepartman(@Valid @RequestBody Departman request) {
+	@RequestMapping(value = "/departmani/{id}", method = RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<JsonResponse> deleteDepartman(@PathVariable String id) {
 
-		Optional<Departman> dept = repoDepartmani.findById(request.getDepartmanId());
+		Optional<Departman> dept = repoDepartmani.findById(id);
 		if (!dept.isPresent()) {
 			log.error("Department does not exist!");
-			return new ResponseEntity<String>("Departman ne postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Departman ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
-		repoDepartmani.delete(request);
+		repoDepartmani.delete(dept.get());
 		log.info("Department successfully deleted!");
-		return new ResponseEntity<String>("Departman uspesno obrisan!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Departman uspesno obrisan!"), HttpStatus.OK);
 	}
 
 }

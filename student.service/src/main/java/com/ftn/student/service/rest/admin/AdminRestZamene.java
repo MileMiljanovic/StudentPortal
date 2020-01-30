@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ftn.student.service.errorhandling.JsonResponse;
 import com.ftn.student.service.models.Zamena;
 import com.ftn.student.service.repository.ZamenaRepository;
 
@@ -36,42 +39,42 @@ public class AdminRestZamene {
 	}
 	
 	@RequestMapping(value = "/zamena", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> addZamena(@Valid @RequestBody Zamena request) {
+	public @ResponseBody ResponseEntity<JsonResponse> addZamena(@Valid @RequestBody Zamena request) {
 
 		Optional<Zamena> zam = repoZ.findById(request.getIdzamena());
 		if (zam.isPresent()) {
 			log.error("Substitute already exists!");
-			return new ResponseEntity<String>("Zamena vec postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Zamena vec postoji!"), HttpStatus.BAD_REQUEST);
 		}
 		repoZ.save(request);
 		log.info("Substitute successfully inserted!");
-		return new ResponseEntity<String>("Zamena uspesno dodata!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Zamena uspesno dodata!"), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/zamena/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> putZamena(@Valid @RequestBody Zamena request) {
+	public @ResponseBody ResponseEntity<JsonResponse> putZamena(@Valid @RequestBody Zamena request) {
 
 		Optional<Zamena> zam = repoZ.findById(request.getIdzamena());
 		if (!zam.isPresent()) {
 			log.error("Substitute does not exist!");
-			return new ResponseEntity<String>("Zamena ne postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Zamena ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
 		repoZ.save(request);
 		log.info("Substitute successfully updated!");
-		return new ResponseEntity<String>("Zamena uspesno izmenjena!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Zamena uspesno izmenjena!"), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/zamena/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<String> deleteZamena(@Valid @RequestBody Zamena request) {
+	@RequestMapping(value = "/zamena/{id}", method = RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<JsonResponse> deleteZamena(@PathVariable String id) {
 
-		Optional<Zamena> zam = repoZ.findById(request.getIdzamena());
+		Optional<Zamena> zam = repoZ.findById(id);
 		if (!zam.isPresent()) {
 			log.error("Substitute does not exist!");
-			return new ResponseEntity<String>("Zamena ne postoji!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Zamena ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
-		repoZ.delete(request);
+		repoZ.delete(zam.get());
 		log.info("Substitute successfully deleted!");
-		return new ResponseEntity<String>("Zamena uspesno obrisana!", HttpStatus.OK);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("Zamena uspesno obrisana!"), HttpStatus.OK);
 	}
 
 }
