@@ -1,0 +1,25 @@
+<button class="btn btn-success" (click)="newPredmetDom()">Dodaj novi predmet</button>
+<table class="table">
+    <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Naziv</th>
+          <th scope="col">Program</th>
+          <th scope="col">ESPB</th>
+          <th scope="col">Nastavnik</th>
+          <th scope="col">Izmeni</th>
+          <th scope="col">Obriši</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of adminService.predDomaci; let i = index;">
+            <td>{{p.predmetId}}</td>
+            <td>{{p.naziv}}</td>
+            <td>{{p.program.naziv}}</td>
+            <td>{{p.espb}}</td>
+            <td>{{p.nastavnik.nastavnikid}}</td>
+            <td><button class="btn btn-primary" (click)="editPredmetDom(i)">Izmeni</button></td>
+            <td><button class="btn btn-danger" (click)="deletePredmetDom(i)">Obriši</button></td>
+        </tr>
+      </tbody>
+</table>

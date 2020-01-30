@@ -1,0 +1,19 @@
+<button class="btn btn-success" (click)="newDepartman()">Dodaj novi departman</button>
+<table class="table">
+    <thead>
+        <tr>
+          <th scope="col">Naziv</th>
+          <th scope="col">Koordinator</th>
+          <th scope="col">Izmeni</th>
+          <th scope="col">Obriši</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let d of adminService.departmani; let i = index;">
+            <td>{{d.departmanId}}</td>
+            <td>{{d.koordinator.username}}</td>
+            <td><button class="btn btn-primary" (click)="editDepartman(i)">Izmeni</button></td>
+            <td><button class="btn btn-danger" (click)="deleteDepartman(i)">Obriši</button></td>
+        </tr>
+      </tbody>
+</table>

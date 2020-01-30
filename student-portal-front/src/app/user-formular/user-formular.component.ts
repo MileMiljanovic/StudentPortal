@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserManagerService } from '../user-manager.service';
 
 @Component({
@@ -18,7 +18,8 @@ export class UserFormularComponent implements OnInit {
 
   ngOnInit() {
     const usr = this.userService.user;
-    this.http.post<any>('http://localhost:8080/api/formulari', usr).subscribe(
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa('fmarjanovic:fmarjanovic') });
+    this.http.post<any>('http://localhost:8080/api/formulari', usr, {headers}).subscribe(
       (data) => {
         this.userService.formulari = data.formulari;
       },

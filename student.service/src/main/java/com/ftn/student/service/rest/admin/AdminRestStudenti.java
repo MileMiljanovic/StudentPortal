@@ -2,9 +2,7 @@ package com.ftn.student.service.rest.admin;
 
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.ftn.student.service.models.Student;
-import com.ftn.student.service.models.StudijskiProgramDomaci;
-import com.ftn.student.service.repository.SProgramDomaciRepository;
 import com.ftn.student.service.repository.StudentRepository;
-import com.ftn.student.service.rest.responsesadmin.AdminStudentResponse;
 
 @RestController
 public class AdminRestStudenti {
@@ -28,20 +23,14 @@ public class AdminRestStudenti {
 	@Autowired
 	private StudentRepository repoStudent;
 	
-	@Autowired
-	private SProgramDomaciRepository repoDomaci;
-	
 	private final Logger log = LoggerFactory.getLogger(AdminRestStudenti.class);
 	
 	@RequestMapping(value = "/student", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<AdminStudentResponse> studenti() {
+	public @ResponseBody ResponseEntity<List<Student>> studenti() {
 
 		List<Student> stud = repoStudent.findAll();
-		List<StudijskiProgramDomaci> progDom = repoDomaci.findAll();
 		
-		AdminStudentResponse response = new AdminStudentResponse(stud, progDom);
-		
-		return new ResponseEntity<AdminStudentResponse>(response, HttpStatus.OK);
+		return new ResponseEntity<List<Student>>(stud, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/student", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

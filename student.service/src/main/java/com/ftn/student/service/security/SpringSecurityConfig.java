@@ -4,31 +4,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
+@EnableWebSecurity
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UserSvc userService;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-    	auth.userDetailsService(userService);
+	@Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+	
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
     }
     
-    @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    	//auth.inMemoryAuthentication().withUser("fmarjanovic").password("{noop}fmarjanovic").roles("KOORDINATOR");
     }
 
-    // Secure the endpoins with HTTP Basic authentication
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -42,12 +50,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .antMatchers(HttpMethod.GET, "/api/formulari/*/zamene/*/*/*").permitAll()
 		    .antMatchers(HttpMethod.POST, "/api/podloga/**").permitAll()
 		    .antMatchers(HttpMethod.DELETE, "/api/podloga/*/cancelForm").permitAll()
-//		    .antMatchers(HttpMethod.POST, "/api/formulari").authenticated()
-//		    .antMatchers(HttpMethod.POST, "/api/formulari").hasAnyRole("SEF", "KOORDINATOR", "ADMIN")
-//		    .antMatchers(HttpMethod.PUT, "/api/formulari/*/koordinatorConfirm").authenticated()
-//		    .antMatchers(HttpMethod.PUT, "/api/formulari/*/koordinatorConfirm").hasAnyRole("KOORDINATOR", "ADMIN")
-//		    .antMatchers(HttpMethod.PUT, "/api/formulari/*/sefConfirm").authenticated()
-//		    .antMatchers(HttpMethod.PUT, "/api/formulari/*/sefConfirm").hasAnyRole("SEF", "ADMIN")
+		    .antMatchers(HttpMethod.POST, "/api/formulari").hasAnyRole("SEF", "KOORDINATOR", "ADMIN")
+		    .antMatchers(HttpMethod.PUT, "/api/formulari/*/koordinatorConfirm").hasAnyRole("KOORDINATOR", "ADMIN")
+		    .antMatchers(HttpMethod.PUT, "/api/formulari/*/sefConfirm").hasAnyRole("SEF", "ADMIN")
 //		    .antMatchers(HttpMethod.GET, "/departmani/**").authenticated()
 //		    .antMatchers(HttpMethod.GET, "/departmani/**").hasRole("ADMIN")
 //		    .antMatchers(HttpMethod.GET, "/formular/**").authenticated()

@@ -1,0 +1,27 @@
+<button class="btn btn-success" (click)="newKorisnik()">Dodaj novog korisnika</button>
+<table class="table">
+    <thead>
+        <tr>
+          <th scope="col">Korisničko ime</th>
+          <th scope="col">Ime</th>
+          <th scope="col">Prezime</th>
+          <th scope="col">JMBG</th>
+          <th scope="col">Datum rođenja</th>
+          <th scope="col">Uloga</th>
+          <th scope="col">Izmeni</th>
+          <th scope="col">Obriši</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let k of adminService.korisnici; let i = index;">
+            <td>{{k.username}}</td>
+            <td>{{k.ime}}</td>
+            <td>{{k.prezime}}</td>
+            <td>{{k.jmbg}}</td>
+            <td>{{k.datumrodjenja}}</td>
+            <td>{{k.uloga}}</td>
+            <td><button *ngIf="k.uloga != 'ADMIN'" class="btn btn-primary" (click)="editKorisnik(i)">Izmeni</button></td>
+            <td><button *ngIf="k.uloga != 'ADMIN'" class="btn btn-danger" (click)="deleteKorisnik(i)">Obriši</button></td>
+        </tr>
+      </tbody>
+</table>

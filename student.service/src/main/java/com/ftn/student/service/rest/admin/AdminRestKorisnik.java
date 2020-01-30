@@ -29,7 +29,6 @@ public class AdminRestKorisnik {
 	public @ResponseBody ResponseEntity<List<KorisnikAdm>> korisnici() {
 
 		List<KorisnikAdm> kor = repoKorisnici.findAll();
-		
 		return new ResponseEntity<List<KorisnikAdm>>(kor, HttpStatus.OK);
 	}
 	

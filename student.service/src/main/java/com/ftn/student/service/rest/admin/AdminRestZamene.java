@@ -16,16 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ftn.student.service.models.Formular;
-import com.ftn.student.service.models.PredmetDomaci;
-import com.ftn.student.service.models.PredmetStrani;
 import com.ftn.student.service.models.Zamena;
-import com.ftn.student.service.repository.FormularRepository;
-import com.ftn.student.service.repository.PredmetiDomaciRepository;
-import com.ftn.student.service.repository.PredmetiStraniRepository;
 import com.ftn.student.service.repository.ZamenaRepository;
-import com.ftn.student.service.rest.responsesadmin.AdminZamenaResponse;
 
 @RestController
 public class AdminRestZamene {
@@ -33,28 +25,14 @@ public class AdminRestZamene {
 	@Autowired
 	private ZamenaRepository repoZ;
 	
-	@Autowired
-	private FormularRepository repoFormular;
-	
-	@Autowired
-	private PredmetiDomaciRepository repoDomaci;
-	
-	@Autowired
-	private PredmetiStraniRepository repoStrani;
-	
 	private final Logger log = LoggerFactory.getLogger(AdminRestZamene.class);
 	
 	@RequestMapping(value = "/zamena", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<AdminZamenaResponse> zamene() {
+	public @ResponseBody ResponseEntity<List<Zamena>> zamene() {
 
 		List<Zamena> zam = repoZ.findAll();
-		List<Formular> form = repoFormular.findAll();
-		List<PredmetDomaci> dom = repoDomaci.findAll();
-		List<PredmetStrani> str = repoStrani.findAll();
 		
-		AdminZamenaResponse response = new AdminZamenaResponse(zam, form, dom, str);
-		
-		return new ResponseEntity<AdminZamenaResponse>(response, HttpStatus.OK);
+		return new ResponseEntity<List<Zamena>>(zam, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/zamena", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

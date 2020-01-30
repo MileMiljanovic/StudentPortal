@@ -28,7 +28,7 @@ public class UserSvc implements UserDetailsService {
 		// TODO Auto-generated method stub
 		Korisnik k = repoKorisnici.findById(username).get();
 		Set<GrantedAuthority> authorities = new HashSet<>();
-		authorities.add(new SimpleGrantedAuthority(k.getUloga().toString()));
+		authorities.add(new SimpleGrantedAuthority("ROLE_" + k.getUloga().toString()));
 		User u = new User(k.getUsername(), k.getPassword(), authorities);
 		return u;
 	}

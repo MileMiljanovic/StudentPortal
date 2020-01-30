@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserManagerService } from '../user-manager.service';
 import { AdminManagerService } from '../admin-manager.service';
@@ -31,7 +31,8 @@ export class UserLoginComponent implements OnInit {
   }
 
   onSubmit(login) {
-    this.http.post<any>('http://localhost:8080/login', login).subscribe(
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(login.username + ':' + login.password) });
+    this.http.post<any>('http://localhost:8080/login', login, {headers}).subscribe(
       (data) => {
         if (data.uloga === 'ADMIN') {
           this.adminService.user = data;

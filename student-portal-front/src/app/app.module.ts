@@ -19,6 +19,16 @@ import { UserManagerService } from './user-manager.service';
 import { StudentManagerService } from './student-manager.service';
 import { AdminMainComponent } from './admin-main/admin-main.component';
 import { AdminManagerService } from './admin-manager.service';
+import { AdminKorisniciComponent } from './admin-korisnici/admin-korisnici.component';
+import { AdminStudentiComponent } from './admin-studenti/admin-studenti.component';
+import { AdminDepartmaniComponent } from './admin-departmani/admin-departmani.component';
+import { AdminNastavniciComponent } from './admin-nastavnici/admin-nastavnici.component';
+import { AdminPredmetiDomaciComponent } from './admin-predmeti-domaci/admin-predmeti-domaci.component';
+import { AdminPredmetiStraniComponent } from './admin-predmeti-strani/admin-predmeti-strani.component';
+import { AdminProgramiDomaciComponent } from './admin-programi-domaci/admin-programi-domaci.component';
+import { AdminProgramiStraniComponent } from './admin-programi-strani/admin-programi-strani.component';
+import { AdminFormulariComponent } from './admin-formulari/admin-formulari.component';
+import { AdminZameneComponent } from './admin-zamene/admin-zamene.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +43,17 @@ import { AdminManagerService } from './admin-manager.service';
     UserIndexComponent,
     UserFormularComponent,
     TopBarComponent,
-    AdminMainComponent
+    AdminMainComponent,
+    AdminKorisniciComponent,
+    AdminStudentiComponent,
+    AdminDepartmaniComponent,
+    AdminNastavniciComponent,
+    AdminPredmetiDomaciComponent,
+    AdminPredmetiStraniComponent,
+    AdminProgramiDomaciComponent,
+    AdminProgramiStraniComponent,
+    AdminFormulariComponent,
+    AdminZameneComponent
   ],
   imports: [
     BrowserModule,

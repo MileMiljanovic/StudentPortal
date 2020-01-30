@@ -1,0 +1,21 @@
+<button class="btn btn-success" (click)="newProgramDom()">Dodaj novi program</button>
+<table class="table">
+    <thead>
+        <tr>
+          <th scope="col">Naziv</th>
+          <th scope="col">Departman</th>
+          <th scope="col">Šef</th>
+          <th scope="col">Izmeni</th>
+          <th scope="col">Obriši</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of adminService.progDomaci; let i = index;">
+            <td>{{p.naziv}}</td>
+            <td>{{p.departman.departmanId}}</td>
+            <td>{{p.sef.username}}</td>
+            <td><button class="btn btn-primary" (click)="editProgramDom(i)">Izmeni</button></td>
+            <td><button class="btn btn-danger" (click)="deleteProgramDom(i)">Obriši</button></td>
+        </tr>
+      </tbody>
+</table>

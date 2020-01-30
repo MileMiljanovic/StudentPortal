@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,14 +59,15 @@ public class ConfirmationController {
 		}
 		
 		Korisnik k = kor.get();
-		if (!k.getPassword().equals(request.getPassword())) {
-			log.error("Login unsuccessful! Invalid password!");
-			return new ResponseEntity<Korisnik>(HttpStatus.UNAUTHORIZED);
-		}
-
 		log.info("Successfully logged in as: " + request.getUsername());
 		return new ResponseEntity<Korisnik>(k, HttpStatus.OK);	
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ResponseEntity<String> logout() {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        return new ResponseEntity<String>(HttpStatus.OK);
+    }
 	
 	@RequestMapping(value = "/api/formulari", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<UserLoginResponse> userLogged(@Valid @RequestBody Korisnik request) { 

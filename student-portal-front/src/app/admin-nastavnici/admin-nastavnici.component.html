@@ -1,0 +1,27 @@
+<button class="btn btn-success" (click)="newNastavnik()">Dodaj novog nastavnika</button>
+<table class="table">
+    <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Ime</th>
+          <th scope="col">Prezime</th>
+          <th scope="col">JMBG</th>
+          <th scope="col">Datum rođenja</th>
+          <th scope="col">Email</th>
+          <th scope="col">Izmeni</th>
+          <th scope="col">Obriši</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let n of adminService.nastavnici; let i = index;">
+            <td>{{n.nastavnikid}}</td>
+            <td>{{n.ime}}</td>
+            <td>{{n.prezime}}</td>
+            <td>{{n.jmbg}}</td>
+            <td>{{n.datumrodjenja}}</td>
+            <td>{{n.email}}</td>
+            <td><button class="btn btn-primary" (click)="editNastavnik(i)">Izmeni</button></td>
+            <td><button class="btn btn-danger" (click)="deleteNastavnik(i)">Obriši</button></td>
+        </tr>
+      </tbody>
+</table>

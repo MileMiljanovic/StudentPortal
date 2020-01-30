@@ -1,0 +1,27 @@
+<button class="btn btn-success" (click)="newZamena()">Dodaj novu zamenu</button>
+<table class="table">
+    <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Formular</th>
+          <th scope="col">Domaći predmet</th>
+          <th scope="col">Strani predmet</th>
+          <th scope="col">Odobreno</th>
+          <th scope="col">Izmeni</th>
+          <th scope="col">Obriši</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let z of adminService.zamene; let i = index;">
+            <td>{{z.idzamena}}</td>
+            <td>{{z.formular}}</td>
+            <td>{{z.predmetDomaci.predmetId}}</td>
+            <td>{{z.predmetStrani.predmetId}}</td>
+            <td *ngIf="z.odobreno=='Y'">ODOBRENO</td>
+            <td *ngIf="z.odobreno=='N'">ODBIJENO</td>
+            <td *ngIf="z.odobreno==null">NEMA ODGOVORA</td>
+            <td><button class="btn btn-primary" (click)="editZamena(i)">Izmeni</button></td>
+            <td><button class="btn btn-danger" (click)="deleteZamena(i)">Obriši</button></td>
+        </tr>
+      </tbody>
+</table>

@@ -16,13 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ftn.student.service.models.Korisnik;
 import com.ftn.student.service.models.StudijskiProgramDomaci;
-import com.ftn.student.service.models.Uloga;
-import com.ftn.student.service.repository.KorisniciRepository;
 import com.ftn.student.service.repository.SProgramDomaciRepository;
-import com.ftn.student.service.rest.responsesadmin.AdminProgramDResponse;
 
 @RestController
 public class AdminRestProgramiDom {
@@ -30,20 +25,14 @@ public class AdminRestProgramiDom {
 	@Autowired
 	private SProgramDomaciRepository repoDomaci;
 	
-	@Autowired
-	private KorisniciRepository repoKorisnici;
-	
 	private final Logger log = LoggerFactory.getLogger(AdminRestProgramiDom.class);
 	
 	@RequestMapping(value = "/progDomaci", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<AdminProgramDResponse> progDomaci() {
+	public @ResponseBody ResponseEntity<List<StudijskiProgramDomaci>> progDomaci() {
 
 		List<StudijskiProgramDomaci> progDom = repoDomaci.findAll();
-		List<Korisnik> sefovi = repoKorisnici.findByRole(Uloga.SEF);
 		
-		AdminProgramDResponse response = new AdminProgramDResponse(progDom, sefovi);
-		
-		return new ResponseEntity<AdminProgramDResponse>(response, HttpStatus.OK);
+		return new ResponseEntity<List<StudijskiProgramDomaci>>(progDom, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/progDomaci", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
