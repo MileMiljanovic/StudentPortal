@@ -1,3 +1,4 @@
+<button class="btn btn-success" (click)="addFormular()">Dodaj formular</button>
 <div class="card" style="width: 80%;" *ngFor="let f of adminService.formulari; let i = index;">
     <div class="card-body">
       <h5 class="card-title">Formular ID: {{f.idformular}}</h5>
@@ -5,6 +6,7 @@
       <p class="card-text">Strani program: {{f.programStrani.naziv}}</p>
       <p class="card-text">Datum i vreme: {{f.datum}}</p>
       <p>Zamene:</p>
+      <button class="btn btn-success" (click)="addZamena()">Dodaj zamenu</button>
       <table class="table">
         <thead>
             <tr>
