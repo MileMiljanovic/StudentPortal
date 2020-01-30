@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "korisnici")
 public class Korisnik {
 
+
 	@Id
 	@Column(name = "username")
 	private String username;

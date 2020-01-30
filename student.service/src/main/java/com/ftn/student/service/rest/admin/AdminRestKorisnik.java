@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +23,9 @@ public class AdminRestKorisnik {
 	
 	@Autowired
 	private KorisniciAdmRepository repoKorisnici;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestKorisnik.class);
 	
@@ -40,6 +44,8 @@ public class AdminRestKorisnik {
 			log.error("User already exists!");
 			return new ResponseEntity<String>("Korisnik vec postoji!", HttpStatus.BAD_REQUEST);
 		}
+		String encodedPassword = passwordEncoder.encode(request.getPassword());
+		request.setPassword(encodedPassword);
 		repoKorisnici.save(request);
 		log.info("User successfully added!");
 		return new ResponseEntity<String>("Korisnik uspesno dodat!", HttpStatus.OK);

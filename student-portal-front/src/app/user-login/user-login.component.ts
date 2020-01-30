@@ -31,16 +31,19 @@ export class UserLoginComponent implements OnInit {
   }
 
   onSubmit(login) {
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(login.username + ':' + login.password) });
+    const token = btoa(login.username + ':' + login.password);
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + token });
     this.http.post<any>('http://localhost:8080/login', login, {headers}).subscribe(
       (data) => {
         if (data.uloga === 'ADMIN') {
           this.adminService.user = data;
           localStorage.setItem('adminService', JSON.stringify(this.adminService));
+          localStorage.setItem('token', token);
           this.router.navigate(['/adminMain']);
         } else {
           this.userService.user = data;
           localStorage.setItem('userService', JSON.stringify(this.userService));
+          localStorage.setItem('token', token);
           this.router.navigate(['/userIndex']);
         }
       },

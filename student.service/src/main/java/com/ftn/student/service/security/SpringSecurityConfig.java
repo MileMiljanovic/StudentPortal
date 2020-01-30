@@ -34,22 +34,21 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
-    	//auth.inMemoryAuthentication().withUser("fmarjanovic").password("{noop}fmarjanovic").roles("KOORDINATOR");
-    }
+	    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
     	http
+    		.anonymous().disable()
 		    .httpBasic()
 		    .and()
 		    .authorizeRequests()
 		    .antMatchers(HttpMethod.POST, "/indexValidation").permitAll()
-		    .antMatchers(HttpMethod.POST, "/login").permitAll()
-		    .antMatchers(HttpMethod.POST, "/logout").permitAll()
 		    .antMatchers(HttpMethod.GET, "/api/formulari/*/zamene/*/*/*").permitAll()
 		    .antMatchers(HttpMethod.POST, "/api/podloga/**").permitAll()
 		    .antMatchers(HttpMethod.DELETE, "/api/podloga/*/cancelForm").permitAll()
+		    .antMatchers(HttpMethod.POST, "/login").hasAnyRole("SEF", "KOORDINATOR", "ADMIN")
 		    .antMatchers(HttpMethod.POST, "/api/formulari").hasAnyRole("SEF", "KOORDINATOR", "ADMIN")
 		    .antMatchers(HttpMethod.PUT, "/api/formulari/*/koordinatorConfirm").hasAnyRole("KOORDINATOR", "ADMIN")
 		    .antMatchers(HttpMethod.PUT, "/api/formulari/*/sefConfirm").hasAnyRole("SEF", "ADMIN")
