@@ -14,7 +14,6 @@ export class AdminKorisniciComponent implements OnInit {
     private http: HttpClient,
     private adminService: AdminManagerService
   ) {
-    this.adminService = JSON.parse(localStorage.getItem('adminService'));
     this.token = localStorage.getItem('token');
    }
 

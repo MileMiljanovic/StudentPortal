@@ -14,7 +14,6 @@ export class AdminPredmetiDomaciComponent implements OnInit {
     private http: HttpClient,
     private adminService: AdminManagerService
   ) {
-    this.adminService = JSON.parse(localStorage.getItem('adminService'));
     this.token = localStorage.getItem('token');
    }
 
@@ -31,14 +30,18 @@ export class AdminPredmetiDomaciComponent implements OnInit {
   deletePredmetDom(i) {
     const id = this.adminService.predDomaci[i].predmetId;
     const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
-    this.http.delete<any>('http://localhost:8080/predDomaci/' + id, {headers}).subscribe(
+    console.log(this.adminService.formulari);
+    let zams = [];
+    zams = this.adminService.zamene.find(x => x.predmetDomaci.predmetId === id);
+    console.log(zams);
+    /*this.http.delete<any>('http://localhost:8080/predDomaci/' + id, {headers}).subscribe(
       (data) => {
         this.adminService.predDomaci.splice(i, 1);
         //BRISI I ZAMENE
         alert('Predmet ' + id + ' uspešno obrisan!');
       },
       (err) => { alert(err.status + ' - ' + err.error.message); }
-    );
+    );*/
   }
 
 }

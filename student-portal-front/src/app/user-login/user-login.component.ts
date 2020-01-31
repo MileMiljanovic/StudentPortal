@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserManagerService } from '../user-manager.service';
 import { AdminManagerService } from '../admin-manager.service';
-
+import { StudentManagerService } from '../student-manager.service';
 
 @Component({
   selector: 'app-user-login',
@@ -19,7 +19,8 @@ export class UserLoginComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private userService: UserManagerService,
-    private adminService: AdminManagerService
+    private adminService: AdminManagerService,
+    private studentService: StudentManagerService
   ) {
     this.loginForm = this.formBuilder.group({
       username: '',
@@ -28,6 +29,24 @@ export class UserLoginComponent implements OnInit {
    }
 
   ngOnInit() {
+    if (localStorage.getItem('adminService') != null) {
+      this.adminService = JSON.parse(localStorage.getItem('adminService'));
+      if (this.adminService.user) {
+        this.router.navigate(['/adminMain']);
+      }
+    }
+    if (localStorage.getItem('userService') != null) {
+      this.userService = JSON.parse(localStorage.getItem('userService'));
+      if (this.userService.user) {
+        this.router.navigate(['/userIndex']);
+      }
+    }
+    if (localStorage.getItem('studentService') != null) {
+      this.studentService = JSON.parse(localStorage.getItem('studentService'));
+      if (this.studentService.student) {
+        this.router.navigate(['/studentMainPage']);
+      }
+    }
   }
 
   onSubmit(login) {

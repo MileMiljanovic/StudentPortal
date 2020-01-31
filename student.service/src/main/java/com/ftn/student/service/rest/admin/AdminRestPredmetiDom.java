@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.student.service.errorhandling.JsonResponse;
 import com.ftn.student.service.models.PredmetDomaci;
+import com.ftn.student.service.models.Zamena;
 import com.ftn.student.service.repository.PredmetiDomaciRepository;
+import com.ftn.student.service.repository.ZamenaRepository;
 
 
 @RestController
@@ -28,6 +30,9 @@ public class AdminRestPredmetiDom {
 	
 	@Autowired
 	private PredmetiDomaciRepository repoDomaci;
+	
+	@Autowired
+	private ZamenaRepository repoZamena;
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestPredmetiDom.class);
 	
@@ -73,6 +78,12 @@ public class AdminRestPredmetiDom {
 			log.error("Subject does not exist!");
 			return new ResponseEntity<JsonResponse>(new JsonResponse("Predmet (domaci) ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
+		
+		List<Zamena> zamene = repoZamena.findByDomaci(predDom.get());
+		for (Zamena z: zamene) {
+			repoZamena.delete(z);
+		}
+		
 		repoDomaci.delete(predDom.get());
 		log.info("Subject successfully deleted!");
 		return new ResponseEntity<JsonResponse>(new JsonResponse("Predmet (domaci) uspesno obrisan!"), HttpStatus.OK);

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import javax.validation.Valid;
 import org.drools.core.ClassObjectFilter;
 import org.kie.api.runtime.KieSession;
@@ -70,6 +71,7 @@ public class PodlogaController {
 	private KieSession kieSession;
 	
 	private final Logger log = LoggerFactory.getLogger(PodlogaController.class);
+	
 	
 	@RequestMapping(value = "/indexValidation", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Student> studentLogin(@Valid @RequestBody StudentLoginRequest request) {

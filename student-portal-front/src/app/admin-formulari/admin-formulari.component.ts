@@ -14,7 +14,6 @@ export class AdminFormulariComponent implements OnInit {
     private http: HttpClient,
     private adminService: AdminManagerService
   ) {
-    this.adminService = JSON.parse(localStorage.getItem('adminService'));
     this.token = localStorage.getItem('token');
    }
 
@@ -23,6 +22,13 @@ export class AdminFormulariComponent implements OnInit {
     this.http.get<any>('http://localhost:8080/formular', {headers}).subscribe(
       (data) => {
         this.adminService.formulari = data;
+      },
+      (err) => { alert(err.status + ' - ' + err.error.message); }
+    );
+    this.http.get<any>('http://localhost:8080/zamena', {headers}).subscribe(
+      (data) => {
+        this.adminService.zamene = data;
+        console.log(this.adminService.zamene);
       },
       (err) => { alert(err.status + ' - ' + err.error.message); }
     );
@@ -50,6 +56,5 @@ export class AdminFormulariComponent implements OnInit {
         (err) => { alert(err.status + ' - ' + err.error.message); }
       );
     }
-  
 
 }

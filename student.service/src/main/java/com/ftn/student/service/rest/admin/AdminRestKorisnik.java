@@ -62,6 +62,8 @@ public class AdminRestKorisnik {
 			log.error("User does not exist!");
 			return new ResponseEntity<JsonResponse>(new JsonResponse("Korisnik ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
+		String encodedPassword = passwordEncoder.encode(request.getPassword());
+		request.setPassword(encodedPassword);
 		repoKorisnici.save(request);
 		log.info("User successfully updated!");
 		return new ResponseEntity<JsonResponse>(new JsonResponse("Korisnik uspesno izmenjen!"), HttpStatus.OK);
