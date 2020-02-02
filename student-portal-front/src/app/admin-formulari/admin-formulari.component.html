@@ -1,4 +1,4 @@
-<button class="btn btn-success" (click)="addFormular()">Dodaj formular</button>
+<button class="btn btn-success" (click)="openModal('addFormularModal')">Dodaj formular</button>
 <div class="card" style="width: 80%;" *ngFor="let f of adminService.formulari; let i = index;">
     <div class="card-body">
       <h5 class="card-title">Formular ID: {{f.idformular}}</h5>
@@ -6,7 +6,7 @@
       <p class="card-text">Strani program: {{f.programStrani.naziv}}</p>
       <p class="card-text">Datum i vreme: {{f.datum}}</p>
       <p>Zamene:</p>
-      <button class="btn btn-success" (click)="addZamena()">Dodaj zamenu</button>
+      <button class="btn btn-success" (click)="openModalWithParam('addZamenaModal', f)">Dodaj zamenu</button>
       <table class="table">
         <thead>
             <tr>
@@ -37,3 +37,45 @@
       <button class="btn btn-danger" (click)="deleteFormular(i)">Obriši formular</button>
     </div>
 </div>
+
+<jw-modal id="addFormularModal">
+  <h1>Dodaj novi formular</h1>
+  <form [formGroup]="addFormularForm" (ngSubmit)="addFormular(addFormularForm.value)">
+    <p>Student: 
+      <select id="selectedStudent" formControlName="selectedStudent">
+          <option *ngFor="let s of adminService.studenti" [ngValue]="s">{{s.brindeksa}}</option>
+      </select>
+    </p>
+    <p>Strani program: 
+      <select id="selectedProgram" formControlName="selectedProgram">
+          <option *ngFor="let p of adminService.progStrani" [ngValue]="p">{{p.naziv}}</option>
+      </select>
+    </p>
+    <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
+  </form> 
+  <button class="btn btn-danger" (click)="closeModal('addFormularModal')">Zatvori</button>
+</jw-modal>
+
+<jw-modal id="addZamenaModal">
+  <h1>Dodaj novu zamenu</h1>
+  <form [formGroup]="addZamenaForm" (ngSubmit)="addZamena(addZamenaForm.value, modalService.param)">
+    <p>ID: <input type="text" id="idzamena" formControlName="idzamena"/></p>
+    <p>Formular: {{modalService.param.idformular}}</p>
+    <p>Domaći predmet: 
+      <select id="predmetDomaci" formControlName="predmetDomaci">
+        <ng-container *ngFor="let pd of adminService.predDomaci">
+          <option *ngIf="pd.program.naziv === 'modalService.param.student.studije.naziv'" [ngValue]="pd">{{pd.naziv}} - {{pd.espb}} ESPB</option>
+        </ng-container>
+      </select>
+    </p>
+    <p>Strani predmet: 
+      <select id="predmetStrani" formControlName="predmetStrani">
+        <ng-container *ngFor="let ps of adminService.predStrani">
+          <option *ngIf="ps.program.naziv === modalService.param.programStrani.naziv" [ngValue]="ps">{{ps.naziv}} - {{ps.espb}} ESPB</option>
+        </ng-container>
+      </select>
+    </p>
+    <button class="btn btn-primary" type="submit">Dodaj</button>
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('addZamenaModal')">Zatvori</button>
+</jw-modal>

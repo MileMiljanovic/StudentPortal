@@ -1,4 +1,4 @@
-<button class="btn btn-success" (click)="newPredmetStr()">Dodaj novi predmet</button>
+<button class="btn btn-success" (click)="openModal('addPredmetStraniModal')">Dodaj novi predmet</button>
 <table class="table">
     <thead>
         <tr>
@@ -21,3 +21,19 @@
         </tr>
       </tbody>
 </table>
+
+<jw-modal id="addPredmetStraniModal">
+  <h1>Dodaj novi predmet</h1>
+  <form [formGroup]="predmetStraniForm" (ngSubmit)="addPredmetStr(predmetStraniForm.value)">
+    <p>Predmet ID: <input type="text" id="predmetId" formControlName="predmetId"/></p>
+    <p>Naziv: <input type="text" id="naziv" formControlName="naziv"/></p>
+    <p>Studijski program: 
+      <select id="program" formControlName="program">
+        <option *ngFor="let p of adminService.progStrani" [ngValue]="p">{{p.naziv}}</option>
+      </select>
+    </p>
+    <p>ESPB: <input type="text" id="espb" formControlName="espb"/></p>
+    <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('addPredmetStraniModal')">Zatvori</button>
+</jw-modal>

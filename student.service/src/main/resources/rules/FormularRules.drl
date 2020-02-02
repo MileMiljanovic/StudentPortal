@@ -15,7 +15,7 @@ agenda-group "valid"
 			collectList($z)
 		)
 		$totalEspb : Number( intValue > 10 ) from accumulate (
-        	Zamena($espb: predmetStrani.espb) from $zamene,
+        	Zamena($espb: predmetDomaci.espb) from $zamene,
         	sum( $espb ) 
         )
 	then

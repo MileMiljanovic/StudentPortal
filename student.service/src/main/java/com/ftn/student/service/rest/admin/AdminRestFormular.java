@@ -20,13 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.student.service.errorhandling.JsonResponse;
 import com.ftn.student.service.models.Formular;
+import com.ftn.student.service.models.Sequence;
 import com.ftn.student.service.repository.FormularRepository;
+import com.ftn.student.service.repository.SequenceRepository;
 
 @RestController
 public class AdminRestFormular {
 	
 	@Autowired
 	private FormularRepository repoFormular;
+	
+	@Autowired
+	private SequenceRepository repoSequence;
 	
 	private final Logger log = LoggerFactory.getLogger(AdminRestFormular.class);
 	
@@ -37,6 +42,14 @@ public class AdminRestFormular {
 		return new ResponseEntity<List<Formular>>(form, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/formular/getId", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<JsonResponse> fetchId() {
+
+		Sequence s = new Sequence(null);
+		repoSequence.save(s);
+		return new ResponseEntity<JsonResponse>(new JsonResponse("F" + s.getCounter().toString()), HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/formular", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<JsonResponse> addFormular(@Valid @RequestBody Formular request) {
 
@@ -44,6 +57,11 @@ public class AdminRestFormular {
 		if (form.isPresent()) {
 			log.error("Formular already exists!");
 			return new ResponseEntity<JsonResponse>(new JsonResponse("Formular vec postoji!"), HttpStatus.BAD_REQUEST);
+		}
+		
+		List<Formular> fs = repoFormular.findByStudent(request.getStudent());
+		if (!fs.isEmpty()) {
+			return new ResponseEntity<JsonResponse>(new JsonResponse("Student vec ima formular!"), HttpStatus.BAD_REQUEST);
 		}
 		repoFormular.save(request);
 		log.info("Formular successfully inserted!");

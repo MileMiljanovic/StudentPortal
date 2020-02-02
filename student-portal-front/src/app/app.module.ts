@@ -15,10 +15,7 @@ import { ZamenaViewComponent } from './zamena-view/zamena-view.component';
 import { UserIndexComponent } from './user-index/user-index.component';
 import { UserFormularComponent } from './user-formular/user-formular.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
-import { UserManagerService } from './user-manager.service';
-import { StudentManagerService } from './student-manager.service';
 import { AdminMainComponent } from './admin-main/admin-main.component';
-import { AdminManagerService } from './admin-manager.service';
 import { AdminKorisniciComponent } from './admin-korisnici/admin-korisnici.component';
 import { AdminStudentiComponent } from './admin-studenti/admin-studenti.component';
 import { AdminDepartmaniComponent } from './admin-departmani/admin-departmani.component';
@@ -28,6 +25,10 @@ import { AdminPredmetiStraniComponent } from './admin-predmeti-strani/admin-pred
 import { AdminProgramiDomaciComponent } from './admin-programi-domaci/admin-programi-domaci.component';
 import { AdminProgramiStraniComponent } from './admin-programi-strani/admin-programi-strani.component';
 import { AdminFormulariComponent } from './admin-formulari/admin-formulari.component';
+import { ModalModule } from './_modal';
+import { MatDatepickerModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,11 @@ import { AdminFormulariComponent } from './admin-formulari/admin-formulari.compo
     ]),
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ModalModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    BrowserAnimationsModule
   ],
   providers: [
   ],

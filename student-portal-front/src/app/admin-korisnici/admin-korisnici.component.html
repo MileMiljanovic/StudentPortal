@@ -1,4 +1,4 @@
-<button class="btn btn-success" (click)="newKorisnik()">Dodaj novog korisnika</button>
+<button class="btn btn-success" (click)="openModal('addKorisnikModal')">Dodaj novog korisnika</button>
 <table class="table">
     <thead>
         <tr>
@@ -25,3 +25,27 @@
         </tr>
       </tbody>
 </table>
+
+<jw-modal id="addKorisnikModal">
+  <h1>Dodaj novog korisnika</h1>
+  <form [formGroup]="korisnikForm" (ngSubmit)="addKorisnik(korisnikForm.value)">
+    <p>Koriničko ime: <input type="text" id="username" formControlName="username"/></p>
+    <p>Lozinka: <input type="password" id="password" formControlName="password"/></p>
+    <p>Potvrdi lozinku: <input type="password" id="passwordConf" formControlName="passwordConf"/></p>
+    <p>Ime: <input type="text" id="ime" formControlName="ime"/></p>
+    <p>Prezime: <input type="text" id="prezime" formControlName="prezime"/></p>
+    <p>JMBG: <input type="text" id="jmbg" formControlName="jmbg"/></p>
+    <p>Datum rođenja:  <input id="datumRodjenja" formControlName="datumRodjenja" [matDatepicker]="basicDatepicker">
+      <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
+      <mat-datepicker #basicDatepicker></mat-datepicker></p>
+    <p>Uloga: 
+      <select id="uloga" formControlName="uloga">
+        <option value="ADMIN">ADMIN</option>
+        <option value="SEF">ŠEF</option>
+        <option value="KOORDINATOR">KOORDINATOR</option>
+      </select>
+    </p>
+    <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('addKorisnikModal')">Zatvori</button>
+</jw-modal>

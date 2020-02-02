@@ -1,4 +1,4 @@
-<button class="btn btn-success" (click)="newDepartman()">Dodaj novi departman</button>
+<button class="btn btn-success" (click)="openModal('addDepartmanModal')">Dodaj novi departman</button>
 <table class="table">
     <thead>
         <tr>
@@ -12,8 +12,24 @@
         <tr *ngFor="let d of adminService.departmani; let i = index;">
             <td>{{d.departmanId}}</td>
             <td>{{d.koordinator.username}}</td>
-            <td><button class="btn btn-primary" (click)="editDepartman(i)">Izmeni</button></td>
+            <td><button class="btn btn-primary" (click)="openModal('addDepartmanModal')">Izmeni</button></td>
             <td><button class="btn btn-danger" (click)="deleteDepartman(i)">Obriši</button></td>
         </tr>
       </tbody>
 </table>
+
+<jw-modal id="addDepartmanModal">
+  <h1>Dodaj novi departman</h1>
+  <form [formGroup]="departmanForm" (ngSubmit)="addDepartman(departmanForm.value)">
+    <p>Naziv: <input type="text" id="naziv" formControlName="naziv"/></p>
+    <p>Koordinator: 
+      <select id="selectedKoord" formControlName="selectedKoord">
+        <ng-container *ngFor="let k of adminService.korisnici">
+          <option *ngIf="k.uloga === 'KOORDINATOR'" [ngValue]="k">{{k.username}}</option>
+        </ng-container>
+      </select>
+    </p>
+    <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('addDepartmanModal')">Zatvori</button>
+</jw-modal>

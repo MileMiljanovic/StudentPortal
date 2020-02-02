@@ -1,4 +1,4 @@
-<button class="btn btn-success" (click)="newProgramDom()">Dodaj novi program</button>
+<button class="btn btn-success" (click)="openModal('addProgramDomaciModal')">Dodaj novi program</button>
 <table class="table">
     <thead>
         <tr>
@@ -19,3 +19,24 @@
         </tr>
       </tbody>
 </table>
+
+<jw-modal id="addProgramDomaciModal">
+  <h1>Dodaj novi program</h1>
+  <form [formGroup]="programDomaciForm" (ngSubmit)="addProgramDom(programDomaciForm.value)">
+    <p>Naziv: <input type="text" id="naziv" formControlName="naziv"/></p>
+    <p>Departman: 
+      <select id="departman" formControlName="departman">
+        <option *ngFor="let d of adminService.departmani" [ngValue]="d">{{d.departmanId}}</option>
+      </select>
+    </p>
+    <p>Šef: 
+      <select id="sef" formControlName="sef">
+        <ng-container *ngFor="let k of adminService.korisnici">
+          <option *ngIf="k.uloga === 'SEF'" [ngValue]="k">{{k.username}}</option>
+        </ng-container>
+      </select>
+    </p>
+    <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('addProgramDomaciModal')">Zatvori</button>
+</jw-modal>

@@ -1,4 +1,4 @@
-<button class="btn btn-success" (click)="newPredmetDom()">Dodaj novi predmet</button>
+<button class="btn btn-success" (click)="openModal('addPredmetDomaciModal')">Dodaj novi predmet</button>
 <table class="table">
     <thead>
         <tr>
@@ -23,3 +23,24 @@
         </tr>
       </tbody>
 </table>
+
+<jw-modal id="addPredmetDomaciModal">
+  <h1>Dodaj novi predmet</h1>
+  <form [formGroup]="predmetDomaciForm" (ngSubmit)="addPredmetDom(predmetDomaciForm.value)">
+    <p>Predmet ID: <input type="text" id="predmetId" formControlName="predmetId"/></p>
+    <p>Naziv: <input type="text" id="naziv" formControlName="naziv"/></p>
+    <p>Studijski program: 
+      <select id="program" formControlName="program">
+        <option *ngFor="let p of adminService.progDomaci" [ngValue]="p">{{p.naziv}}</option>
+      </select>
+    </p>
+    <p>ESPB: <input type="text" id="espb" formControlName="espb"/></p>
+    <p>Nastavnik: 
+      <select id="nastavnik" formControlName="nastavnik">
+        <option *ngFor="let n of adminService.nastavnici" [ngValue]="n">{{n.nastavnikid}} - {{n.ime}} {{n.prezime}}</option>
+      </select>
+    </p>
+    <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('addPredmetDomaciModal')">Zatvori</button>
+</jw-modal>

@@ -17,6 +17,5 @@ export class AdminManagerService {
   progDomaci = [];
   progStrani = [];
   formulari = [];
-  zamene = [];
   constructor() { }
 }

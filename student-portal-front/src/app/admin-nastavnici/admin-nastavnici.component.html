@@ -1,4 +1,4 @@
-<button class="btn btn-success" (click)="newNastavnik()">Dodaj novog nastavnika</button>
+<button class="btn btn-success" (click)="openModal('addNastavnikModal')">Dodaj novog nastavnika</button>
 <table class="table">
     <thead>
         <tr>
@@ -25,3 +25,19 @@
         </tr>
       </tbody>
 </table>
+
+<jw-modal id="addNastavnikModal">
+  <h1>Dodaj novog nastavnika</h1>
+  <form [formGroup]="nastavnikForm" (ngSubmit)="addNastavnik(nastavnikForm.value)">
+    <p>Nastavnik ID: <input type="text" id="nastavnikId" formControlName="nastavnikId"/></p>
+    <p>Ime: <input type="text" id="ime" formControlName="ime"/></p>
+    <p>Prezime: <input type="text" id="prezime" formControlName="prezime"/></p>
+    <p>JMBG: <input type="text" id="jmbg" formControlName="jmbg"/></p>
+    <p>Datum rođenja:  <input id="datumRodjenja" formControlName="datumRodjenja" [matDatepicker]="basicDatepicker">
+      <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
+      <mat-datepicker #basicDatepicker></mat-datepicker></p>
+    <p>Email: <input type="text" id="email" formControlName="email"/></p>
+    <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('addNastavnikModal')">Zatvori</button>
+</jw-modal>

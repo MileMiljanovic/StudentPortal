@@ -32,7 +32,7 @@ public class CronUpdateZamena {
 	private final Logger log = LoggerFactory.getLogger(CronUpdateZamena.class);
 	
 	@Async
-	@Scheduled(cron = "0 0/5 * * * *")
+	@Scheduled(cron = "0 0/30 * * * *")
     public void updateZamena() {
 		
 		log.info("Scheduled checkup started!");
