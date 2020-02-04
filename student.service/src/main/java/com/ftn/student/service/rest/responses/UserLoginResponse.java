@@ -10,7 +10,6 @@ public class UserLoginResponse {
 	
 	public UserLoginResponse() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public UserLoginResponse(List<Formular> formulari) {

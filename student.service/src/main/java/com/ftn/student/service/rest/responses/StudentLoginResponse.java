@@ -14,7 +14,6 @@ public class StudentLoginResponse {
 	
 	public StudentLoginResponse() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public StudentLoginResponse(Student student, List<StudijskiProgramStrani> programiStrani, Formular f) {

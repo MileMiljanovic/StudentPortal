@@ -16,7 +16,6 @@ public class Sequence {
 
 	public Sequence() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Sequence(Long counter) {
