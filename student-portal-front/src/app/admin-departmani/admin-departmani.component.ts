@@ -13,6 +13,7 @@ export class AdminDepartmaniComponent implements OnInit {
 
   token;
   departmanForm;
+  editDepartmanForm;
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -21,6 +22,10 @@ export class AdminDepartmaniComponent implements OnInit {
   ) {
     this.token = localStorage.getItem('token');
     this.departmanForm = this.formBuilder.group({
+      naziv: '',
+      selectedKoord: {}
+    });
+    this.editDepartmanForm = this.formBuilder.group({
       naziv: '',
       selectedKoord: {}
     });
@@ -40,9 +45,15 @@ export class AdminDepartmaniComponent implements OnInit {
     this.modalService.open(id);
   }
 
+  openWithParamDepartman(id: string, param) {
+    this.modalService.openWithParamDepartman(id, param);
+  }
+
   closeModal(id: string) {
       this.modalService.close(id);
+      this.modalService.paramDepartman = this.modalService.placeholderDepartman;
       this.departmanForm.reset();
+      this.editDepartmanForm.reset();
   }
 
   addDepartman(form) {
@@ -63,7 +74,6 @@ export class AdminDepartmaniComponent implements OnInit {
       departmanId: form.naziv,
       koordinator: form.selectedKoord
     };
-    console.log(request);
     const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
     this.http.post<any>('http://localhost:8080/departmani', request, {headers}).subscribe(
       (data) => {
@@ -72,6 +82,36 @@ export class AdminDepartmaniComponent implements OnInit {
         this.departmanForm.reset();
         this.adminService.departmani.sort((a, b) => (a.departmanId > b.departmanId) ? 1 : -1);
         this.closeModal('addDepartmanModal');
+      },
+      (err) => {
+          alert(err.status + ' - ' + err.error.message);
+      }
+    );
+  }
+
+  editDepartman(form, dept) {
+    if (!form.selectedKoord || Object.keys(form.selectedKoord).length === 0) {
+      alert('Nije ništa promenjeno!');
+      return;
+    }
+    if (form.selectedKoord.username === dept.koordinator.username) {
+      alert('Nije ništa promenjeno!');
+      return;
+    }
+    delete form.selectedKoord.password;
+    const request = {
+      departmanId: dept.departmanId,
+      koordinator: form.selectedKoord
+    };
+    console.log(request);
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
+    this.http.put<any>('http://localhost:8080/departmani/' + dept.departmanId, request, {headers}).subscribe(
+      (data) => {
+        alert(dept.departmanId + ' uspešno izmenjen!');
+        this.editDepartmanForm.reset();
+        const index = this.adminService.departmani.findIndex(x => x.departmanId === dept.departmanId);
+        this.adminService.departmani[index] = request;
+        this.closeModal('editDepartmanModal');
       },
       (err) => {
           alert(err.status + ' - ' + err.error.message);

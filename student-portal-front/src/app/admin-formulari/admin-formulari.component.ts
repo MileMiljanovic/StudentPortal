@@ -35,13 +35,10 @@ export class AdminFormulariComponent implements OnInit {
    }
 
   ngOnInit() {
-   
     const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
     this.http.get<any>('http://localhost:8080/formular', {headers}).subscribe(
       (data) => {
         this.adminService.formulari = data;
-        this.modalService.param = this.adminService.formulari[0];
-        console.log(this.modalService.param);
       },
       (err) => { alert(err.status + ' - ' + err.error.message); }
     );
@@ -51,12 +48,13 @@ export class AdminFormulariComponent implements OnInit {
     this.modalService.open(id);
   }
 
-  openModalWithParam(id: string, param) {
-    this.modalService.openWithParam(id, param);
+  openWithParamFormular(id: string, param) {
+    this.modalService.openWithParamFormular(id, param);
   }
 
   closeModal(id: string) {
       this.modalService.close(id);
+      this.modalService.paramFormular = this.modalService.placeholderFormular;
       this.addFormularForm.reset();
       this.addZamenaForm.reset();
   }
@@ -143,14 +141,14 @@ export class AdminFormulariComponent implements OnInit {
         return;
       }
     }
-    const token = uuid();
+    const tokenZam = uuid();
     const request = {
       idzamena: form.idzamena,
       formular: formular.idformular,
       predmetDomaci: form.predmetDomaci,
       predmetStrani: form.predmetStrani,
       odobreno: null,
-      token: token
+      token: tokenZam
     };
     const index = this.adminService.formulari.findIndex(x => x.idformular === formular.idformular);
     const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });

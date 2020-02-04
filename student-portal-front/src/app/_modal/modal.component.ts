@@ -3,8 +3,8 @@
 import { ModalService } from './modal.service';
 
 @Component({ 
-    selector: 'jw-modal', 
-    templateUrl: 'modal.component.html', 
+    selector: 'jw-modal',
+    templateUrl: 'modal.component.html',
     styleUrls: ['modal.component.less'],
     encapsulation: ViewEncapsulation.None
 })

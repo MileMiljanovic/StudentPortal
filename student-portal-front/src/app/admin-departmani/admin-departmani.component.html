@@ -12,7 +12,7 @@
         <tr *ngFor="let d of adminService.departmani; let i = index;">
             <td>{{d.departmanId}}</td>
             <td>{{d.koordinator.username}}</td>
-            <td><button class="btn btn-primary" (click)="openModal('addDepartmanModal')">Izmeni</button></td>
+            <td><button class="btn btn-primary" (click)="openWithParamDepartman('editDepartmanModal', d)">Izmeni</button></td>
             <td><button class="btn btn-danger" (click)="deleteDepartman(i)">Obriši</button></td>
         </tr>
       </tbody>
@@ -32,4 +32,20 @@
     <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
   </form>
   <button class="btn btn-danger" (click)="closeModal('addDepartmanModal')">Zatvori</button>
+</jw-modal> 
+
+<jw-modal id="editDepartmanModal">
+  <h1>Izmeni departman</h1>
+  <form [formGroup]="editDepartmanForm" (ngSubmit)="editDepartman(editDepartmanForm.value, modalService.paramDepartman)">
+    <p>Naziv: {{modalService.paramDepartman.departmanId}}</p>
+    <p>Koordinator: 
+      <select id="selectedKoord" formControlName="selectedKoord">
+        <ng-container *ngFor="let k of adminService.korisnici">
+          <option *ngIf="k.uloga === 'KOORDINATOR'" [ngValue]="k" [selected]="k.username==modalService.paramDepartman.koordinator.username">{{k.username}}</option>
+        </ng-container>
+      </select>
+    </p>
+    <button class="btn btn-primary" type="submit">Izmeni</button>&nbsp;&nbsp;&nbsp;
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('editDepartmanModal')">Zatvori</button>
 </jw-modal>
