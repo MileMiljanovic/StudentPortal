@@ -171,8 +171,9 @@ export class AdminKorisniciComponent implements OnInit {
           alert(kor.username + ' uspešno izmenjen!');
           this.editKorisnikForm.reset();
           const index = this.adminService.korisnici.findIndex(x => x.username === form.username);
-          this.adminService.korisnici[index] = request;
+          this.adminService.korisnici[index] = data;
           this.closeModal('editKorisnikModal');
+          console.log(data);
         },
         (err) => {
             alert(err.status + ' - ' + err.error.message);

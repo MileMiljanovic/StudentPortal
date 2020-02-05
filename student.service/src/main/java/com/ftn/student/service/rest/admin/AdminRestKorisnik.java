@@ -55,12 +55,12 @@ public class AdminRestKorisnik {
 	}
 	
 	@RequestMapping(value = "/korisnik/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<JsonResponse> putKorisnik(@Valid @RequestBody KorisnikAdm request) {
+	public @ResponseBody ResponseEntity<KorisnikAdm> putKorisnik(@Valid @RequestBody KorisnikAdm request) {
 
 		Optional<KorisnikAdm> kor = repoKorisnici.findById(request.getUsername());
 		if (!kor.isPresent()) {
 			log.error("User does not exist!");
-			return new ResponseEntity<JsonResponse>(new JsonResponse("Korisnik ne postoji!"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<KorisnikAdm>(HttpStatus.BAD_REQUEST);
 		}
 		
 		if (!request.getPassword().equals(kor.get().getPassword())) {
@@ -70,7 +70,7 @@ public class AdminRestKorisnik {
 		}
 		repoKorisnici.save(request);
 		log.info("User successfully updated!");
-		return new ResponseEntity<JsonResponse>(new JsonResponse("Korisnik uspesno izmenjen!"), HttpStatus.OK);
+		return new ResponseEntity<KorisnikAdm>(request, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/korisnik/{id}", method = RequestMethod.DELETE)
