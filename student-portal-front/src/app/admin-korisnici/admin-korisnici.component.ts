@@ -14,6 +14,7 @@ export class AdminKorisniciComponent implements OnInit {
 
   token;
   korisnikForm;
+  editKorisnikForm;
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -22,6 +23,16 @@ export class AdminKorisniciComponent implements OnInit {
   ) {
     this.token = localStorage.getItem('token');
     this.korisnikForm = this.formBuilder.group({
+      username: '',
+      password: '',
+      passwordConf: '',
+      ime: '',
+      prezime: '',
+      jmbg: '',
+      datumRodjenja: '',
+      uloga: ''
+    });
+    this.editKorisnikForm = this.formBuilder.group({
       username: '',
       password: '',
       passwordConf: '',
@@ -49,7 +60,18 @@ export class AdminKorisniciComponent implements OnInit {
 
   closeModal(id: string) {
       this.modalService.close(id);
+      this.modalService.paramKorisnik = this.modalService.placeholderKorisnik;
       this.korisnikForm.reset();
+      this.editKorisnikForm.reset();
+  }
+
+  openWithParamKorisnik(id: string, param) {
+    this.modalService.openWithParamKorisnik(id, param);
+    this.editKorisnikForm.get('username').setValue(param.username);
+    this.editKorisnikForm.get('ime').setValue(param.ime);
+    this.editKorisnikForm.get('prezime').setValue(param.prezime);
+    this.editKorisnikForm.get('jmbg').setValue(param.jmbg);
+    this.editKorisnikForm.get('uloga').setValue(param.uloga);
   }
 
   addKorisnik(form) {
@@ -104,12 +126,61 @@ export class AdminKorisniciComponent implements OnInit {
         this.korisnikForm.reset();
         this.adminService.korisnici.sort((a, b) => (a.username > b.username) ? 1 : -1);
         this.closeModal('addKorisnikModal');
+        this.http.get<any>('http://localhost:8080/korisnik', {headers}).subscribe(
+          (data1) => {
+            this.adminService.korisnici = data1;
+          },
+          (err) => { alert(err.status + ' - ' + err.error.message); }
+        );
       },
       (err) => {
           alert(err.status + ' - ' + err.error.message);
       }
     );
 
+  }
+
+  editKorisnik(form, kor) {
+    if (!form.ime) {
+      alert('Ime ne sme biti prazno!');
+      return;
+    }
+    if (!form.prezime) {
+      alert('Prezime ne sme biti prazno!');
+      return;
+    }
+    if (!form.jmbg) {
+      alert('JMBG ne sme biti prazan!');
+      return;
+    }
+    if (form.password === form.passwordConf) {
+      const datumRodj = (!form.datumRodjenja) ? kor.datumrodjenja : this.dateAsYYYYMMDD(form.datumRodjenja);
+      const newPass = (!form.password) ? kor.password : form.password;
+      const request = {
+        username: form.username,
+        password: newPass,
+        ime: form.ime,
+        prezime: form.prezime,
+        jmbg: form.jmbg,
+        datumrodjenja: datumRodj,
+        uloga: form.uloga
+      };
+      const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
+      this.http.put<any>('http://localhost:8080/korisnik/' + kor.username, request, {headers}).subscribe(
+        (data) => {
+          alert(kor.username + ' uspešno izmenjen!');
+          this.editKorisnikForm.reset();
+          const index = this.adminService.korisnici.findIndex(x => x.username === form.username);
+          this.adminService.korisnici[index] = request;
+          this.closeModal('editKorisnikModal');
+        },
+        (err) => {
+            alert(err.status + ' - ' + err.error.message);
+        }
+      );
+    } else {
+      alert('Lozinke se ne podudaraju!');
+    }
   }
 
   deleteKorisnik(i) {
@@ -133,7 +204,7 @@ export class AdminKorisniciComponent implements OnInit {
   dateAsYYYYMMDD(date): string {
     return date.getFullYear()
               + '-' + this.leftpad(date.getMonth() + 1, 2)
-              + '-' + this.leftpad(date.getDate(), 2)
+              + '-' + this.leftpad(date.getDate(), 2);
   }
   leftpad(val, resultLength = 2, leftpadChar = '0'): string {
     return (String(leftpadChar).repeat(resultLength)

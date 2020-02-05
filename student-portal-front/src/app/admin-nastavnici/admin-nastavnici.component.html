@@ -20,7 +20,7 @@
             <td>{{n.jmbg}}</td>
             <td>{{n.datumrodjenja}}</td>
             <td>{{n.email}}</td>
-            <td><button class="btn btn-primary" (click)="editNastavnik(i)">Izmeni</button></td>
+            <td><button class="btn btn-primary" (click)="openWithParamNastavnik('editNastavnikModal', n)">Izmeni</button></td>
             <td><button class="btn btn-danger" (click)="deleteNastavnik(i)">Obriši</button></td>
         </tr>
       </tbody>
@@ -40,4 +40,21 @@
     <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
   </form>
   <button class="btn btn-danger" (click)="closeModal('addNastavnikModal')">Zatvori</button>
+</jw-modal>
+
+<jw-modal id="editNastavnikModal">
+  <h1>Izmeni nastavnika</h1>
+  <form [formGroup]="editNastavnikForm" (ngSubmit)="editNastavnik(editNastavnikForm.value, modalService.paramNastavnik)">
+    <p>Nastavnik ID: <input type="text" id="nastavnikId" formControlName="nastavnikId" readonly/></p>
+    <p>Ime: <input type="text" id="ime" formControlName="ime"/></p>
+    <p>Prezime: <input type="text" id="prezime" formControlName="prezime"/></p>
+    <p>JMBG: <input type="text" id="jmbg" formControlName="jmbg"/></p>
+    <p>Datum rođenja:  <input id="datumRodjenja" formControlName="datumRodjenja" [matDatepicker]="basicDatepicker1"
+      [value]="modalService.paramNastavnik.datumrodjenja">
+      <mat-datepicker-toggle [for]="basicDatepicker1"></mat-datepicker-toggle>
+      <mat-datepicker #basicDatepicker1></mat-datepicker></p>
+    <p>Email: <input type="text" id="email" formControlName="email"/></p>
+    <button class="btn btn-primary" type="submit">Izmeni</button>&nbsp;&nbsp;&nbsp;
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('editNastavnikModal')">Zatvori</button>
 </jw-modal>

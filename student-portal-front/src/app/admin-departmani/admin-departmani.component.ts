@@ -47,6 +47,8 @@ export class AdminDepartmaniComponent implements OnInit {
 
   openWithParamDepartman(id: string, param) {
     this.modalService.openWithParamDepartman(id, param);
+    this.editDepartmanForm.get('naziv').setValue(param.departmanId);
+    this.editDepartmanForm.get('selectedKoord').setValue(param.koordinator);
   }
 
   closeModal(id: string) {
@@ -90,14 +92,6 @@ export class AdminDepartmaniComponent implements OnInit {
   }
 
   editDepartman(form, dept) {
-    if (!form.selectedKoord || Object.keys(form.selectedKoord).length === 0) {
-      alert('Nije ništa promenjeno!');
-      return;
-    }
-    if (form.selectedKoord.username === dept.koordinator.username) {
-      alert('Nije ništa promenjeno!');
-      return;
-    }
     delete form.selectedKoord.password;
     const request = {
       departmanId: dept.departmanId,

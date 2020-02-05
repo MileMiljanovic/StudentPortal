@@ -22,7 +22,7 @@
             <td>{{s.datumrodjenja}}</td>
             <td>{{s.email}}</td>
             <td>{{s.studije.naziv}}</td>
-            <td><button class="btn btn-primary" (click)="editStudent(i)">Izmeni</button></td>
+            <td><button class="btn btn-primary" (click)="openWithParamStudent('editStudentModal', s)">Izmeni</button></td>
             <td><button class="btn btn-danger" (click)="deleteStudent(i)">Obriši</button></td>
         </tr>
       </tbody>
@@ -47,4 +47,26 @@
     <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
   </form>
   <button class="btn btn-danger" (click)="closeModal('addStudentModal')">Zatvori</button>
+</jw-modal>
+
+<jw-modal id="editStudentModal">
+  <h1>Izmeni studenta</h1>
+  <form [formGroup]="editStudentForm" (ngSubmit)="editStudent(editStudentForm.value, modalService.paramStudent)">
+    <p>Broj indeksa: <input type="text" id="brIndeksa" formControlName="brIndeksa" readonly/></p>
+    <p>Ime: <input type="text" id="ime" formControlName="ime"/></p>
+    <p>Prezime: <input type="text" id="prezime" formControlName="prezime"/></p>
+    <p>JMBG: <input type="text" id="jmbg" formControlName="jmbg"/></p>
+    <p>Datum rođenja:  <input id="datumRodjenja" formControlName="datumRodjenja" [matDatepicker]="basicDatepicker1"
+      [value]="modalService.paramStudent.datumrodjenja">
+      <mat-datepicker-toggle [for]="basicDatepicker1"></mat-datepicker-toggle>
+      <mat-datepicker #basicDatepicker1></mat-datepicker></p>
+    <p>Email: <input type="text" id="email" formControlName="email"/></p>
+    <p>Studijski program: 
+      <select id="studije" formControlName="studije">
+        <option *ngFor="let p of adminService.progDomaci" [ngValue]="p" [selected]="p.naziv==modalService.paramStudent.studije.naziv">{{p.naziv}}</option>
+      </select>
+    </p>
+    <button class="btn btn-primary" type="submit">Izmeni</button>&nbsp;&nbsp;&nbsp;
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('editStudentModal')">Zatvori</button>
 </jw-modal>

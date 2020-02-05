@@ -14,6 +14,7 @@ export class AdminNastavniciComponent implements OnInit {
 
   token;
   nastavnikForm;
+  editNastavnikForm;
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -22,6 +23,14 @@ export class AdminNastavniciComponent implements OnInit {
   ) {
     this.token = localStorage.getItem('token');
     this.nastavnikForm = this.formBuilder.group({
+      nastavnikId: '',
+      ime: '',
+      prezime: '',
+      jmbg: '',
+      datumRodjenja: '',
+      email: ''
+    });
+    this.editNastavnikForm = this.formBuilder.group({
       nastavnikId: '',
       ime: '',
       prezime: '',
@@ -45,9 +54,20 @@ export class AdminNastavniciComponent implements OnInit {
     this.modalService.open(id);
   }
 
+  openWithParamNastavnik(id: string, param) {
+    this.modalService.openWithParamNastavnik(id, param);
+    this.editNastavnikForm.get('nastavnikId').setValue(param.nastavnikid);
+    this.editNastavnikForm.get('ime').setValue(param.ime);
+    this.editNastavnikForm.get('prezime').setValue(param.prezime);
+    this.editNastavnikForm.get('jmbg').setValue(param.jmbg);
+    this.editNastavnikForm.get('email').setValue(param.email);
+  }
+
   closeModal(id: string) {
       this.modalService.close(id);
+      this.modalService.paramNastavnik = this.modalService.placeholderNastavnik;
       this.nastavnikForm.reset();
+      this.editNastavnikForm.reset();
   }
 
   addNastavnik(form) {
@@ -98,6 +118,47 @@ export class AdminNastavniciComponent implements OnInit {
           alert(err.status + ' - ' + err.error.message);
       }
     );
+  }
+
+  editNastavnik(form, nas) {
+    if (!form.ime) {
+      alert('Ime ne sme biti prazno!');
+      return;
+    }
+    if (!form.prezime) {
+      alert('Prezime ne sme biti prazno!');
+      return;
+    }
+    if (!form.jmbg) {
+      alert('JMBG ne sme biti prazan!');
+      return;
+    }
+    if (!form.email) {
+      alert('Email ne sme biti prazan!');
+      return;
+    }
+    const datumRodj = (!form.datumRodjenja) ? nas.datumrodjenja : this.dateAsYYYYMMDD(form.datumRodjenja);
+    const request = {
+      nastavnikid: form.nastavnikId,
+      ime: form.ime,
+      prezime: form.prezime,
+      jmbg: form.jmbg,
+      datumrodjenja: datumRodj,
+      email: form.email
+    };
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
+    this.http.put<any>('http://localhost:8080/nastavnik/' + form.nastavnikId, request, {headers}).subscribe(
+        (data) => {
+          alert(form.nastavnikId + ' uspešno izmenjen!');
+          this.editNastavnikForm.reset();
+          const index = this.adminService.nastavnici.findIndex(x => x.nastavnikid === form.nastavnikId);
+          this.adminService.nastavnici[index] = request;
+          this.closeModal('editNastavnikModal');
+        },
+        (err) => {
+            alert(err.status + ' - ' + err.error.message);
+        }
+      );
   }
 
   deleteNastavnik(i) {

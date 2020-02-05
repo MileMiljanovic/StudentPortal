@@ -119,6 +119,7 @@ public class ConfirmationController {
 			@PathVariable String uuid, @PathVariable String odgovor) throws MessagingException, IOException, DocumentException {
 		
 		Optional<Zamena> z = repoZamena.findById(zamena);
+		Optional<Formular> f = repoFormular.findById(formular);
 		
 		if (!z.isPresent()) {
 			log.error("Substitute does not exist!");
@@ -143,7 +144,7 @@ public class ConfirmationController {
 		}
 		zam.setOdobreno(odgovor);
 		repoZamena.save(zam);
-		emailSvc.sendEmailStudentTeacher(zam, odgovor);
+		emailSvc.sendEmailStudentTeacher(f.get(), zam, odgovor);
 		log.info("Successfully confirmed a substitute! ID: " + zam.getIdzamena());
 		return new ResponseEntity<String>("Uspesno odobreno!", HttpStatus.OK);
 	}

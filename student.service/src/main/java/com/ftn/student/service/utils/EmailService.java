@@ -139,7 +139,7 @@ public class EmailService {
 
     }
     
-    public void sendEmailStudentTeacher(Zamena z, String odgovor) throws MessagingException, IOException, DocumentException {
+    public void sendEmailStudentTeacher(Formular f, Zamena z, String odgovor) throws MessagingException, IOException, DocumentException {
 
     	
     	log.info("Email sending initiated!");

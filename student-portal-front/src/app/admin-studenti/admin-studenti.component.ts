@@ -14,6 +14,7 @@ export class AdminStudentiComponent implements OnInit {
 
   token;
   studentForm;
+  editStudentForm;
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -22,6 +23,15 @@ export class AdminStudentiComponent implements OnInit {
   ) {
     this.token = localStorage.getItem('token');
     this.studentForm = this.formBuilder.group({
+      brIndeksa: '',
+      ime: '',
+      prezime: '',
+      jmbg: '',
+      datumRodjenja: '',
+      email: '',
+      studije: {}
+    });
+    this.editStudentForm = this.formBuilder.group({
       brIndeksa: '',
       ime: '',
       prezime: '',
@@ -46,9 +56,22 @@ export class AdminStudentiComponent implements OnInit {
     this.modalService.open(id);
   }
 
+  openWithParamStudent(id: string, param) {
+    this.modalService.openWithParamStudent(id, param);
+    this.editStudentForm.get('brIndeksa').setValue(param.brindeksa);
+    this.editStudentForm.get('ime').setValue(param.ime);
+    this.editStudentForm.get('prezime').setValue(param.prezime);
+    this.editStudentForm.get('jmbg').setValue(param.jmbg);
+    this.editStudentForm.get('email').setValue(param.email);
+    this.editStudentForm.get('studije').setValue(param.studije);
+  }
+
+
   closeModal(id: string) {
       this.modalService.close(id);
+      this.modalService.paramStudent = this.modalService.placeholderStudent;
       this.studentForm.reset();
+      this.editStudentForm.reset();
   }
 
   addStudent(form) {
@@ -107,6 +130,49 @@ export class AdminStudentiComponent implements OnInit {
           alert(err.status + ' - ' + err.error.message);
       }
     );
+  }
+
+  editStudent(form, stud) {
+    if (!form.ime) {
+      alert('Ime ne sme biti prazno!');
+      return;
+    }
+    if (!form.prezime) {
+      alert('Prezime ne sme biti prazno!');
+      return;
+    }
+    if (!form.jmbg) {
+      alert('JMBG ne sme biti prazan!');
+      return;
+    }
+    if (!form.email) {
+      alert('Email ne sme biti prazan!');
+      return;
+    }
+    const datumRodj = (!form.datumRodjenja) ? stud.datumrodjenja : this.dateAsYYYYMMDD(form.datumRodjenja);
+    const request = {
+      brindeksa: form.brIndeksa,
+      ime: form.ime,
+      prezime: form.prezime,
+      jmbg: form.jmbg,
+      datumrodjenja: datumRodj,
+      email: form.email,
+      studije: form.studije
+    };
+    console.log(request);
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
+    this.http.put<any>('http://localhost:8080/student/' + form.brIndeksa, request, {headers}).subscribe(
+        (data) => {
+          alert(form.brIndeksa + ' uspešno izmenjen!');
+          this.editStudentForm.reset();
+          const index = this.adminService.studenti.findIndex(x => x.brindeksa === form.brIndeksa);
+          this.adminService.studenti[index] = request;
+          this.closeModal('editStudentModal');
+        },
+        (err) => {
+            alert(err.status + ' - ' + err.error.message);
+        }
+      );
   }
 
   deleteStudent(i) {

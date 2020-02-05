@@ -35,7 +35,7 @@ public class Korisnik {
 	private String jmbg;
 	
 	@Column(name = "datumrodjenja")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, timezone="CET", pattern = "yyyy-MM-dd")
 	private Date datumrodjenja;
 	
 	@Enumerated(EnumType.STRING)

@@ -37,7 +37,7 @@
 <jw-modal id="editDepartmanModal">
   <h1>Izmeni departman</h1>
   <form [formGroup]="editDepartmanForm" (ngSubmit)="editDepartman(editDepartmanForm.value, modalService.paramDepartman)">
-    <p>Naziv: {{modalService.paramDepartman.departmanId}}</p>
+    <p>Naziv: <input type="text" id="naziv" formControlName="naziv" readonly/></p>
     <p>Koordinator: 
       <select id="selectedKoord" formControlName="selectedKoord">
         <ng-container *ngFor="let k of adminService.korisnici">

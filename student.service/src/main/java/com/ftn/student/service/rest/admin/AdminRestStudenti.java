@@ -62,6 +62,13 @@ public class AdminRestStudenti {
 			log.error("Student does not exist!");
 			return new ResponseEntity<JsonResponse>(new JsonResponse("Student ne postoji!"), HttpStatus.BAD_REQUEST);
 		}
+		
+		/*if(!request.getStudije().getNaziv().equals(stud.get().getStudije().getNaziv())) {
+			List<Formular> forms = repoFormular.findByStudent(stud.get());
+			for (Formular f: forms) {
+				repoFormular.delete(f);
+			}
+		}*/
 		repoStudent.save(request);
 		log.info("Student successfully updated!");
 		return new ResponseEntity<JsonResponse>(new JsonResponse("Student uspesno izmenjen!"), HttpStatus.OK);
