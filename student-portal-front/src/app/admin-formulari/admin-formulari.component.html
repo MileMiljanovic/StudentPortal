@@ -1,10 +1,12 @@
 <button class="btn btn-success" (click)="openModal('addFormularModal')">Dodaj formular</button>
-<div class="card" style="width: 80%;" *ngFor="let f of adminService.formulari; let i = index;">
+<div class="card" style="width: 100%;" *ngFor="let f of adminService.formulari; let i = index;">
     <div class="card-body">
       <h5 class="card-title">Formular ID: {{f.idformular}}</h5>
       <p class="card-text">Student: {{f.student.brindeksa}}</p>
       <p class="card-text">Strani program: {{f.programStrani.naziv}}</p>
       <p class="card-text">Datum i vreme: {{f.datum}}</p>
+      <p><button class="btn btn-primary">Odobri (koordinator)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger">Odbij (koordinator)</button></p>
+      <p><button class="btn btn-primary">Odobri (šef)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger">Odbij (šef)</button></p>
       <p>Zamene:</p>
       <button class="btn btn-success" (click)="openWithParamFormular('addZamenaModal', f)">Dodaj zamenu</button>
       <table class="table">
@@ -18,6 +20,8 @@
               <th scope="col">Odobreno</th>
               <th scope="col">Obriši</th>
               <th scope="col">Izmeni</th>
+              <th scope="col">Odobenje</th>
+              <th scope="col">Odbijanje</th>
             </tr>
           </thead>
           <tbody>
@@ -28,12 +32,13 @@
                 <td>{{z.predmetStrani.naziv}}</td>
                 <td>{{z.predmetStrani.espb}}</td>
                 <td>{{z.odobreno}}</td>
-                <td><button class="btn btn-primary" (click)="editZamena(i, j)">Izmeni</button></td>
+                <td><button class="btn btn-primary" (click)="openWithParamZamena('editZamenaModal', z)">Izmeni</button></td>
                 <td><button class="btn btn-danger" (click)="deleteZamena(i, j)">Obriši</button></td>
+                <td><button class="btn btn-success" (click)="confirmZamena(z, f, 'Y')">Odobri</button></td>
+                <td><button class="btn btn-warning" (click)="confirmZamena(z, f, 'N')">Odbij</button></td>
             </tr>
           </tbody>
     </table>
-      <button class="btn btn-primary" (click)="editFormular(i)">Izmeni formular</button>&nbsp;&nbsp;&nbsp;
       <button class="btn btn-danger" (click)="deleteFormular(i)">Obriši formular</button>
     </div>
 </div>
@@ -60,7 +65,7 @@
   <h1>Dodaj novu zamenu</h1>
   <form [formGroup]="addZamenaForm" (ngSubmit)="addZamena(addZamenaForm.value, modalService.paramFormular)">
     <p>ID: <input type="text" id="idzamena" formControlName="idzamena"/></p>
-    <p>Formular: {{modalService.paramFormular.idformular}}</p>
+    <p>Formular: <input type="text" id="formular" formControlName="formular" readonly/></p>
     <p>Domaći predmet: 
       <select id="predmetDomaci" formControlName="predmetDomaci">
         <ng-container *ngFor="let pd of adminService.predDomaci">
@@ -78,4 +83,26 @@
     <button class="btn btn-primary" type="submit">Dodaj</button>
   </form>
   <button class="btn btn-danger" (click)="closeModal('addZamenaModal')">Zatvori</button>
+</jw-modal>
+
+<jw-modal id="editZamenaModal">
+  <h1>Izmeni zamenu</h1>
+  <form [formGroup]="editZamenaForm" (ngSubmit)="editZamena(editZamenaForm.value, modalService.paramZamena)">
+    <p>ID: <input type="text" id="idzamena" formControlName="idzamena" readonly/></p>
+    <p>Formular: <input type="text" id="formular" formControlName="formular" readonly/></p>
+    <p>Domaći predmet: 
+      <select id="predmetDomaci" formControlName="predmetDomaci">
+        <option *ngFor="let p of adminService.zamDomaci" [ngValue]="p"
+        [selected]="p.predmetId==modalService.paramZamena.predmetDomaci.predmetId">{{p.naziv}} - {{p.espb}} ESPB</option>
+      </select>
+    </p>
+    <p>Strani predmet: 
+      <select id="predmetStrani" formControlName="predmetStrani">
+        <option *ngFor="let p of adminService.zamStrani" [ngValue]="p"
+        [selected]="p.predmetId==modalService.paramZamena.predmetStrani.predmetId">{{p.naziv}} - {{p.espb}} ESPB</option>
+      </select>
+    </p>
+    <button class="btn btn-primary" type="submit">Izmeni</button>
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('editZamenaModal')">Zatvori</button>
 </jw-modal>

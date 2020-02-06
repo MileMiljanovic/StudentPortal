@@ -13,6 +13,7 @@ export class AdminProgramiDomaciComponent implements OnInit {
 
   token;
   programDomaciForm;
+  editProgramDomaciForm;
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -21,6 +22,11 @@ export class AdminProgramiDomaciComponent implements OnInit {
   ) {
     this.token = localStorage.getItem('token');
     this.programDomaciForm = this.formBuilder.group({
+      naziv: '',
+      departman: {},
+      sef: {}
+    });
+    this.editProgramDomaciForm = this.formBuilder.group({
       naziv: '',
       departman: {},
       sef: {}
@@ -41,9 +47,18 @@ export class AdminProgramiDomaciComponent implements OnInit {
     this.modalService.open(id);
   }
 
+  openWithParamProgramDom(id: string, param) {
+    this.modalService.openWithParamProgramDom(id, param);
+    this.editProgramDomaciForm.get('naziv').setValue(param.naziv);
+    this.editProgramDomaciForm.get('departman').setValue(param.departman);
+    this.editProgramDomaciForm.get('sef').setValue(param.sef);
+  }
+
   closeModal(id: string) {
       this.modalService.close(id);
+      this.modalService.paramProgramDom = this.modalService.placeholderProgramDom;
       this.programDomaciForm.reset();
+      this.editProgramDomaciForm.reset();
   }
 
   addProgramDom(form) {
@@ -83,6 +98,27 @@ export class AdminProgramiDomaciComponent implements OnInit {
       },
       (err) => {
           alert(err.status + ' - ' + err.error.message);
+      }
+    );
+  }
+
+  editProgramDom(form) {
+    const request = {
+      naziv: form.naziv,
+      departman: form.departman,
+      sef: form.sef
+    };
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
+    this.http.put<any>('http://localhost:8080/progDomaci/' + form.naziv, request, {headers}).subscribe(
+      (data) => {
+        alert(form.naziv + ' uspešno izmenjen!');
+        this.editProgramDomaciForm.reset();
+        const index = this.adminService.progDomaci.findIndex(x => x.naziv === form.naziv);
+        this.adminService.progDomaci[index] = request;
+        this.closeModal('editProgramDomaciModal');
+      },
+      (err) => {
+        alert(err.status + ' - ' + err.error.message);
       }
     );
   }

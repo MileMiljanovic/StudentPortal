@@ -13,6 +13,7 @@ export class AdminPredmetiStraniComponent implements OnInit {
 
   token;
   predmetStraniForm;
+  editPredmetStraniForm;
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -26,6 +27,12 @@ export class AdminPredmetiStraniComponent implements OnInit {
       program: {},
       espb: ''
     });
+    this.editPredmetStraniForm = this.formBuilder.group({
+      predmetId: '',
+      naziv: '',
+      program: {},
+      espb: ''
+    });
    }
 
   ngOnInit() {
@@ -33,6 +40,7 @@ export class AdminPredmetiStraniComponent implements OnInit {
     this.http.get<any>('http://localhost:8080/predStrani', {headers}).subscribe(
       (data) => {
         this.adminService.predStrani = data;
+        this.adminService.zamStrani = data;
       },
       (err) => { alert(err.status + ' - ' + err.error.message); }
     );
@@ -42,9 +50,19 @@ export class AdminPredmetiStraniComponent implements OnInit {
     this.modalService.open(id);
   }
 
+  openWithParamPredmetStr(id: string, param) {
+    this.modalService.openWithParamPredmetStr(id, param);
+    this.editPredmetStraniForm.get('predmetId').setValue(param.predmetId);
+    this.editPredmetStraniForm.get('naziv').setValue(param.naziv);
+    this.editPredmetStraniForm.get('program').setValue(param.program);
+    this.editPredmetStraniForm.get('espb').setValue(param.espb);
+  }
+
   closeModal(id: string) {
       this.modalService.close(id);
+      this.modalService.paramPredmetStr = this.modalService.placeholderPredmetStr;
       this.predmetStraniForm.reset();
+      this.editPredmetStraniForm.reset();
   }
 
   addPredmetStr(form) {
@@ -91,6 +109,41 @@ export class AdminPredmetiStraniComponent implements OnInit {
       },
       (err) => {
           alert(err.status + ' - ' + err.error.message);
+      }
+    );
+  }
+
+  editPredmetStr(form) {
+    if (!form.naziv) {
+      alert('Unesite naziv!');
+      return;
+    }
+    if (!form.espb) {
+      alert('Unesite ESPB bodove!');
+      return;
+    }
+    if (isNaN(form.espb)) {
+      alert('ESPB bodovi moraju biti broj!');
+      return;
+    }
+    const espbParsed = +form.espb;
+    const request = {
+      predmetId: form.predmetId,
+      naziv: form.naziv,
+      program: form.program,
+      espb: espbParsed
+    };
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
+    this.http.put<any>('http://localhost:8080/predStrani/' + form.predmetId, request, {headers}).subscribe(
+      (data) => {
+        alert(form.predmetId + ' uspešno izmenjen!');
+        this.editPredmetStraniForm.reset();
+        const index = this.adminService.predStrani.findIndex(x => x.predmetId === form.predmetId);
+        this.adminService.predStrani[index] = request;
+        this.closeModal('editPredmetStraniModal');
+      },
+      (err) => {
+        alert(err.status + ' - ' + err.error.message);
       }
     );
   }

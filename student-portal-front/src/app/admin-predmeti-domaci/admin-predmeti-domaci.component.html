@@ -18,7 +18,7 @@
             <td>{{p.program.naziv}}</td>
             <td>{{p.espb}}</td>
             <td>{{p.nastavnik.nastavnikid}}</td>
-            <td><button class="btn btn-primary" (click)="editPredmetDom(i)">Izmeni</button></td>
+            <td><button class="btn btn-primary" (click)="openWithParamPredmetDom('editPredmetDomaciModal', p)">Izmeni</button></td>
             <td><button class="btn btn-danger" (click)="deletePredmetDom(i)">Obriši</button></td>
         </tr>
       </tbody>
@@ -43,4 +43,25 @@
     <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
   </form>
   <button class="btn btn-danger" (click)="closeModal('addPredmetDomaciModal')">Zatvori</button>
+</jw-modal>
+
+<jw-modal id="editPredmetDomaciModal">
+  <h1>Izmeni predmet</h1>
+  <form [formGroup]="editPredmetDomaciForm" (ngSubmit)="editPredmetDom(editPredmetDomaciForm.value)">
+    <p>Predmet ID: <input type="text" id="predmetId" formControlName="predmetId" readonly/></p>
+    <p>Naziv: <input type="text" id="naziv" formControlName="naziv"/></p>
+    <p>Studijski program: 
+      <select id="program" formControlName="program" disabled>
+        <option *ngFor="let p of adminService.progDomaci" [ngValue]="p" [selected]="p.naziv==modalService.paramPredmetDom.program.naziv">{{p.naziv}}</option>
+      </select>
+    </p>
+    <p>ESPB: <input type="text" id="espb" formControlName="espb"/></p>
+    <p>Nastavnik: 
+      <select id="nastavnik" formControlName="nastavnik">
+        <option *ngFor="let n of adminService.nastavnici" [ngValue]="n" [selected]="n.nastavnikid==modalService.paramPredmetDom.nastavnik.nastavnikid">{{n.nastavnikid}} - {{n.ime}} {{n.prezime}}</option>
+      </select>
+    </p>
+    <button class="btn btn-primary" type="submit">Izmeni</button>&nbsp;&nbsp;&nbsp;
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('editPredmetDomaciModal')">Zatvori</button>
 </jw-modal>

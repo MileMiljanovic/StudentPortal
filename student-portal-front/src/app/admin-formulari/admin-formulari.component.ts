@@ -15,6 +15,7 @@ export class AdminFormulariComponent implements OnInit {
   token;
   addFormularForm;
   addZamenaForm;
+  editZamenaForm;
   constructor(
     private http: HttpClient,
     private adminService: AdminManagerService,
@@ -29,6 +30,13 @@ export class AdminFormulariComponent implements OnInit {
     });
     this.addZamenaForm = this.formBuilder.group({
       idzamena: '',
+      formular: '',
+      predmetDomaci: {},
+      predmetStrani: {}
+    });
+    this.editZamenaForm = this.formBuilder.group({
+      idzamena: '',
+      formular: '',
       predmetDomaci: {},
       predmetStrani: {}
     });
@@ -50,13 +58,28 @@ export class AdminFormulariComponent implements OnInit {
 
   openWithParamFormular(id: string, param) {
     this.modalService.openWithParamFormular(id, param);
+    this.addZamenaForm.get('formular').setValue(param.idformular);
+  }
+
+  openWithParamZamena(id: string, param) {
+    this.adminService.zamDomaci = this.adminService.predDomaci.filter(x => x.program.naziv === param.predmetDomaci.program.naziv);
+    this.adminService.zamStrani = this.adminService.predStrani.filter(x => x.program.naziv === param.predmetStrani.program.naziv);
+    this.modalService.openWithParamZamena(id, param);
+    this.editZamenaForm.get('idzamena').setValue(param.idzamena);
+    this.editZamenaForm.get('formular').setValue(param.formular);
+    this.editZamenaForm.get('predmetDomaci').setValue(param.predmetDomaci);
+    this.editZamenaForm.get('predmetStrani').setValue(param.predmetStrani);
   }
 
   closeModal(id: string) {
       this.modalService.close(id);
       this.modalService.paramFormular = this.modalService.placeholderFormular;
+      this.modalService.paramZamena = this.modalService.placeholderZamena;
+      this.adminService.zamDomaci = this.adminService.predDomaci;
+      this.adminService.zamStrani = this.adminService.predStrani;
       this.addFormularForm.reset();
       this.addZamenaForm.reset();
+      this.editZamenaForm.reset();
   }
 
   addFormular(addForm) {
@@ -106,7 +129,6 @@ export class AdminFormulariComponent implements OnInit {
   }
 
   addZamena(form, formular) {
-    console.log(formular);
     if (!form.idzamena) {
       alert('Unesite ID zamene!');
       return;
@@ -161,6 +183,27 @@ export class AdminFormulariComponent implements OnInit {
       },
       (err) => {
           alert(err.status + ' - ' + err.error.message);
+      }
+    );
+  }
+
+  editZamena(form) {
+    if (form.predmetDomaci.espb > form.predmetStrani.espb) {
+      alert('Strani predmet mora da ima više ili jednako ESPB bodova!');
+      return;
+    }
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
+    this.http.put<any>('http://localhost:8080/zamena/' + form.idzamena, form, {headers}).subscribe(
+      (data) => {
+        alert(form.idzamena + ' uspešno izmenjen!');
+        this.editZamenaForm.reset();
+        const indexF = this.adminService.formulari.findIndex(x => x.idformular === form.formular)
+        const indexZ = this.adminService.formulari[indexF].zamene.findIndex(x => x.idzamena === form.idzamena);
+        this.adminService.formulari[indexF].zamene[indexZ] = form;
+        this.closeModal('editZamenaModal');
+      },
+      (err) => {
+        alert(err.status + ' - ' + err.error.message);
       }
     );
   }

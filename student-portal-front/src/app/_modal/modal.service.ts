@@ -52,11 +52,80 @@ export class ModalService {
             naziv: 'placeholder'
         }
     };
+    placeholderPredmetDom = {
+        predmetId: 'placeholder',
+        naziv: 'placeholder',
+        program: {
+            naziv: 'placeholder',
+            departman: {
+                departmanId: 'placeholder'
+            },
+            sef: {
+                username: 'placeholder'
+            }
+        },
+        espb: 'placeholder',
+        nastavnik: {
+            nastavnikid: 'placeholder'
+        }
+    };
+    placeholderPredmetStr = {
+        predmetId: 'placeholder',
+        naziv: 'placeholder',
+        program: {
+            naziv: 'placeholder'
+        },
+        espb: 'placeholder'
+    };
+    placeholderProgramDom = {
+        naziv: 'placeholder',
+        departman: {
+            departmanId: 'placeholder'
+        },
+        sef: {
+            username: 'placeholder'
+        }
+    };
+    placeholderZamena = {
+        idzamena: 'placeholder',
+        formular: 'placeholder',
+        predmetDomaci: {
+            predmetId: 'placeholder',
+            naziv: 'placeholder',
+            program: {
+                naziv: 'placeholder',
+                departman: {
+                    departmanId: 'placeholder'
+                },
+                sef: {
+                    username: 'placeholder'
+                }
+            },
+            espb: 'placeholder',
+            nastavnik: {
+                nastavnikid: 'placeholder'
+            }
+        },
+        predmetStrani: {
+            predmetId: 'placeholder',
+            naziv: 'placeholder',
+            program: {
+                naziv: 'placeholder'
+            },
+            espb: 'placeholder'
+        },
+        odobreno: 'placeholder',
+        token: 'placeholder'
+    };
     paramFormular = this.placeholderFormular;
     paramDepartman = this.placeholderDepartman;
     paramKorisnik = this.placeholderKorisnik;
     paramNastavnik = this.placeholderNastavnik;
     paramStudent = this.placeholderStudent;
+    paramPredmetDom = this.placeholderPredmetDom;
+    paramPredmetStr = this.placeholderPredmetStr;
+    paramProgramDom = this.placeholderProgramDom;
+    paramZamena = this.placeholderZamena;
     add(modal: any) {
         // add modal to array of active modals
         this.modals.push(modal);
@@ -105,6 +174,34 @@ export class ModalService {
         // open modal specified by id
         const modal = this.modals.find(x => x.id === id);
         this.paramStudent = param;
+        modal.open();
+    }
+
+    openWithParamPredmetDom(id: string, param) {
+        // open modal specified by id
+        const modal = this.modals.find(x => x.id === id);
+        this.paramPredmetDom = param;
+        modal.open();
+    }
+
+    openWithParamPredmetStr(id: string, param) {
+        // open modal specified by id
+        const modal = this.modals.find(x => x.id === id);
+        this.paramPredmetStr = param;
+        modal.open();
+    }
+
+    openWithParamProgramDom(id: string, param) {
+        // open modal specified by id
+        const modal = this.modals.find(x => x.id === id);
+        this.paramProgramDom = param;
+        modal.open();
+    }
+
+    openWithParamZamena(id: string, param) {
+        // open modal specified by id
+        const modal = this.modals.find(x => x.id === id);
+        this.paramZamena = param;
         modal.open();
     }
 

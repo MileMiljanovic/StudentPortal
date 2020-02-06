@@ -14,7 +14,7 @@
             <td>{{p.naziv}}</td>
             <td>{{p.departman.departmanId}}</td>
             <td>{{p.sef.username}}</td>
-            <td><button class="btn btn-primary" (click)="editProgramDom(i)">Izmeni</button></td>
+            <td><button class="btn btn-primary" (click)="openWithParamProgramDom('editProgramDomaciModal', p)">Izmeni</button></td>
             <td><button class="btn btn-danger" (click)="deleteProgramDom(i)">Obriši</button></td>
         </tr>
       </tbody>
@@ -39,4 +39,25 @@
     <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
   </form>
   <button class="btn btn-danger" (click)="closeModal('addProgramDomaciModal')">Zatvori</button>
+</jw-modal>
+
+<jw-modal id="editProgramDomaciModal">
+  <h1>Izmeni program</h1>
+  <form [formGroup]="editProgramDomaciForm" (ngSubmit)="editProgramDom(editProgramDomaciForm.value)">
+    <p>Naziv: <input type="text" id="naziv" formControlName="naziv" readonly/></p>
+    <p>Departman: 
+      <select id="departman" formControlName="departman">
+        <option *ngFor="let d of adminService.departmani" [ngValue]="d" [selected]="d.departmanId==modalService.paramProgramDom.departman.departmanId">{{d.departmanId}}</option>
+      </select>
+    </p>
+    <p>Šef: 
+      <select id="sef" formControlName="sef">
+        <ng-container *ngFor="let k of adminService.korisnici">
+          <option *ngIf="k.uloga === 'SEF'" [ngValue]="k" [selected]="k.username==modalService.paramProgramDom.sef.username">{{k.username}}</option>
+        </ng-container>
+      </select>
+    </p>
+    <button class="btn btn-primary" type="submit">Izmeni</button>&nbsp;&nbsp;&nbsp;
+  </form>
+  <button class="btn btn-danger" (click)="closeModal('editProgramDomaciModal')">Zatvori</button>
 </jw-modal>

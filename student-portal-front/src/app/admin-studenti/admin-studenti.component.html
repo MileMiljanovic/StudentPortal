@@ -62,7 +62,7 @@
       <mat-datepicker #basicDatepicker1></mat-datepicker></p>
     <p>Email: <input type="text" id="email" formControlName="email"/></p>
     <p>Studijski program: 
-      <select id="studije" formControlName="studije">
+      <select id="studije" formControlName="studije" disabled>
         <option *ngFor="let p of adminService.progDomaci" [ngValue]="p" [selected]="p.naziv==modalService.paramStudent.studije.naziv">{{p.naziv}}</option>
       </select>
     </p>

@@ -13,6 +13,7 @@ export class AdminPredmetiDomaciComponent implements OnInit {
 
   token;
   predmetDomaciForm;
+  editPredmetDomaciForm;
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -27,6 +28,13 @@ export class AdminPredmetiDomaciComponent implements OnInit {
       espb: '',
       nastavnik: {}
     });
+    this.editPredmetDomaciForm = this.formBuilder.group({
+      predmetId: '',
+      naziv: '',
+      program: {},
+      espb: '',
+      nastavnik: {}
+    });
    }
 
   ngOnInit() {
@@ -34,6 +42,7 @@ export class AdminPredmetiDomaciComponent implements OnInit {
     this.http.get<any>('http://localhost:8080/predDomaci', {headers}).subscribe(
       (data) => {
         this.adminService.predDomaci = data;
+        this.adminService.zamDomaci = data;
       },
       (err) => { alert(err.status + ' - ' + err.error.message); }
     );
@@ -43,9 +52,20 @@ export class AdminPredmetiDomaciComponent implements OnInit {
     this.modalService.open(id);
   }
 
+  openWithParamPredmetDom(id: string, param) {
+    this.modalService.openWithParamPredmetDom(id, param);
+    this.editPredmetDomaciForm.get('predmetId').setValue(param.predmetId);
+    this.editPredmetDomaciForm.get('naziv').setValue(param.naziv);
+    this.editPredmetDomaciForm.get('program').setValue(param.program);
+    this.editPredmetDomaciForm.get('espb').setValue(param.espb);
+    this.editPredmetDomaciForm.get('nastavnik').setValue(param.nastavnik);
+  }
+
   closeModal(id: string) {
       this.modalService.close(id);
+      this.modalService.paramPredmetDom = this.modalService.placeholderPredmetDom;
       this.predmetDomaciForm.reset();
+      this.editPredmetDomaciForm.reset();
   }
 
   addPredmetDom(form) {
@@ -101,6 +121,42 @@ export class AdminPredmetiDomaciComponent implements OnInit {
       },
       (err) => {
           alert(err.status + ' - ' + err.error.message);
+      }
+    );
+  }
+
+  editPredmetDom(form) {
+    if (!form.naziv) {
+      alert('Unesite naziv!');
+      return;
+    }
+    if (!form.espb) {
+      alert('Unesite ESPB bodove!');
+      return;
+    }
+    if (isNaN(form.espb)) {
+      alert('ESPB bodovi moraju biti broj!');
+      return;
+    }
+    const espbParsed = +form.espb;
+    const request = {
+      predmetId: form.predmetId,
+      naziv: form.naziv,
+      program: form.program,
+      espb: espbParsed,
+      nastavnik: form.nastavnik
+    };
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
+    this.http.put<any>('http://localhost:8080/predDomaci/' + form.predmetId, request, {headers}).subscribe(
+      (data) => {
+        alert(form.predmetId + ' uspešno izmenjen!');
+        this.editPredmetDomaciForm.reset();
+        const index = this.adminService.predDomaci.findIndex(x => x.predmetId === form.predmetId);
+        this.adminService.predDomaci[index] = request;
+        this.closeModal('editPredmetDomaciModal');
+      },
+      (err) => {
+        alert(err.status + ' - ' + err.error.message);
       }
     );
   }
