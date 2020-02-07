@@ -187,19 +187,27 @@ export class AdminFormulariComponent implements OnInit {
     );
   }
 
-  editZamena(form) {
+  editZamena(form, param) {
     if (form.predmetDomaci.espb > form.predmetStrani.espb) {
       alert('Strani predmet mora da ima više ili jednako ESPB bodova!');
       return;
     }
+    const request = {
+      idzamena: form.idzamena,
+      formular: form.formular,
+      predmetDomaci: form.predmetDomaci,
+      predmetStrani: form.predmetStrani,
+      odobreno: null,
+      token: param.token
+    };
     const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
-    this.http.put<any>('http://localhost:8080/zamena/' + form.idzamena, form, {headers}).subscribe(
+    this.http.put<any>('http://localhost:8080/zamena/' + form.idzamena, request, {headers}).subscribe(
       (data) => {
         alert(form.idzamena + ' uspešno izmenjen!');
         this.editZamenaForm.reset();
-        const indexF = this.adminService.formulari.findIndex(x => x.idformular === form.formular)
+        const indexF = this.adminService.formulari.findIndex(x => x.idformular === form.formular);
         const indexZ = this.adminService.formulari[indexF].zamene.findIndex(x => x.idzamena === form.idzamena);
-        this.adminService.formulari[indexF].zamene[indexZ] = form;
+        this.adminService.formulari[indexF].zamene[indexZ] = request;
         this.closeModal('editZamenaModal');
       },
       (err) => {
@@ -229,6 +237,116 @@ export class AdminFormulariComponent implements OnInit {
         alert('Zamena ' + id + ' uspešno obrisana!');
       },
       (err) => { alert(err.status + ' - ' + err.error.message); }
+    );
+  }
+
+  confirmKoord(index, odg) {
+    if (odg === this.adminService.formulari[index].odobrenjeKoord) {
+      if (odg === 'Y') {
+        alert('Već je odobreno!');
+        return;
+      } else {
+        alert('Već je odbijeno!');
+        return;
+      }
+    }
+    if (this.adminService.formulari[index].odobrenjeSef === 'Y') {
+      alert('Formular je zatvoren!');
+      return;
+    }
+    const formular = this.adminService.formulari[index];
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
+    const request = {
+      formularId: formular,
+      odgovor: odg
+    };
+    this.http.put<any>('http://localhost:8080/api/formulari/' + formular.idformular + '/koordinatorConfirm', request, {headers}).subscribe(
+      (data) => {
+        alert('Odgovor uspešno poslat!');
+        this.adminService.formulari[index].odobrenjeKoord = odg;
+      },
+      (err) => {
+        alert(err.status + ' - ' + err.error.message);
+      }
+    );
+  }
+
+  confirmSef(index, odg) {
+    if (odg === this.adminService.formulari[index].odobrenjeSef) {
+      if (odg === 'Y') {
+        alert('Već je odobreno!');
+        return;
+      } else {
+        alert('Već je odbijeno!');
+        return;
+      }
+    }
+    const checker = this.adminService.formulari[index].zamene.every(z => z.odobreno === 'Y');
+    if (!checker) {
+      alert('Morate prvo odobriti sve zamene!');
+      return;
+    }
+    if (this.adminService.formulari[index].odobrenjeKoord !== 'Y') {
+      alert('Koordinator nije odobrio!');
+      return;
+    }
+    if (this.adminService.formulari[index].odobrenjeSef === 'Y') {
+      alert('Formular je zatvoren!');
+      return;
+    }
+    const formular = this.adminService.formulari[index];
+    let total = 0;
+    for (const zam of formular.zamene) {
+      total += zam.predmetDomaci.espb;
+    }
+    if (total <= 10) {
+      alert('Suma bodova domaćih predmeta je ' + total + '. Suma mora biti veća od 10!');
+      return;
+    }
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
+    const request = {
+      formularId: formular,
+      odgovor: odg
+    };
+    this.http.put<any>('http://localhost:8080/api/formulari/' + formular.idformular + '/sefConfirm', request, {headers}).subscribe(
+      (data) => {
+        alert('Odgovor uspešno poslat!');
+        this.adminService.formulari[index].odobrenjeSef = odg;
+      },
+      (err) => {
+        alert(err.status + ' - ' + err.error.message);
+      }
+    );
+  }
+
+  confirmZamena(indexF, indexZ, odg) {
+    const z = this.adminService.formulari[indexF].zamene[indexZ];
+    if (odg === z.odobreno) {
+      if (odg === 'Y') {
+        alert('Već je odobreno!');
+        return;
+      } else {
+        alert('Već je odbijeno!');
+        return;
+      }
+    }
+    if (this.adminService.formulari[indexF].odobrenjeKoord !== 'Y') {
+      alert('Koordinator mora prvo da odobri formular!');
+      return;
+    }
+    if (this.adminService.formulari[indexF].odobrenjeSef === 'Y') {
+      alert('Formular je zatvoren!');
+      return;
+    }
+    this.http.get<any>('http://localhost:8080/api/formulari/' + z.formular + '/zamene/' + z.idzamena + '/' + z.token + '/' + odg,
+    {responseType: 'text' as 'json'}).subscribe(
+      (data) => {
+        alert('Odgovor uspešno poslat!');
+        this.adminService.formulari[indexF].zamene[indexZ].odobreno = odg;
+      },
+      (err) => {
+        alert(err.status + ' - ' + err.error.message);
+      }
     );
   }
 

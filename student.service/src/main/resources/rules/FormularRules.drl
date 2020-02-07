@@ -11,7 +11,7 @@ agenda-group "valid"
 		$sfr: SubmitFormRequest( $zamene: zamene )
 		$f: Formular ()
 		$zl: List( size == $zamene.size() ) from accumulate (
-			$z: Zamena(predmetDomaci.espb >= predmetStrani.espb) from $zamene,
+			$z: Zamena(predmetDomaci.espb <= predmetStrani.espb) from $zamene,
 			collectList($z)
 		)
 		$totalEspb : Number( intValue > 10 ) from accumulate (

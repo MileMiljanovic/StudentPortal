@@ -137,11 +137,7 @@ public class ConfirmationController {
 			log.error("Invalid token!");
 			return new ResponseEntity<String>("Nevalidan token!", HttpStatus.BAD_REQUEST);
 		}
-				
-		if (zam.getOdobreno() != null) {
-			log.error("Already answered!");
-			return new ResponseEntity<String>("Vec ste odgovorili!", HttpStatus.BAD_REQUEST);
-		}
+
 		zam.setOdobreno(odgovor);
 		repoZamena.save(zam);
 		emailSvc.sendEmailStudentTeacher(f.get(), zam, odgovor);

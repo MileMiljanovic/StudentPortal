@@ -106,7 +106,7 @@ public class EmailService {
     	helper.setTo("mile.miljanovic92@gmail.com");
     	helper.setSubject("Obaveštenje o statusu formulara");
     	helper.setText("Poštovani, obaveštavamo vas da je vaš formular sa identifikacionom oznakom " + f.getIdformular()
-    	+ " odbijen od koordinatora departmana. Poslati su mejlovi svim predmetnim profesorima, molimo vas da sačekate njihova odobrenja");
+    	+ " odobren od koordinatora departmana. Poslati su mejlovi svim predmetnim profesorima, molimo vas da sačekate njihova odobrenja");
 
     	javaMailSender.send(message);
     	log.info("Email successfully sent!");

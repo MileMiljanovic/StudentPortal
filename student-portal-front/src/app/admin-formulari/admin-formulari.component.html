@@ -5,8 +5,10 @@
       <p class="card-text">Student: {{f.student.brindeksa}}</p>
       <p class="card-text">Strani program: {{f.programStrani.naziv}}</p>
       <p class="card-text">Datum i vreme: {{f.datum}}</p>
-      <p><button class="btn btn-primary">Odobri (koordinator)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger">Odbij (koordinator)</button></p>
-      <p><button class="btn btn-primary">Odobri (šef)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger">Odbij (šef)</button></p>
+      <p class="card-text">Odobrenje šefa: {{f.odobrenjeSef}}</p>
+      <p class="card-text">Odobrenje koordinatora: {{f.odobrenjeKoord}}</p>
+      <p><button class="btn btn-primary" (click)="confirmKoord(i, 'Y')">Odobri (koordinator)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger" (click)="confirmKoord(i, 'N')">Odbij (koordinator)</button></p>
+      <p><button class="btn btn-primary" (click)="confirmSef(i, 'Y')">Odobri (šef)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger" (click)="confirmSef(i, 'N')">Odbij (šef)</button></p>
       <p>Zamene:</p>
       <button class="btn btn-success" (click)="openWithParamFormular('addZamenaModal', f)">Dodaj zamenu</button>
       <table class="table">
@@ -34,8 +36,8 @@
                 <td>{{z.odobreno}}</td>
                 <td><button class="btn btn-primary" (click)="openWithParamZamena('editZamenaModal', z)">Izmeni</button></td>
                 <td><button class="btn btn-danger" (click)="deleteZamena(i, j)">Obriši</button></td>
-                <td><button class="btn btn-success" (click)="confirmZamena(z, f, 'Y')">Odobri</button></td>
-                <td><button class="btn btn-warning" (click)="confirmZamena(z, f, 'N')">Odbij</button></td>
+                <td><button class="btn btn-success" (click)="confirmZamena(i, j, 'Y')">Odobri</button></td>
+                <td><button class="btn btn-warning" (click)="confirmZamena(i, j, 'N')">Odbij</button></td>
             </tr>
           </tbody>
     </table>
