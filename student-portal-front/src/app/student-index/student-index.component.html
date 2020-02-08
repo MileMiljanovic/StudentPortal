@@ -2,11 +2,13 @@
 <form [formGroup]="indexForm" (ngSubmit)="onSubmit(indexForm.value)">
 
     <div>
+      <br>
       <label for="brIndeksa">
-        Broj indeksa:
-      </label>    
+        <h3>Broj indeksa:</h3>
+      </label>
+      <br>
       <input class="form-control" id="brIndeksa" type="text" formControlName="brIndeksa" placeholder="Broj indeksa">
+      <br>
+      <button class="btn btn-secondary btn-lg" type="submit">Potvrdi</button>
     </div>
-    <br>
-    <button class="btn btn-primary" type="submit">Potvrdi</button>
 </form>

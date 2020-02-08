@@ -1,0 +1,17 @@
+h1, h3, p {
+    color: white
+}
+
+h1 {
+    text-align: center;
+}
+
+.content {
+    background: rgba(0, 0, 0, 0.6);
+    border: 5px solid #e74c3c;
+}
+
+button{
+    display: block;
+    margin: 0 auto;
+}

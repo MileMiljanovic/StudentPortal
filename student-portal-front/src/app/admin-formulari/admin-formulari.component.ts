@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AdminManagerService } from '../admin-manager.service';
 import { FormBuilder } from '@angular/forms';
 import { ModalService } from '../_modal';
-import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-admin-formulari',
@@ -163,14 +162,12 @@ export class AdminFormulariComponent implements OnInit {
         return;
       }
     }
-    const tokenZam = uuid();
     const request = {
       idzamena: form.idzamena,
       formular: formular.idformular,
       predmetDomaci: form.predmetDomaci,
       predmetStrani: form.predmetStrani,
-      odobreno: null,
-      token: tokenZam
+      odobreno: null
     };
     const index = this.adminService.formulari.findIndex(x => x.idformular === formular.idformular);
     const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });

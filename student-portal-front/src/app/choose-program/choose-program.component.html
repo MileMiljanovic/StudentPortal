@@ -1,6 +1,9 @@
-<select [(ngModel)]="selectedValue">
-    <option *ngFor="let p of studentService.programiStrani" [ngValue]="p">{{p.naziv}}</option>
-</select>
-
-<button class="btn btn-primary" (click)="confirmProgram()">Potvrdi</button>
-  
+<div class="content">
+    <h5>Odaberite strani studijski program:</h5>
+    <br>
+    <select class="form-control" [(ngModel)]="selectedValue">
+        <option *ngFor="let p of studentService.programiStrani" [ngValue]="p">{{p.naziv}}</option>
+    </select>
+    <br><br>
+    <button class="btn btn-primary" (click)="confirmProgram()">Potvrdi</button>
+</div>

@@ -1,0 +1,25 @@
+.card {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 5px solid #e74c3c;
+}
+
+.card-body {
+    color: white;
+}
+
+.table {
+    border-radius:6px;
+}
+
+.table th {
+    padding: 15px 10px !important;
+    background-color: #212121;
+    color: #EC7149;
+    border-top: none;
+    border-bottom: 3px solid #505050 !important;
+}
+
+.table tr:hover {
+    background-color: rgb(36, 36, 36);
+    border-radius:6px;
+}

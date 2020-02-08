@@ -1,12 +1,20 @@
-<p>Broj indeksa:    {{studentService.student.brindeksa}}</p>
-<p>Ime:    {{studentService.student.ime}}</p>
-<p>Prezime:    {{studentService.student.prezime}}</p>
-<p>JMBG:    {{studentService.student.jmbg}}</p>
-<p>Datum rodjenja:    {{studentService.student.datumrodjenja}}</p>
-<p>Email:    {{studentService.student.email}}</p>
-<p>Studije:    {{studentService.student.studije.naziv}}</p>
-<p>Departman:    {{studentService.student.studije.departman.departmanId}}</p>
-
-<button class="btn btn-primary" (click)="initFormular()">
+<div class="content">
+  <br>
+  <h1><b>Podaci o studentu</b></h1>
+  <br>
+  <br>
+  <br>
+  <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Broj indeksa:    {{studentService.student.brindeksa}}</h3>
+  <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ime:    {{studentService.student.ime}}</h3>
+  <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prezime:    {{studentService.student.prezime}}</h3>
+  <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JMBG:    {{studentService.student.jmbg}}</h3>
+  <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Datum rodjenja:    {{studentService.student.datumrodjenja}}</h3>
+  <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email:    {{studentService.student.email}}</h3>
+  <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Studije:    {{studentService.student.studije.naziv}}</h3>
+  <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Departman:    {{studentService.student.studije.departman.departmanId}}</h3>
+  <br><br>
+  <button class="btn btn-primary" (click)="initFormular()">
     Napravi formular
   </button>
+  <br><br>
+</div>

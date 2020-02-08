@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs nav-justified">
+<ul class="nav nav-tabs nav-fill">
     <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#glavna">Glavna</a>
     </li>
@@ -33,16 +33,18 @@
 
   <div class="tab-content">
     <div class="tab-pane fade show active" id="glavna">
-
-        <h3>Podaci o korisniku</h3>
         <br>
-        <p>Korisničko ime:    {{adminService.user.username}}</p>
-        <p>Ime:    {{adminService.user.ime}}</p>
-        <p>Prezime:    {{adminService.user.prezime}}</p>
-        <p>Uloga:    {{adminService.user.uloga}}</p>
-        <p>Datum rodjenja:    {{adminService.user.datumrodjenja}}</p>
-        <p>JMBG:    {{adminService.user.jmbg}}</p>
-
+        <h1><b>Podaci o administratoru</b></h1>
+        <br>
+        <br>
+        <br>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Korisničko ime:    {{adminService.user.username}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ime:    {{adminService.user.ime}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prezime:    {{adminService.user.prezime}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Uloga:    {{adminService.user.uloga}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Datum rodjenja:    {{adminService.user.datumrodjenja}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JMBG:    {{adminService.user.jmbg}}</h3>
+        <br><br>
     </div>
     <div class="tab-pane fade" id="departmani">
         <app-admin-departmani></app-admin-departmani>

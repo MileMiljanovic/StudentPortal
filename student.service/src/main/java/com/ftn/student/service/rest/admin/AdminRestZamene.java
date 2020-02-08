@@ -2,6 +2,7 @@ package com.ftn.student.service.rest.admin;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -46,6 +47,8 @@ public class AdminRestZamene {
 			log.error("Substitute already exists!");
 			return new ResponseEntity<JsonResponse>(new JsonResponse("Zamena vec postoji!"), HttpStatus.BAD_REQUEST);
 		}
+		UUID uuid = UUID.randomUUID();
+		request.setToken(uuid.toString());
 		repoZ.save(request);
 		log.info("Substitute successfully inserted!");
 		return new ResponseEntity<JsonResponse>(new JsonResponse("Zamena uspesno dodata!"), HttpStatus.OK);

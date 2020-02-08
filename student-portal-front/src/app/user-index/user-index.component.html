@@ -1,24 +1,26 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs nav-fill">
     <li class="nav-item">
-      <a class="nav-link active" data-toggle="tab" href="#glavna">Glavna</a>
+      <a class="nav-link active" data-toggle="tab" href="#glavna"><b>GLAVNA</b></a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#formulari">Formulari</a>
+      <a class="nav-link" data-toggle="tab" href="#formulari"><b>FORMULARI</b></a>
     </li>
   </ul>
 
   <div class="tab-content">
     <div class="tab-pane fade show active" id="glavna">
-
-        <h3>Podaci o korisniku</h3>
         <br>
-        <p>Korisničko ime:    {{userService.user.username}}</p>
-        <p>Ime:    {{userService.user.ime}}</p>
-        <p>Prezime:    {{userService.user.prezime}}</p>
-        <p>Uloga:    {{userService.user.uloga}}</p>
-        <p>Datum rodjenja:    {{userService.user.datumrodjenja}}</p>
-        <p>JMBG:    {{userService.user.jmbg}}</p>
-
+        <h1><b>Podaci o korisniku</b></h1>
+        <br>
+        <br>
+        <br>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Korisničko ime:    {{userService.user.username}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ime:    {{userService.user.ime}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prezime:    {{userService.user.prezime}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Uloga:    {{userService.user.uloga}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Datum rodjenja:    {{userService.user.datumrodjenja}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JMBG:    {{userService.user.jmbg}}</h3>
+        <br><br>
     </div>
     <div class="tab-pane fade" id="formulari">
         <app-user-formular></app-user-formular>

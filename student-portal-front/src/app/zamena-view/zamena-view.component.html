@@ -1,36 +1,46 @@
-<p>Formular ID: {{studentService.formular.idformular}}</p>
-<p>Program: {{studentService.formular.programStrani.naziv}}</p>
-<p>Datum: {{studentService.formular.datum}}</p>
-<p *ngIf="studentService.formular.odobrenjeSef=='Y'">Odobrenje šefa: ODOBRENO</p>
-<p *ngIf="studentService.formular.odobrenjeSef=='N'">Odobrenje šefa: ODBIJENO</p>
-<p *ngIf="studentService.formular.odobrenjeSef==null">Odobrenje šefa: NEMA ODGOVORA</p>
-<p *ngIf="studentService.formular.odobrenjeKoord=='Y'">Odobrenje koordinatora: ODOBRENO</p>
-<p *ngIf="studentService.formular.odobrenjeKoord=='N'">Odobrenje koordinatora: ODBIJENO</p>
-<p *ngIf="studentService.formular.odobrenjeKoord==null">Odobrenje koordinatora: NEMA ODGOVORA</p>
-<p>Zamene:</p> 
+<div class="content">
+  <br>
+  <h1><b>Podaci o popunjenom formularu</b></h1>
+  <br>
+  <br>
+  <br>
+  <h5>&nbsp;&nbsp;&nbsp;Formular ID: {{studentService.formular.idformular}}</h5>
+  <h5>&nbsp;&nbsp;&nbsp;Program: {{studentService.formular.programStrani.naziv}}</h5>
+  <h5>&nbsp;&nbsp;&nbsp;Datum: {{studentService.formular.datum}}</h5>
+  <h5 *ngIf="studentService.formular.odobrenjeSef=='Y'">&nbsp;&nbsp;&nbsp;Odobrenje šefa: ODOBRENO</h5>
+  <h5 *ngIf="studentService.formular.odobrenjeSef=='N'">&nbsp;&nbsp;&nbsp;Odobrenje šefa: ODBIJENO</h5>
+  <h5 *ngIf="studentService.formular.odobrenjeSef==null">&nbsp;&nbsp;&nbsp;Odobrenje šefa: NEMA ODGOVORA</h5>
+  <h5 *ngIf="studentService.formular.odobrenjeKoord=='Y'">&nbsp;&nbsp;&nbsp;Odobrenje koordinatora: ODOBRENO</h5>
+  <h5 *ngIf="studentService.formular.odobrenjeKoord=='N'">&nbsp;&nbsp;&nbsp;Odobrenje koordinatora: ODBIJENO</h5>
+  <h5 *ngIf="studentService.formular.odobrenjeKoord==null">&nbsp;&nbsp;&nbsp;Odobrenje koordinatora: NEMA ODGOVORA</h5>
+  <br>
+  <h5><b>&nbsp;&nbsp;&nbsp;Zamene:</b></h5> 
 
-<table class="table">
-    <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Domaći predmet</th>
-          <th scope="col">ESPB</th>
-          <th scope="col">Strani predmet</th>
-          <th scope="col">ESPB</th>
-          <th scope="col">Potvrda</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let z of studentService.formular.zamene">
-            <td>{{z.idzamena}}</td>
-            <td>{{z.predmetDomaci.naziv}}</td>
-            <td>{{z.predmetDomaci.espb}}</td>
-            <td>{{z.predmetStrani.naziv}}</td>
-            <td>{{z.predmetStrani.espb}}</td>
-            <td *ngIf="z.odobreno=='Y'">ODOBRENO</td>
-            <td *ngIf="z.odobreno=='N'">ODBIJENO</td>
-            <td *ngIf="z.odobreno==null">NEMA ODGOVORA</td>
-        </tr>
-      </tbody>
-</table>
-<button class="btn btn-danger" (click)="cancelFormular()">Poništi formular</button>
+  <table class="table table-dark">
+      <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Domaći predmet</th>
+            <th scope="col">ESPB</th>
+            <th scope="col">Strani predmet</th>
+            <th scope="col">ESPB</th>
+            <th scope="col">Potvrda</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let z of studentService.formular.zamene">
+              <td>{{z.idzamena}}</td>
+              <td>{{z.predmetDomaci.naziv}}</td>
+              <td>{{z.predmetDomaci.espb}}</td>
+              <td>{{z.predmetStrani.naziv}}</td>
+              <td>{{z.predmetStrani.espb}}</td>
+              <td *ngIf="z.odobreno=='Y'">ODOBRENO</td>
+              <td *ngIf="z.odobreno=='N'">ODBIJENO</td>
+              <td *ngIf="z.odobreno==null">NEMA ODGOVORA</td>
+          </tr>
+        </tbody>
+  </table>
+  <br>
+  <button class="btn btn-danger" (click)="cancelFormular()">Poništi formular</button>
+  <br>
+</div>

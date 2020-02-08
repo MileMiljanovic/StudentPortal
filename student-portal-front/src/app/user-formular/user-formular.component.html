@@ -1,31 +1,37 @@
-<div class="card" style="width: 50%;" *ngFor="let f of userService.formulari">
-    <div class="card-body">
-      <h5 class="card-title">Formular ID: {{f.idformular}}</h5>
-      <p class="card-text">Student: {{f.student.brindeksa}}</p>
-      <p class="card-text">Strani program: {{f.programStrani.naziv}}</p>
-      <p class="card-text">Datum i vreme: {{f.datum}}</p>
-      <p>Zamene:</p>
-      <table class="table">
-        <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Domaći predmet</th>
-              <th scope="col">ESPB</th>
-              <th scope="col">Strani predmet</th>
-              <th scope="col">ESPB</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let z of f.zamene">
-                <td>{{z.idzamena}}</td>
-                <td>{{z.predmetDomaci.naziv}}</td>
-                <td>{{z.predmetDomaci.espb}}</td>
-                <td>{{z.predmetStrani.naziv}}</td>
-                <td>{{z.predmetStrani.espb}}</td>
-            </tr>
-          </tbody>
-    </table>
-      <button class="btn btn-primary" (click)="odgovor(f, 'Y')">Potvrdi</button>&nbsp;&nbsp;&nbsp;
-      <button class="btn btn-danger" (click)="odgovor(f, 'N')">Odbij</button>
-    </div>
+<div class="content">  
+  <div class="card" style="width: 100%;" *ngFor="let f of userService.formulari">
+      <div class="card-body">
+        <h5 class="card-title"><b>Formular ID: {{f.idformular}}</b></h5>
+        <p class="card-text">Student: {{f.student.brindeksa}}</p>
+        <p class="card-text">Strani program: {{f.programStrani.naziv}}</p>
+        <p class="card-text">Datum i vreme: {{f.datum}}</p>
+        <br>
+        <p><b>Zamene:</b></p>
+        <table class="table table-dark">
+          <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Domaći predmet</th>
+                <th scope="col">ESPB</th>
+                <th scope="col">Strani predmet</th>
+                <th scope="col">ESPB</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let z of f.zamene">
+                  <td>{{z.idzamena}}</td>
+                  <td>{{z.predmetDomaci.naziv}}</td>
+                  <td>{{z.predmetDomaci.espb}}</td>
+                  <td>{{z.predmetStrani.naziv}}</td>
+                  <td>{{z.predmetStrani.espb}}</td>
+              </tr>
+            </tbody>
+      </table>
+      <br>
+      <div style="margin: 0 auto; width: 656px;text-align:center;">
+        <button class="btn btn-primary" (click)="odgovor(f, 'Y')">Potvrdi</button>&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-danger" (click)="odgovor(f, 'N')">Odbij</button>
+      </div>
+      </div>
+  </div>
 </div>

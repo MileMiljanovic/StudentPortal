@@ -1,18 +1,24 @@
-<button class="btn btn-success" (click)="openModal('addProgramStraniModal')">Dodaj novi program</button>
-<table class="table">
-    <thead>
-        <tr>
-          <th scope="col">Naziv</th>
-          <th scope="col">Obriši</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let p of adminService.progStrani; let i = index;">
-            <td>{{p.naziv}}</td>
-            <td><button class="btn btn-danger" (click)="deleteProgramStr(i)">Obriši</button></td>
-        </tr>
-      </tbody>
-</table>
+<div class="content">
+  <br>
+  <h2><b>Podaci o stranim programima</b></h2>
+  <br><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success" (click)="openModal('addProgramStraniModal')">Dodaj novi program</button>
+  <table class="table table-dark">
+      <thead>
+          <tr>
+            <th scope="col">Naziv</th>
+            <th scope="col">Obriši</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of adminService.progStrani; let i = index;">
+              <td>{{p.naziv}}</td>
+              <td><button class="btn btn-danger" (click)="deleteProgramStr(i)">Obriši</button></td>
+          </tr>
+        </tbody>
+  </table>
+  <br>
+</div>
 
 <jw-modal id="addProgramStraniModal">
   <h1>Dodaj novi program</h1>

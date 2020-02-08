@@ -1,5 +1,9 @@
-<button class="btn btn-success" (click)="openModal('addKorisnikModal')">Dodaj novog korisnika</button>
-<table class="table">
+<div class="content">
+  <br>
+  <h2><b>Podaci o korisnicima</b></h2>
+  <br><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success" (click)="openModal('addKorisnikModal')">Dodaj novog korisnika</button>
+  <table class="table table-dark">
     <thead>
         <tr>
           <th scope="col">Korisničko ime</th>
@@ -24,7 +28,9 @@
             <td><button *ngIf="k.uloga != 'ADMIN'" class="btn btn-danger" (click)="deleteKorisnik(i)">Obriši</button></td>
         </tr>
       </tbody>
-</table>
+  </table>
+  <br>
+</div>
 
 <jw-modal id="addKorisnikModal">
   <h1>Dodaj novog korisnika</h1>

@@ -16,9 +16,18 @@
 .d1{
     width:45%;
     height:92%;
-    border:1px solid red;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 25px;
+}
+
+.d1:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+h1 {
+    color: white
 }

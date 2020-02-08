@@ -1,17 +1,19 @@
-<button class="btn btn-success" (click)="openModal('addFormularModal')">Dodaj formular</button>
-<div class="card" style="width: 100%;" *ngFor="let f of adminService.formulari; let i = index;">
+<br>
+<h1><b>Podaci o formularima</b></h1><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success" (click)="openModal('addFormularModal')">Dodaj formular</button>
+<div class="card" *ngFor="let f of adminService.formulari; let i = index;">
     <div class="card-body">
-      <h5 class="card-title">Formular ID: {{f.idformular}}</h5>
-      <p class="card-text">Student: {{f.student.brindeksa}}</p>
-      <p class="card-text">Strani program: {{f.programStrani.naziv}}</p>
-      <p class="card-text">Datum i vreme: {{f.datum}}</p>
-      <p class="card-text">Odobrenje šefa: {{f.odobrenjeSef}}</p>
-      <p class="card-text">Odobrenje koordinatora: {{f.odobrenjeKoord}}</p>
-      <p><button class="btn btn-primary" (click)="confirmKoord(i, 'Y')">Odobri (koordinator)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger" (click)="confirmKoord(i, 'N')">Odbij (koordinator)</button></p>
-      <p><button class="btn btn-primary" (click)="confirmSef(i, 'Y')">Odobri (šef)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger" (click)="confirmSef(i, 'N')">Odbij (šef)</button></p>
-      <p>Zamene:</p>
-      <button class="btn btn-success" (click)="openWithParamFormular('addZamenaModal', f)">Dodaj zamenu</button>
-      <table class="table">
+      <h5 class="card-title">&nbsp;&nbsp;&nbsp;Formular ID: {{f.idformular}}</h5>
+      <p class="card-text">&nbsp;&nbsp;&nbsp;&nbsp;Student: {{f.student.brindeksa}}</p>
+      <p class="card-text">&nbsp;&nbsp;&nbsp;&nbsp;Strani program: {{f.programStrani.naziv}}</p>
+      <p class="card-text">&nbsp;&nbsp;&nbsp;&nbsp;Datum i vreme: {{f.datum}}</p>
+      <p class="card-text">&nbsp;&nbsp;&nbsp;&nbsp;Odobrenje šefa: {{f.odobrenjeSef}}</p>
+      <p class="card-text">&nbsp;&nbsp;&nbsp;&nbsp;Odobrenje koordinatora: {{f.odobrenjeKoord}}</p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary" (click)="confirmKoord(i, 'Y')">Odobri (koordinator)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger" (click)="confirmKoord(i, 'N')">Odbij (koordinator)</button></p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary" (click)="confirmSef(i, 'Y')">Odobri (šef)</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger" (click)="confirmSef(i, 'N')">Odbij (šef)</button></p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;Zamene:</p>
+      &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success" (click)="openWithParamFormular('addZamenaModal', f)">Dodaj zamenu</button>
+      <table class="table table-dark">
         <thead>
             <tr>
               <th scope="col">ID</th>
@@ -41,7 +43,8 @@
             </tr>
           </tbody>
     </table>
-      <button class="btn btn-danger" (click)="deleteFormular(i)">Obriši formular</button>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger" (click)="deleteFormular(i)">Obriši formular</button>
     </div>
 </div>
 
