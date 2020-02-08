@@ -33,7 +33,7 @@
 </div>
 
 <jw-modal id="addNastavnikModal">
-  <h1>Dodaj novog nastavnika</h1>
+  <h1>Dodaj novog nastavnika</h1><br><hr><br><br>
   <form [formGroup]="nastavnikForm" (ngSubmit)="addNastavnik(nastavnikForm.value)">
     <p>Nastavnik ID: <input type="text" id="nastavnikId" formControlName="nastavnikId"/></p>
     <p>Ime: <input type="text" id="ime" formControlName="ime"/></p>
@@ -43,13 +43,15 @@
       <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
       <mat-datepicker #basicDatepicker></mat-datepicker></p>
     <p>Email: <input type="text" id="email" formControlName="email"/></p>
-    <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
+    <br>
+    <button class="btn btn-primary" type="submit">Dodaj</button>
   </form>
+  <br>
   <button class="btn btn-danger" (click)="closeModal('addNastavnikModal')">Zatvori</button>
 </jw-modal>
 
 <jw-modal id="editNastavnikModal">
-  <h1>Izmeni nastavnika</h1>
+  <h1>Izmeni nastavnika</h1><br><hr><br><br>
   <form [formGroup]="editNastavnikForm" (ngSubmit)="editNastavnik(editNastavnikForm.value, modalService.paramNastavnik)">
     <p>Nastavnik ID: <input type="text" id="nastavnikId" formControlName="nastavnikId" readonly/></p>
     <p>Ime: <input type="text" id="ime" formControlName="ime"/></p>
@@ -60,7 +62,9 @@
       <mat-datepicker-toggle [for]="basicDatepicker1"></mat-datepicker-toggle>
       <mat-datepicker #basicDatepicker1></mat-datepicker></p>
     <p>Email: <input type="text" id="email" formControlName="email"/></p>
-    <button class="btn btn-primary" type="submit">Izmeni</button>&nbsp;&nbsp;&nbsp;
+    <br>
+    <button class="btn btn-primary" type="submit">Izmeni</button>
   </form>
+  <br>
   <button class="btn btn-danger" (click)="closeModal('editNastavnikModal')">Zatvori</button>
 </jw-modal>

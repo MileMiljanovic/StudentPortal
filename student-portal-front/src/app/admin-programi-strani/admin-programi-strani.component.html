@@ -21,10 +21,12 @@
 </div>
 
 <jw-modal id="addProgramStraniModal">
-  <h1>Dodaj novi program</h1>
+  <h1>Dodaj novi program</h1><br><hr><br><br>
   <form [formGroup]="programStraniForm" (ngSubmit)="addProgramStr(programStraniForm.value)">
     <p>Naziv: <input type="text" id="naziv" formControlName="naziv"/></p>
-    <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
+    <br>
+    <button class="btn btn-primary" type="submit">Dodaj</button>
   </form>
+  <br>
   <button class="btn btn-danger" (click)="closeModal('addProgramStraniModal')">Zatvori</button>
 </jw-modal>

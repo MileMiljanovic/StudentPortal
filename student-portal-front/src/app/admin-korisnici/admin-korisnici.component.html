@@ -33,7 +33,7 @@
 </div>
 
 <jw-modal id="addKorisnikModal">
-  <h1>Dodaj novog korisnika</h1>
+  <h1>Dodaj novog korisnika</h1><br><hr><br><br>
   <form [formGroup]="korisnikForm" (ngSubmit)="addKorisnik(korisnikForm.value)">
     <p>Koriničko ime: <input type="text" id="username" formControlName="username"/></p>
     <p>Lozinka: <input type="password" id="password" formControlName="password"/></p>
@@ -45,18 +45,20 @@
       <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
       <mat-datepicker #basicDatepicker></mat-datepicker></p>
     <p>Uloga: 
-      <select id="uloga" formControlName="uloga">
+      <select class="form-control" id="uloga" formControlName="uloga">
         <option value="SEF">ŠEF</option>
         <option value="KOORDINATOR">KOORDINATOR</option>
       </select>
     </p>
-    <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
+    <br>
+    <button class="btn btn-primary" type="submit">Dodaj</button>
   </form>
+  <br>
   <button class="btn btn-danger" (click)="closeModal('addKorisnikModal')">Zatvori</button>
 </jw-modal>
 
 <jw-modal id="editKorisnikModal">
-  <h1>Izmeni korisnika</h1>
+  <h1>Izmeni korisnika</h1><br><hr><br><br>
   <form [formGroup]="editKorisnikForm" (ngSubmit)="editKorisnik(editKorisnikForm.value, modalService.paramKorisnik)">
     <p>Koriničko ime: <input type="text" id="username" formControlName="username" readonly/></p>
     <p>Nova lozinka: <input type="password" id="password" formControlName="password"/></p>
@@ -69,12 +71,14 @@
       <mat-datepicker-toggle [for]="basicDatepicker1"></mat-datepicker-toggle>
       <mat-datepicker #basicDatepicker1></mat-datepicker></p>
     <p>Uloga: 
-      <select id="uloga" formControlName="uloga">
+      <select class="form-control" id="uloga" formControlName="uloga">
         <option value="SEF">SEF</option>
         <option value="KOORDINATOR">KOORDINATOR</option>
       </select>
     </p>
-    <button class="btn btn-primary" type="submit">Izmeni</button>&nbsp;&nbsp;&nbsp;
+    <br>
+    <button class="btn btn-primary" type="submit">Izmeni</button>
   </form>
+  <br>
   <button class="btn btn-danger" (click)="closeModal('editKorisnikModal')">Zatvori</button>
 </jw-modal>

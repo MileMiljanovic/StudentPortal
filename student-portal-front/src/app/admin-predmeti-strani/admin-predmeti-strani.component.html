@@ -29,33 +29,37 @@
 </div>
 
 <jw-modal id="addPredmetStraniModal">
-  <h1>Dodaj novi predmet</h1>
+  <h1>Dodaj novi predmet</h1><br><hr><br><br>
   <form [formGroup]="predmetStraniForm" (ngSubmit)="addPredmetStr(predmetStraniForm.value)">
     <p>Predmet ID: <input type="text" id="predmetId" formControlName="predmetId"/></p>
     <p>Naziv: <input type="text" id="naziv" formControlName="naziv"/></p>
     <p>Studijski program: 
-      <select id="program" formControlName="program">
+      <select class="form-control" id="program" formControlName="program">
         <option *ngFor="let p of adminService.progStrani" [ngValue]="p">{{p.naziv}}</option>
       </select>
     </p>
     <p>ESPB: <input type="text" id="espb" formControlName="espb"/></p>
-    <button class="btn btn-primary" type="submit">Dodaj</button>&nbsp;&nbsp;&nbsp;
+    <br>
+    <button class="btn btn-primary" type="submit">Dodaj</button>
   </form>
+  <br>
   <button class="btn btn-danger" (click)="closeModal('addPredmetStraniModal')">Zatvori</button>
 </jw-modal>
 
 <jw-modal id="editPredmetStraniModal">
-  <h1>Izmeni predmet</h1>
+  <h1>Izmeni predmet</h1><br><hr><br><br>
   <form [formGroup]="editPredmetStraniForm" (ngSubmit)="editPredmetStr(editPredmetStraniForm.value)">
     <p>Predmet ID: <input type="text" id="predmetId" formControlName="predmetId"/></p>
     <p>Naziv: <input type="text" id="naziv" formControlName="naziv"/></p>
     <p>Studijski program: 
-      <select id="program" formControlName="program" disabled>
+      <select class="form-control" id="program" formControlName="program" disabled>
         <option *ngFor="let p of adminService.progStrani" [ngValue]="p" [selected]="p.naziv==modalService.paramPredmetStr.program.naziv">{{p.naziv}}</option>
       </select>
     </p>
     <p>ESPB: <input type="text" id="espb" formControlName="espb"/></p>
-    <button class="btn btn-primary" type="submit">Izmeni</button>&nbsp;&nbsp;&nbsp;
+    <br>
+    <button class="btn btn-primary" type="submit">Izmeni</button>
   </form>
+  <br>
   <button class="btn btn-danger" (click)="closeModal('editPredmetStraniModal')">Zatvori</button>
 </jw-modal>
