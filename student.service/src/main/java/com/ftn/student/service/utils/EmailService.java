@@ -85,9 +85,9 @@ public class EmailService {
     	helper.setText("Student sa brojem indeksa " + f.getStudent().getBrindeksa() + " želi da zameni predmet "
     			+ z.getPredmetDomaci().getNaziv() + " na studijskom programu " + f.getStudent().getStudije().getNaziv()
     			+ " sa predmetom " + z.getPredmetStrani().getNaziv() + " na stranom studijskom programu " 
-    			+ f.getProgramStrani().getNaziv() + ". Kliknite na link ispod da odobrite zamenu:\n\n" +
-    			"http://localhost:8080/api/formulari/" + f.getIdformular() + "/zamene/" + z.getIdzamena() + "/" + token + "/Y\n\n" + "Kliknite na link ispod da odbijete zamenu:\n\n" 
-    			+ "http://localhost:8080/api/formulari/" + f.getIdformular() + "/zamene/" + z.getIdzamena() + "/" + token + "/N\n\n");
+    			+ f.getProgramStrani().getNaziv() + ". Kliknite na link ispod da pristupite formi za odobravanje zamene:\n\n" +
+    			"http://localhost:4200/zamene/" + token + "/" + f.getStudent().getBrindeksa() + "/" + f.getIdformular() + "/" +
+    			z.getIdzamena());
 
     	javaMailSender.send(message);
     	log.info("Email successfully sent!");

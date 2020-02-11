@@ -1,0 +1,21 @@
+<div class="content">
+        <br>
+        <h1><b>Potvrda o zameni</b></h1>
+        <br>
+        <br>
+        <br>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ovde možete potvrditi ili odbiti zamenu. ID zamene: {{this.zamenaId}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Indeks studenta: {{this.student}}</h3>
+        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID formulara: {{this.formular}}</h3>
+        <br><br>
+        <div class="wrapper">
+            <button class="btn btn-primary" (click)="confirm('Y')">
+                Potvrdi zamenu
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-danger" (click)="confirm('N')">
+                Odbij zamenu
+            </button>
+        </div>
+        <br><br>
+  </div>

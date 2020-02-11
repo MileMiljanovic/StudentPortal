@@ -15,6 +15,7 @@ import { ZamenaViewComponent } from './zamena-view/zamena-view.component';
 import { UserIndexComponent } from './user-index/user-index.component';
 import { UserFormularComponent } from './user-formular/user-formular.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
+import { TeacherConfirmComponent } from './teacher-confirm/teacher-confirm.component';
 import { AdminMainComponent } from './admin-main/admin-main.component';
 import { AdminKorisniciComponent } from './admin-korisnici/admin-korisnici.component';
 import { AdminStudentiComponent } from './admin-studenti/admin-studenti.component';
@@ -29,6 +30,7 @@ import { ModalModule } from './_modal';
 import { MatDatepickerModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdminPredmetiStraniComponent,
     AdminProgramiDomaciComponent,
     AdminProgramiStraniComponent,
-    AdminFormulariComponent
+    AdminFormulariComponent,
+    TeacherConfirmComponent
     ],
   imports: [
     BrowserModule,
@@ -67,7 +70,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { path: 'zameneView', component: ZamenaViewComponent },
       { path: 'userIndex', component: UserIndexComponent },
       { path: 'userFormular', component: UserFormularComponent },
-      { path: 'adminMain', component: AdminMainComponent }
+      { path: 'adminMain', component: AdminMainComponent },
+      { path: 'zamene/:token/:student/:formular/:zamenaId', component: TeacherConfirmComponent }
     ]),
     FormsModule,
     ReactiveFormsModule,
@@ -75,7 +79,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ModalModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    Ng4LoadingSpinnerModule.forRoot()
   ],
   providers: [
   ],

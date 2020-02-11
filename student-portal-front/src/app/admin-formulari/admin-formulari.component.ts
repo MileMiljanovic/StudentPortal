@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AdminManagerService } from '../admin-manager.service';
 import { FormBuilder } from '@angular/forms';
 import { ModalService } from '../_modal';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-admin-formulari',
@@ -19,7 +20,8 @@ export class AdminFormulariComponent implements OnInit {
     private http: HttpClient,
     private adminService: AdminManagerService,
     private formBuilder: FormBuilder,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private spinnerService: Ng4LoadingSpinnerService
   ) {
     this.token = localStorage.getItem('token');
     this.addFormularForm = this.formBuilder.group({
@@ -251,6 +253,7 @@ export class AdminFormulariComponent implements OnInit {
       alert('Formular je zatvoren!');
       return;
     }
+    this.spinnerService.show();
     const formular = this.adminService.formulari[index];
     const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
     const request = {
@@ -259,10 +262,12 @@ export class AdminFormulariComponent implements OnInit {
     };
     this.http.put<any>('http://localhost:8080/api/formulari/' + formular.idformular + '/koordinatorConfirm', request, {headers}).subscribe(
       (data) => {
-        alert('Odgovor uspešno poslat!');
+        this.spinnerService.hide();
         this.adminService.formulari[index].odobrenjeKoord = odg;
+        alert('Odgovor uspešno poslat!');
       },
       (err) => {
+        this.spinnerService.hide();
         alert(err.status + ' - ' + err.error.message);
       }
     );
@@ -300,6 +305,7 @@ export class AdminFormulariComponent implements OnInit {
       alert('Suma bodova domaćih predmeta je ' + total + '. Suma mora biti veća od 10!');
       return;
     }
+    this.spinnerService.show();
     const headers = new HttpHeaders({ Authorization: 'Basic ' + this.token });
     const request = {
       formularId: formular,
@@ -307,10 +313,12 @@ export class AdminFormulariComponent implements OnInit {
     };
     this.http.put<any>('http://localhost:8080/api/formulari/' + formular.idformular + '/sefConfirm', request, {headers}).subscribe(
       (data) => {
-        alert('Odgovor uspešno poslat!');
+        this.spinnerService.hide();
         this.adminService.formulari[index].odobrenjeSef = odg;
+        alert('Odgovor uspešno poslat!');
       },
       (err) => {
+        this.spinnerService.hide();
         alert(err.status + ' - ' + err.error.message);
       }
     );
@@ -335,14 +343,17 @@ export class AdminFormulariComponent implements OnInit {
       alert('Formular je zatvoren!');
       return;
     }
+    this.spinnerService.show();
     this.http.get<any>('http://localhost:8080/api/formulari/' + z.formular + '/zamene/' + z.idzamena + '/' + z.token + '/' + odg,
     {responseType: 'text' as 'json'}).subscribe(
       (data) => {
-        alert('Odgovor uspešno poslat!');
+        this.spinnerService.hide();
         this.adminService.formulari[indexF].zamene[indexZ].odobreno = odg;
+        alert('Odgovor uspešno poslat!');
       },
       (err) => {
-        alert(err.status + ' - ' + err.error.message);
+        this.spinnerService.hide();
+        alert(err.status + ' - ' + err.error);
       }
     );
   }
